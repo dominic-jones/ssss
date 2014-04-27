@@ -54,7 +54,7 @@ public class Game extends Application {
         stage.show();
     }
 
-    private <T> TableView createTable(Iterable<T> elements, Class<T> type) {
+    private <T> TableView<T> createTable(Iterable<T> elements, Class<T> type) {
 
         TableView<T> table = new TableView<>();
         table.setEditable(false);
