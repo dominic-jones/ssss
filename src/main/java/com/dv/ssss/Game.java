@@ -16,6 +16,8 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class Game extends Application {
 
+    private PersonnelService personnelService = new PersonnelService();
+
     public static void main(String[] args) {
 
         launch(args);
@@ -42,9 +44,7 @@ public class Game extends Application {
         TableColumn<Person, String> rank = new TableColumn<>("Rank");
         rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
 
-        table.setItems(observableArrayList(
-                new Person("Aegis", "Overlord")
-        ));
+        table.setItems(observableArrayList(personnelService.get()));
 
         table.getColumns().addAll(name, rank);
 
@@ -58,4 +58,5 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
 }
