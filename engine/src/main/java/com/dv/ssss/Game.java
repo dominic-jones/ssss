@@ -28,7 +28,8 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {
 
-        Scene scene = new Scene(new Group());
+        Group group = new Group();
+        Scene scene = new Scene(group);
         stage.setTitle("SSSS");
         stage.setWidth(300);
         stage.setHeight(500);
@@ -41,7 +42,7 @@ public class Game extends Application {
         layout.setTop(turn);
         layout.setCenter(personnel);
 
-        ((Group) scene.getRoot()).getChildren().addAll(layout);
+        group.getChildren().addAll(layout);
         stage.setScene(scene);
         stage.show();
     }
