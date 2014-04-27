@@ -1,10 +1,18 @@
 package com.dv.ssss;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import static javafx.collections.FXCollections.observableArrayList;
 
 public class Game extends Application {
 
@@ -14,17 +22,40 @@ public class Game extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage stage) {
 
-        primaryStage.setTitle("SSSS");
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
+        Scene scene = new Scene(new Group());
+        stage.setTitle("Personnel");
+        stage.setWidth(300);
+        stage.setHeight(500);
 
-        btn.setOnAction(event -> System.out.println("Hello World"));
+        final Label label = new Label("Personnel");
+        label.setFont(new Font("Arial", 20));
 
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+        TableView<Person> table = new TableView<>();
+
+        table.setEditable(true);
+
+        TableColumn<Person, String> name = new TableColumn<>("Name");
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Person, String> rank = new TableColumn<>("Rank");
+        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
+
+        table.setItems(observableArrayList(
+                new Person("Aegis", "Overlord")
+        ));
+
+        table.getColumns().addAll(name, rank);
+
+        final VBox vbox = new VBox();
+        vbox.setSpacing(5);
+        vbox.setPadding(new Insets(10, 0, 0, 10));
+        vbox.getChildren().addAll(label, table);
+
+        ((Group) scene.getRoot()).getChildren().addAll(vbox);
+
+        stage.setScene(scene);
+        stage.show();
     }
 }
