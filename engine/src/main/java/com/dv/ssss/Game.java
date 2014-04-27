@@ -1,5 +1,6 @@
 package com.dv.ssss;
 
+import com.dv.ssss.people.PersonnelServiceImpl;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -24,6 +25,7 @@ public class Game extends Application {
                 @Override
                 public void assemble(ModuleAssembly assembly) throws AssemblyException {
 
+                    assembly.services(PersonnelServiceImpl.class);
                     assembly.transients(UI.class);
                 }
             };

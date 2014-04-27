@@ -2,7 +2,7 @@ package com.dv.ssss.ui;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.people.Person;
-import com.dv.ssss.people.PersonnelService;
+import com.dv.ssss.people.PersonnelServiceImpl;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import org.qi4j.api.injection.scope.Service;
 
 public class UIImpl implements UI {
 
@@ -23,7 +24,9 @@ public class UIImpl implements UI {
     private static final Font FONT = new Font("Arial", 20);
 
     private Engine engine = new Engine();
-    private PersonnelService personnelService = new PersonnelService();
+
+    @Service
+    private PersonnelServiceImpl personnelServiceImpl;
 
     @Override
     public void display(Stage stage) {
@@ -68,7 +71,7 @@ public class UIImpl implements UI {
         Label label = new Label("Personnel");
         label.setFont(FONT);
 
-        TableView<Person> table = new AnnotatedTable().createTable(personnelService.get(), Person.class);
+        TableView<Person> table = new AnnotatedTable().createTable(personnelServiceImpl.get(), Person.class);
         table.setEditable(false);
 
         VBox vbox = new VBox();

@@ -1,11 +1,10 @@
 package com.dv.ssss.people;
 
-import static com.google.common.collect.Lists.newArrayList;
+import org.qi4j.api.composite.Composite;
+import org.qi4j.api.mixin.Mixins;
 
-public class PersonnelService {
+@Mixins(PersonnelServiceImpl.class)
+public interface PersonnelService extends Composite {
 
-    public Iterable<Person> get() {
-
-        return newArrayList(new Person("Aegis", "Overlord", 23));
-    }
+    Iterable<Person> get();
 }
