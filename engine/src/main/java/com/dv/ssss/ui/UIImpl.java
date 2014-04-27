@@ -2,7 +2,7 @@ package com.dv.ssss.ui;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.people.Person;
-import com.dv.ssss.people.PersonnelServiceImpl;
+import com.dv.ssss.people.PersonnelService;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -23,10 +23,11 @@ public class UIImpl implements UI {
     private static final Insets INSETS = new Insets(10, 0, 0, 10);
     private static final Font FONT = new Font("Arial", 20);
 
-    private Engine engine = new Engine();
+    @Service
+    private Engine engine;
 
     @Service
-    private PersonnelServiceImpl personnelServiceImpl;
+    private PersonnelService personnelService;
 
     @Override
     public void display(Stage stage) {
@@ -71,7 +72,7 @@ public class UIImpl implements UI {
         Label label = new Label("Personnel");
         label.setFont(FONT);
 
-        TableView<Person> table = new AnnotatedTable().createTable(personnelServiceImpl.get(), Person.class);
+        TableView<Person> table = new AnnotatedTable().createTable(personnelService.get(), Person.class);
         table.setEditable(false);
 
         VBox vbox = new VBox();

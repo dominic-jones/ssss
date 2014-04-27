@@ -1,9 +1,10 @@
 package com.dv.ssss;
 
-public class Engine {
+import org.qi4j.api.composite.Composite;
+import org.qi4j.api.mixin.Mixins;
 
-    public void endTurn() {
+@Mixins(EngineImpl.class)
+public interface Engine extends Composite {
 
-        System.out.println("Ending turn");
-    }
+    void endTurn();
 }

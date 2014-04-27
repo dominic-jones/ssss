@@ -25,7 +25,10 @@ public class Game extends Application {
                 @Override
                 public void assemble(ModuleAssembly assembly) throws AssemblyException {
 
-                    assembly.services(PersonnelServiceImpl.class);
+                    assembly.services(
+                            EngineImpl.class,
+                            PersonnelServiceImpl.class
+                    );
                     assembly.transients(UI.class);
                 }
             };
