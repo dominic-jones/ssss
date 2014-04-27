@@ -6,6 +6,6 @@ public class PersonnelService {
 
     public Iterable<Person> get() {
 
-        return newArrayList(new Person("Aegis", "Overlord"));
+        return newArrayList(new Person("Aegis", "Overlord", 23));
     }
 }
