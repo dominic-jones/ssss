@@ -41,19 +41,7 @@ public class Game extends Application {
         final Label label = new Label("Personnel");
         label.setFont(new Font("Arial", 20));
 
-        TableView<Person> table = new TableView<>();
-
-        table.setEditable(true);
-
-        Set<Field> columnDefinitions = getAllFields(Person.class, withAnnotation(Column.class));
-        Iterable<TableColumn<Person, String>> columns = transform(columnDefinitions, columnDefinition -> {
-
-            TableColumn<Person, String> column = new TableColumn<>(columnDefinition.getAnnotation(Column.class).name());
-            column.setCellValueFactory(new PropertyValueFactory<>(columnDefinition.getName()));
-            return column;
-        });
-        table.setItems(observableArrayList(newArrayList(personnelService.get())));
-        table.getColumns().addAll(newArrayList(columns));
+        TableView<Person> table = createTable(personnelService.get(), Person.class);
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
@@ -64,6 +52,23 @@ public class Game extends Application {
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    private TableView<Person> createTable(Iterable<Person> elements, Class<Person> type) {
+
+        TableView<Person> table = new TableView<>();
+        table.setEditable(false);
+
+        Set<Field> columnDefinitions = getAllFields(type, withAnnotation(Column.class));
+        Iterable<TableColumn<Person, String>> columns = transform(columnDefinitions, columnDefinition -> {
+
+            TableColumn<Person, String> column = new TableColumn<>(columnDefinition.getAnnotation(Column.class).name());
+            column.setCellValueFactory(new PropertyValueFactory<>(columnDefinition.getName()));
+            return column;
+        });
+        table.setItems(observableArrayList(newArrayList(elements)));
+        table.getColumns().addAll(newArrayList(columns));
+        return table;
     }
 
 }
