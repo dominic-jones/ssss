@@ -1,4 +1,6 @@
-package com.dv.ssss;
+package com.dv.ssss.people;
+
+import com.dv.ssss.ui.Column;
 
 public class Person {
 

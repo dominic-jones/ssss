@@ -1,4 +1,4 @@
-package com.dv.ssss;
+package com.dv.ssss.ui;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

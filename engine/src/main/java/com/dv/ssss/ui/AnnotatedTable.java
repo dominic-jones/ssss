@@ -1,4 +1,4 @@
-package com.dv.ssss;
+package com.dv.ssss.ui;
 
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -15,7 +15,7 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class AnnotatedTable {
 
-    <T> TableView<T> createTable(Iterable<T> elements, Class<T> type) {
+    public <T> TableView<T> createTable(Iterable<T> elements, Class<T> type) {
 
         Set<Field> columnDefinitions = new Reflections(new FieldAnnotationsScanner(), type)
                 .getFieldsAnnotatedWith(Column.class);

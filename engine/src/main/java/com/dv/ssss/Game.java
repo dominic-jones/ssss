@@ -1,5 +1,8 @@
 package com.dv.ssss;
 
+import com.dv.ssss.people.Person;
+import com.dv.ssss.people.PersonnelService;
+import com.dv.ssss.ui.AnnotatedTable;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
@@ -49,12 +52,15 @@ public class Game extends Application {
 
     private HBox turnTrack() {
 
+        Label label = new Label("Turn");
+        label.setFont(FONT);
+
+        Text turnCount = new Text("1");
+
         HBox turn = new HBox();
         turn.setSpacing(SPACING);
         turn.setPadding(INSETS);
-        Label turnLabel = new Label("Turn");
-        Text turnCount = new Text("1");
-        turn.getChildren().addAll(turnLabel, turnCount);
+        turn.getChildren().addAll(label, turnCount);
         return turn;
     }
 

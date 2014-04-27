@@ -1,6 +1,6 @@
 package ssss
 
-import com.dv.ssss.PersonnelService
+import com.dv.ssss.people.PersonnelService
 import org.testng.annotations.Test
 
 class PersonnelServiceTest {
