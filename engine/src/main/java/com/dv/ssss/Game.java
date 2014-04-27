@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
@@ -21,6 +22,8 @@ public class Game extends Application {
     public static final int SPACING = 5;
     public static final Insets INSETS = new Insets(10, 0, 0, 10);
     public static final Font FONT = new Font("Arial", 20);
+
+    private Engine engine = new Engine();
     private PersonnelService personnelService = new PersonnelService();
 
     public static void main(String[] args) {
@@ -53,14 +56,16 @@ public class Game extends Application {
     private HBox turnTrack() {
 
         Label label = new Label("Turn");
-        label.setFont(FONT);
 
         Text turnCount = new Text("1");
+
+        Button endTurn = new Button("End Turn");
+        endTurn.setOnAction(event -> engine.endTurn());
 
         HBox turn = new HBox();
         turn.setSpacing(SPACING);
         turn.setPadding(INSETS);
-        turn.getChildren().addAll(label, turnCount);
+        turn.getChildren().addAll(label, turnCount, endTurn);
         return turn;
     }
 
