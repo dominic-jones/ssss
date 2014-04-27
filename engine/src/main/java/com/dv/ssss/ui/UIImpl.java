@@ -1,8 +1,8 @@
-package com.dv.ssss;
+package com.dv.ssss.ui;
 
+import com.dv.ssss.Engine;
 import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonnelService;
-import com.dv.ssss.ui.AnnotatedTable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,15 +16,16 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class UI {
+public class UIImpl implements UI {
 
-    public static final int SPACING = 5;
-    public static final Insets INSETS = new Insets(10, 0, 0, 10);
-    public static final Font FONT = new Font("Arial", 20);
+    private static final int SPACING = 5;
+    private static final Insets INSETS = new Insets(10, 0, 0, 10);
+    private static final Font FONT = new Font("Arial", 20);
 
     private Engine engine = new Engine();
     private PersonnelService personnelService = new PersonnelService();
 
+    @Override
     public void display(Stage stage) {
 
         Group group = new Group();
