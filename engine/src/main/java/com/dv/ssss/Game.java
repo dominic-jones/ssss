@@ -5,21 +5,10 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import org.reflections.Reflections;
-import org.reflections.scanners.FieldAnnotationsScanner;
-
-import java.lang.reflect.Field;
-import java.util.Set;
-
-import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.Lists.newArrayList;
-import static javafx.collections.FXCollections.observableArrayList;
 
 public class Game extends Application {
 
@@ -41,7 +30,8 @@ public class Game extends Application {
         final Label label = new Label("Personnel");
         label.setFont(new Font("Arial", 20));
 
-        TableView<Person> table = createTable(personnelService.get(), Person.class);
+        TableView<Person> table = new AnnotatedTable().createTable(personnelService.get(), Person.class);
+        table.setEditable(false);
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
@@ -52,26 +42,6 @@ public class Game extends Application {
 
         stage.setScene(scene);
         stage.show();
-    }
-
-    private <T> TableView<T> createTable(Iterable<T> elements, Class<T> type) {
-
-        TableView<T> table = new TableView<>();
-        table.setEditable(false);
-
-        Reflections reflections = new Reflections(new FieldAnnotationsScanner(), type);
-
-        Set<Field> columnDefinitions = reflections.getFieldsAnnotatedWith(Column.class);
-
-        Iterable<TableColumn<T, String>> columns = transform(columnDefinitions, columnDefinition -> {
-
-            TableColumn<T, String> column = new TableColumn<>(columnDefinition.getAnnotation(Column.class).name());
-            column.setCellValueFactory(new PropertyValueFactory<>(columnDefinition.getName()));
-            return column;
-        });
-        table.setItems(observableArrayList(newArrayList(elements)));
-        table.getColumns().addAll(newArrayList(columns));
-        return table;
     }
 
 }
