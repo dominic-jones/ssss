@@ -12,8 +12,14 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.lang.reflect.Field;
+import java.util.Set;
+
+import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 import static javafx.collections.FXCollections.observableArrayList;
+import static org.reflections.ReflectionUtils.getAllFields;
+import static org.reflections.ReflectionUtils.withAnnotation;
 
 public class Game extends Application {
 
@@ -39,15 +45,15 @@ public class Game extends Application {
 
         table.setEditable(true);
 
-        TableColumn<Person, String> name = new TableColumn<>("Name");
-        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        Set<Field> columnDefinitions = getAllFields(Person.class, withAnnotation(Column.class));
+        Iterable<TableColumn<Person, String>> columns = transform(columnDefinitions, columnDefinition -> {
 
-        TableColumn<Person, String> rank = new TableColumn<>("Rank");
-        rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
-
+            TableColumn<Person, String> column = new TableColumn<>(columnDefinition.getAnnotation(Column.class).name());
+            column.setCellValueFactory(new PropertyValueFactory<>(columnDefinition.getName()));
+            return column;
+        });
         table.setItems(observableArrayList(newArrayList(personnelService.get())));
-
-        table.getColumns().addAll(name, rank);
+        table.getColumns().addAll(newArrayList(columns));
 
         final VBox vbox = new VBox();
         vbox.setSpacing(5);
