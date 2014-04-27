@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import static com.google.common.collect.Lists.newArrayList;
 import static javafx.collections.FXCollections.observableArrayList;
 
 public class Game extends Application {
@@ -44,7 +45,7 @@ public class Game extends Application {
         TableColumn<Person, String> rank = new TableColumn<>("Rank");
         rank.setCellValueFactory(new PropertyValueFactory<>("rank"));
 
-        table.setItems(observableArrayList(personnelService.get()));
+        table.setItems(observableArrayList(newArrayList(personnelService.get())));
 
         table.getColumns().addAll(name, rank);
 

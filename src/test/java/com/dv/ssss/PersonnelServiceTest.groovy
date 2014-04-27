@@ -8,6 +8,6 @@ class PersonnelServiceTest {
     void 'Should retrieve personnel'() {
         def result = new PersonnelService().get()
 
-        assert null != result
+        assert null != result.first()
     }
 }

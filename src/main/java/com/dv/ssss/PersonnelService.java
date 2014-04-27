@@ -1,9 +1,11 @@
 package com.dv.ssss;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 public class PersonnelService {
 
-    Person get() {
+    Iterable<Person> get() {
 
-        return new Person("Aegis", "Overlord");
+        return newArrayList(new Person("Aegis", "Overlord"));
     }
 }
