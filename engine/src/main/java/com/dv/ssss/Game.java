@@ -11,6 +11,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.reflections.Reflections;
+import org.reflections.scanners.FieldAnnotationsScanner;
 
 import java.lang.reflect.Field;
 import java.util.Set;
@@ -18,8 +20,6 @@ import java.util.Set;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 import static javafx.collections.FXCollections.observableArrayList;
-import static org.reflections.ReflectionUtils.getAllFields;
-import static org.reflections.ReflectionUtils.withAnnotation;
 
 public class Game extends Application {
 
@@ -59,7 +59,10 @@ public class Game extends Application {
         TableView<T> table = new TableView<>();
         table.setEditable(false);
 
-        Set<Field> columnDefinitions = getAllFields(type, withAnnotation(Column.class));
+        Reflections reflections = new Reflections(new FieldAnnotationsScanner(), type);
+
+        Set<Field> columnDefinitions = reflections.getFieldsAnnotatedWith(Column.class);
+
         Iterable<TableColumn<T, String>> columns = transform(columnDefinitions, columnDefinition -> {
 
             TableColumn<T, String> column = new TableColumn<>(columnDefinition.getAnnotation(Column.class).name());
