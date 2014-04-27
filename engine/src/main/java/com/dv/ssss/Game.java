@@ -54,15 +54,15 @@ public class Game extends Application {
         stage.show();
     }
 
-    private TableView<Person> createTable(Iterable<Person> elements, Class<Person> type) {
+    private <T> TableView createTable(Iterable<T> elements, Class<T> type) {
 
-        TableView<Person> table = new TableView<>();
+        TableView<T> table = new TableView<>();
         table.setEditable(false);
 
         Set<Field> columnDefinitions = getAllFields(type, withAnnotation(Column.class));
-        Iterable<TableColumn<Person, String>> columns = transform(columnDefinitions, columnDefinition -> {
+        Iterable<TableColumn<T, String>> columns = transform(columnDefinitions, columnDefinition -> {
 
-            TableColumn<Person, String> column = new TableColumn<>(columnDefinition.getAnnotation(Column.class).name());
+            TableColumn<T, String> column = new TableColumn<>(columnDefinition.getAnnotation(Column.class).name());
             column.setCellValueFactory(new PropertyValueFactory<>(columnDefinition.getName()));
             return column;
         });
