@@ -3,7 +3,6 @@ package com.dv.ssss.ui;
 import com.google.common.collect.Ordering;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 
@@ -38,8 +37,7 @@ public class AnnotatedTable {
 
             Column annotation = columnDefinition.getAnnotation(Column.class);
             TableColumn<T, String> column = new TableColumn<>(annotation.displayName());
-            PropertyValueFactory<T, String> tStringPropertyValueFactory = new PropertyValueFactory<>(annotation.name());
-            column.setCellValueFactory(tStringPropertyValueFactory);
+            column.setCellValueFactory(new MethodValueFactory<>(columnDefinition));
             return column;
         });
     }
