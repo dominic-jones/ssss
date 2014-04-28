@@ -1,6 +1,7 @@
 package com.dv.ssss;
 
 import com.dv.ssss.people.PersonFactory;
+import com.dv.ssss.turn.TurnFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.unitofwork.UnitOfWork;
@@ -15,12 +16,16 @@ public class DataBootstrapImpl implements DataBootstrap {
     @Service
     PersonFactory personFactory;
 
+    @Service
+    TurnFactory turnFactory;
+
     @Override
     public void bootstrap() {
 
         UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
         personFactory.create("Aegis", "Overlord", "23");
+        turnFactory.create();
 
         try {
             unitOfWork.complete();

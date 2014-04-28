@@ -3,6 +3,7 @@ package com.dv.ssss.ui;
 import com.dv.ssss.Engine;
 import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonnelRepository;
+import com.dv.ssss.turn.TurnRepository;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -28,6 +29,9 @@ public class UIImpl implements UI {
 
     @Service
     private PersonnelRepository personnelRepository;
+
+    @Service
+    private TurnRepository turnRepository;
 
     @Override
     public void display(Stage stage) {
@@ -55,7 +59,9 @@ public class UIImpl implements UI {
 
         Label label = new Label("Turn");
 
-        Text turnCount = new Text("1");
+        Text turnCount = new Text(
+                String.valueOf(turnRepository.get().turn())
+        );
 
         Button endTurn = new Button("End Turn");
         endTurn.setOnAction(event -> engine.endTurn());

@@ -4,6 +4,8 @@ import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepositoryMixin;
 import com.dv.ssss.turn.Turn;
+import com.dv.ssss.turn.TurnFactory;
+import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -37,7 +39,9 @@ public class Game extends Application {
 
                     assembly.services(
                             PersonFactory.class,
-                            PersonnelRepositoryMixin.class
+                            PersonnelRepositoryMixin.class,
+                            TurnFactory.class,
+                            TurnRepository.class
                     );
 
                     assembly.services(
