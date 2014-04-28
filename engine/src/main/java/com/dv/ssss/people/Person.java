@@ -1,37 +1,18 @@
 package com.dv.ssss.people;
 
 import com.dv.ssss.ui.Column;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.mixin.Mixins;
 
-public class Person {
+@Mixins(PersonImpl.class)
+public interface Person extends EntityComposite {
 
-    @Column(name = "Name", order = 0)
-    private String name;
+    @Column(name = "name", displayName = "Name", order = 0)
+    String getName();
 
-    @Column(name = "Rank", order = 1)
-    private String rank;
+    @Column(name = "rank", displayName = "Rank", order = 1)
+    String getRank();
 
-    @Column(name = "Age", order = 2)
-    private int age;
-
-    public Person(String name, String rank, int age) {
-
-        this.name = name;
-        this.rank = rank;
-        this.age = age;
-    }
-
-    public String getName() {
-
-        return name;
-    }
-
-    public String getRank() {
-
-        return rank;
-    }
-
-    public String getAge() {
-
-        return String.valueOf(age);
-    }
+    @Column(name = "age", displayName = "Age", order = 2)
+    String getAge();
 }
