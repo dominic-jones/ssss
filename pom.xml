@@ -18,4 +18,20 @@
         <module>test</module>
     </modules>
 
+    <repositories>
+        <repository>
+            <id>qi4j-releases</id>
+            <url>https://repository-qi4j.forge.cloudbees.com/release/</url>
+        </repository>
+        <repository>
+            <id>qi4j-snapshots</id>
+            <url>https://repository-qi4j.forge.cloudbees.com/snapshot/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

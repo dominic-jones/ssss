@@ -38,13 +38,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.qi4j.core</groupId>
-            <artifactId>org.qi4j.core.testsupport</artifactId>
-            <version>${org.qi4j.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>17.0</version>
@@ -72,21 +65,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <repositories>
-        <repository>
-            <id>qi4j-releases</id>
-            <url>https://repository-qi4j.forge.cloudbees.com/release/</url>
-        </repository>
-        <repository>
-            <id>qi4j-snapshots</id>
-            <url>https://repository-qi4j.forge.cloudbees.com/snapshot/</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 </project>
