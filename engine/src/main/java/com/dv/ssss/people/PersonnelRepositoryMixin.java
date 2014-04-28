@@ -11,7 +11,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static org.qi4j.api.query.QueryExpressions.eq;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
 
-public class PersonnelServiceImpl implements PersonnelService {
+public class PersonnelRepositoryMixin implements PersonnelRepository {
 
     @Structure
     UnitOfWorkFactory unitOfWorkFactory;
@@ -20,16 +20,15 @@ public class PersonnelServiceImpl implements PersonnelService {
     Module module;
 
     @Override
-    public Iterable<Person> get() {
+    public Iterable<Person> getByName(String name) {
 
         UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
         PersonState template = templateFor(PersonState.class);
 
-        //TODO Pass in query params
         QueryBuilder<Person> builder = module
                 .newQueryBuilder(Person.class)
-                .where(eq(template.name(), "Aegis"));
+                .where(eq(template.name(), name));
         Query<Person> query = unitOfWork.newQuery(builder);
 
         return newArrayList(query);

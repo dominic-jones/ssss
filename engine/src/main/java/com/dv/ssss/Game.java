@@ -1,7 +1,8 @@
 package com.dv.ssss;
 
+import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonMixin;
-import com.dv.ssss.people.PersonnelServiceImpl;
+import com.dv.ssss.people.PersonnelRepositoryMixin;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -31,9 +32,13 @@ public class Game extends Application {
                     assembly.entities(PersonMixin.class);
 
                     assembly.services(
+                            PersonFactory.class,
+                            PersonnelRepositoryMixin.class
+                    );
+
+                    assembly.services(
                             DataBootstrap.class,
-                            EngineImpl.class,
-                            PersonnelServiceImpl.class
+                            EngineImpl.class
                     );
                     assembly.transients(UI.class);
 

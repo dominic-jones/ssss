@@ -2,7 +2,7 @@ package com.dv.ssss.ui;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.people.Person;
-import com.dv.ssss.people.PersonnelService;
+import com.dv.ssss.people.PersonnelRepository;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -27,7 +27,7 @@ public class UIImpl implements UI {
     private Engine engine;
 
     @Service
-    private PersonnelService personnelService;
+    private PersonnelRepository personnelRepository;
 
     @Override
     public void display(Stage stage) {
@@ -72,7 +72,7 @@ public class UIImpl implements UI {
         Label label = new Label("Personnel");
         label.setFont(FONT);
 
-        TableView<Person> table = new AnnotatedTable().createTable(personnelService.get(), Person.class);
+        TableView<Person> table = new AnnotatedTable().createTable(personnelRepository.getByName("Aegis"), Person.class);
         table.setEditable(false);
 
         VBox vbox = new VBox();
