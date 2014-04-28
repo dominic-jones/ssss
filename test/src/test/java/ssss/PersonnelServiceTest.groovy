@@ -1,7 +1,7 @@
 package ssss
 
 import com.dv.ssss.people.PersonnelRepositoryMixin
-import org.testng.annotations.Test
+import org.junit.Test
 
 class PersonnelServiceTest {
 

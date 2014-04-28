@@ -1,8 +1,9 @@
 package com.dv.ssss;
 
+import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonFactory;
-import com.dv.ssss.people.PersonMixin;
 import com.dv.ssss.people.PersonnelRepositoryMixin;
+import com.dv.ssss.turn.Turn;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -29,7 +30,10 @@ public class Game extends Application {
                 @Override
                 public void assemble(ModuleAssembly assembly) throws AssemblyException {
 
-                    assembly.entities(PersonMixin.class);
+                    assembly.entities(
+                            Person.class,
+                            Turn.class
+                    );
 
                     assembly.services(
                             PersonFactory.class,
