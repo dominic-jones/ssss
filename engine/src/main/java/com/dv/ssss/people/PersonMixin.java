@@ -2,7 +2,7 @@ package com.dv.ssss.people;
 
 import org.qi4j.api.injection.scope.This;
 
-public abstract class PersonImpl implements Person {
+public abstract class PersonMixin implements Person {
 
     @This
     PersonState state;

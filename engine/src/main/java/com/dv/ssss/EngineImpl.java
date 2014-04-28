@@ -22,9 +22,10 @@ public class EngineImpl implements Engine {
 
         //TODO Handle it
         try {
-            unitOfWorkFactory.currentUnitOfWork().complete();
+            unitOfWorkFactory.currentUnitOfWork()
+                    .complete();
         } catch (UnitOfWorkCompletionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
 
         unitOfWorkFactory.newUnitOfWork();

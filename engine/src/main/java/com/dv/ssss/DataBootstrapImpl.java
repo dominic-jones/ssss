@@ -4,7 +4,6 @@ import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonState;
 import org.qi4j.api.entity.EntityBuilder;
 import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.structure.Module;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
@@ -14,13 +13,12 @@ public class DataBootstrapImpl implements DataBootstrap {
     @Structure
     UnitOfWorkFactory unitOfWorkFactory;
 
-    @Structure
-    Module module;
-
     @Override
     public void bootstrap() {
 
         UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
+
+        //TODO Move to factory
 
         EntityBuilder<Person> builder = unitOfWork.newEntityBuilder(Person.class);
 
@@ -34,7 +32,7 @@ public class DataBootstrapImpl implements DataBootstrap {
         try {
             unitOfWork.complete();
         } catch (UnitOfWorkCompletionException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            throw new IllegalArgumentException(e.getMessage(), e);
         }
     }
 }

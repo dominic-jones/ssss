@@ -36,7 +36,7 @@ public class AnnotatedTable {
         return transform(columnDefinitions, columnDefinition -> {
 
             Column annotation = columnDefinition.getAnnotation(Column.class);
-            TableColumn<T, String> column = new TableColumn<>(annotation.displayName());
+            TableColumn<T, String> column = new TableColumn<>(annotation.name());
             column.setCellValueFactory(new MethodValueFactory<>(columnDefinition));
             return column;
         });

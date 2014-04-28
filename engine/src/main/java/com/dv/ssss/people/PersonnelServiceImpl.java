@@ -32,9 +32,6 @@ public class PersonnelServiceImpl implements PersonnelService {
                 .where(eq(template.name(), "Aegis"));
         Query<Person> query = unitOfWork.newQuery(builder);
 
-        //TODO Needs an empty check
-        Iterable<Person> people = newArrayList(query);
-
-        return people;
+        return newArrayList(query);
     }
 }

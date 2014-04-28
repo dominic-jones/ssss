@@ -12,7 +12,5 @@ public @interface Column {
 
     String name();
 
-    String displayName();
-
     int order();
 }

@@ -1,6 +1,6 @@
 package com.dv.ssss;
 
-import com.dv.ssss.people.PersonImpl;
+import com.dv.ssss.people.PersonMixin;
 import com.dv.ssss.people.PersonnelServiceImpl;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
@@ -28,7 +28,7 @@ public class Game extends Application {
                 @Override
                 public void assemble(ModuleAssembly assembly) throws AssemblyException {
 
-                    assembly.entities(PersonImpl.class);
+                    assembly.entities(PersonMixin.class);
 
                     assembly.services(
                             DataBootstrap.class,
