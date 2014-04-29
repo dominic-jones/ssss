@@ -2,7 +2,7 @@ package com.dv.ssss;
 
 import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonFactory;
-import com.dv.ssss.people.PersonnelRepositoryMixin;
+import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
@@ -39,7 +39,7 @@ public class Game extends Application {
 
                     assembly.services(
                             PersonFactory.class,
-                            PersonnelRepositoryMixin.class,
+                            PersonnelRepository.PersonnelRepositoryMixin.class,
                             TurnFactory.class,
                             TurnRepository.class
                     );

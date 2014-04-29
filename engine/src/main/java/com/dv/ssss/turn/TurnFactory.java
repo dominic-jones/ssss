@@ -22,7 +22,7 @@ public interface TurnFactory {
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
             EntityBuilder<Turn> builder = unitOfWork.newEntityBuilder(Turn.class);
 
-            TurnMixin.TurnState prototype = builder.instanceFor(TurnMixin.TurnState.class);
+            Turn.TurnMixin.TurnState prototype = builder.instanceFor(Turn.TurnMixin.TurnState.class);
             prototype.turn().set(1);
 
             return builder.newInstance();
