@@ -1,6 +1,6 @@
 package com.dv.ssss;
 
-import com.dv.ssss.people.Person;
+import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.turn.Turn;
@@ -33,7 +33,7 @@ public class Game extends Application {
                 public void assemble(ModuleAssembly assembly) throws AssemblyException {
 
                     assembly.entities(
-                            Person.class,
+                            PersonEntity.class,
                             Turn.class
                     );
 

@@ -3,11 +3,10 @@ package com.dv.ssss.ui;
 import com.google.common.collect.Ordering;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import org.reflections.Reflections;
-import org.reflections.scanners.MethodAnnotationsScanner;
 
 import java.lang.reflect.Method;
 
+import static com.google.common.collect.Iterables.filter;
 import static com.google.common.collect.Iterables.transform;
 import static com.google.common.collect.Lists.newArrayList;
 import static javafx.collections.FXCollections.observableArrayList;
@@ -18,10 +17,7 @@ public class AnnotatedTable {
 
         Iterable<Method> columnDefinitions = Ordering.natural()
                 .<Method>onResultOf(f -> f.getAnnotation(Column.class).order())
-                .sortedCopy(
-                        new Reflections(new MethodAnnotationsScanner(), type)
-                                .getMethodsAnnotatedWith(Column.class)
-                );
+                .sortedCopy(filter(newArrayList(type.getMethods()), m -> m.isAnnotationPresent(Column.class)));
 
         Iterable<TableColumn<T, String>> columns = createColumns(columnDefinitions);
 

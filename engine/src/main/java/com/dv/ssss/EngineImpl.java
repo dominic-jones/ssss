@@ -29,6 +29,5 @@ public class EngineImpl implements Engine {
         }
 
         unitOfWorkFactory.newUnitOfWork();
-
     }
 }

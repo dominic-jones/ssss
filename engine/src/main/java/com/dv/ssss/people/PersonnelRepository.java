@@ -31,7 +31,7 @@ public interface PersonnelRepository extends Composite {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
-            Person.PersonState template = templateFor(Person.PersonState.class);
+            Name.NameState template = templateFor(Name.NameState.class);
 
             QueryBuilder<Person> builder = module
                     .newQueryBuilder(Person.class)

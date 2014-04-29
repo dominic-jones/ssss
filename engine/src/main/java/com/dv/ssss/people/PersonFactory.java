@@ -21,12 +21,12 @@ public interface PersonFactory {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
-            EntityBuilder<Person> builder = unitOfWork.newEntityBuilder(Person.class);
+            EntityBuilder<PersonEntity> builder = unitOfWork.newEntityBuilder(PersonEntity.class);
 
-            Person.PersonState prototype = builder.instanceFor(Person.PersonState.class);
-            prototype.name().set(name);
-            prototype.rank().set(rank);
-            prototype.age().set(age);
+            Person.PersonState state = builder.instanceFor(Person.PersonState.class);
+            state.name().set(name);
+            state.rank().set(rank);
+            state.age().set(age);
 
             return builder.newInstance();
         }

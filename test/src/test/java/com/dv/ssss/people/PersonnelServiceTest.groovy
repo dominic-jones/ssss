@@ -1,6 +1,4 @@
-package ssss
-
-import com.dv.ssss.people.PersonnelRepository
+package com.dv.ssss.people
 
 import org.junit.Test
 
