@@ -1,5 +1,6 @@
 package com.dv.ssss;
 
+import com.dv.ssss.age.AgeRepository;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
@@ -38,6 +39,7 @@ public class Game extends Application {
                     );
 
                     assembly.services(
+                            AgeRepository.class,
                             PersonFactory.class,
                             PersonnelRepository.PersonnelRepositoryMixin.class,
                             TurnFactory.class,

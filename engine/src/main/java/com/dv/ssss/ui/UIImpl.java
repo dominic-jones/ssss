@@ -4,6 +4,8 @@ import com.dv.ssss.Engine;
 import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.turn.TurnRepository;
+import com.google.common.collect.Lists;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -42,9 +44,9 @@ public class UIImpl implements UI {
         stage.setWidth(300);
         stage.setHeight(500);
 
-        HBox turn = turnTrack();
-
         VBox personnel = personnel();
+
+        HBox turn = turnTrack(personnel);
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);
@@ -55,7 +57,7 @@ public class UIImpl implements UI {
         stage.show();
     }
 
-    private HBox turnTrack() {
+    private HBox turnTrack(VBox personnel) {
 
         Label label = new Label("Turn");
 
@@ -63,8 +65,15 @@ public class UIImpl implements UI {
                 String.valueOf(turnRepository.get().turn())
         );
 
+        //TODO Make table take a callback to get at the data and allow it to refresh itself
         Button endTurn = new Button("End Turn");
-        endTurn.setOnAction(event -> engine.endTurn());
+        endTurn.setOnAction(event -> {
+            engine.endTurn();
+            TableView<Person> node = (TableView<Person>) personnel.getChildren().get(1);
+            ObservableList<Person> items = node.getItems();
+            items.clear();
+            items.addAll(Lists.newArrayList(personnelRepository.getByName("Aegis")));
+        });
 
         HBox turn = new HBox();
         turn.setSpacing(SPACING);
