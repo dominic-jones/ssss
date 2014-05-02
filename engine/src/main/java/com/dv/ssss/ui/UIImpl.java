@@ -19,6 +19,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.structure.Module;
 
 public class UIImpl implements UI {
 
@@ -35,6 +37,9 @@ public class UIImpl implements UI {
     @Service
     private TurnRepository turnRepository;
 
+    @Structure
+    Module module;
+
     @Override
     public void display(Stage stage) {
 
@@ -44,7 +49,8 @@ public class UIImpl implements UI {
         stage.setWidth(300);
         stage.setHeight(500);
 
-        VBox personnel = personnel();
+        VBox personnel = module.newTransient(PersonnelView.class)
+                .getView();
 
         HBox turn = turnTrack(personnel);
 
@@ -80,20 +86,5 @@ public class UIImpl implements UI {
         turn.setPadding(INSETS);
         turn.getChildren().addAll(label, turnCount, endTurn);
         return turn;
-    }
-
-    private VBox personnel() {
-
-        Label label = new Label("Personnel");
-        label.setFont(FONT);
-
-        TableView<Person> table = new AnnotatedTable().createTable(personnelRepository.getByName("Aegis"), Person.class);
-        table.setEditable(false);
-
-        VBox vbox = new VBox();
-        vbox.setSpacing(SPACING);
-        vbox.setPadding(INSETS);
-        vbox.getChildren().addAll(label, table);
-        return vbox;
     }
 }

@@ -1,6 +1,7 @@
 package com.dv.ssss.ui;
 
 import com.google.common.collect.Ordering;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
@@ -13,7 +14,7 @@ import static javafx.collections.FXCollections.observableArrayList;
 
 public class AnnotatedTable {
 
-    public <T> TableView<T> createTable(Iterable<T> elements, Class<T> type) {
+    public <T> TableView<T> createTable(ObservableList<T> items, Class<T> type) {
 
         Iterable<Method> columnDefinitions = Ordering.natural()
                 .<Method>onResultOf(f -> f.getAnnotation(Column.class).order())
@@ -22,7 +23,7 @@ public class AnnotatedTable {
         Iterable<TableColumn<T, String>> columns = createColumns(columnDefinitions);
 
         TableView<T> table = new TableView<>();
-        table.setItems(observableArrayList(newArrayList(elements)));
+        table.setItems(items);
         table.getColumns().addAll(newArrayList(columns));
         return table;
     }
