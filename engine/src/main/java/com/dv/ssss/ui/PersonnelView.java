@@ -11,8 +11,8 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.structure.Module;
+import rx.Observable;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static javafx.collections.FXCollections.observableArrayList;
 
 @Mixins(PersonnelView.PersonnelViewMixin.class)
@@ -20,7 +20,7 @@ public interface PersonnelView {
 
     VBox getView();
 
-    void update(Iterable<Person> events);
+    void update(Observable<Person> events);
 
     class PersonnelViewMixin implements PersonnelView {
 
@@ -58,10 +58,11 @@ public interface PersonnelView {
         }
 
         @Override
-        public void update(Iterable<Person> people) {
+        public void update(Observable<Person> people) {
 
             items.removeAll();
-            items.addAll(newArrayList(people));
+            people.toList()
+                    .subscribe(items::addAll);
         }
     }
 }
