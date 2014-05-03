@@ -19,7 +19,7 @@ public interface PersonnelMediator {
         @Service
         PersonnelRepository personnelRepository;
 
-            @Override
+        @Override
         public void loadPeople() {
 
             view.update(Observable.from(personnelRepository.getByName("Aegis")));
