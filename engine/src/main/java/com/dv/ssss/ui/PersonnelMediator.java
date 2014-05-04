@@ -1,5 +1,6 @@
 package com.dv.ssss.ui;
 
+import com.dv.ssss.Engine;
 import com.dv.ssss.people.PersonnelRepository;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Uses;
@@ -9,12 +10,17 @@ import rx.Observable;
 @Mixins(PersonnelMediator.PersonnelMediatorMixin.class)
 public interface PersonnelMediator {
 
-    public void loadPeople();
+    void loadPeople();
+
+    void turnEnded(TurnEndedEvent event);
 
     class PersonnelMediatorMixin implements PersonnelMediator {
 
         @Uses
         PersonnelView view;
+
+        @Service
+        Engine engine;
 
         @Service
         PersonnelRepository personnelRepository;
@@ -23,6 +29,13 @@ public interface PersonnelMediator {
         public void loadPeople() {
 
             view.update(Observable.from(personnelRepository.getByName("Aegis")));
+        }
+
+        @Override
+        public void turnEnded(TurnEndedEvent event) {
+
+            engine.endTurn();
+            loadPeople();
         }
     }
 }

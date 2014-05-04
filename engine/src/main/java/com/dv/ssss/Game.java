@@ -7,9 +7,7 @@ import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
-import com.dv.ssss.ui.PersonnelMediator;
-import com.dv.ssss.ui.PersonnelView;
-import com.dv.ssss.ui.UI;
+import com.dv.ssss.ui.*;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
@@ -55,7 +53,9 @@ public class Game extends Application {
                     assembly.transients(
                             UI.class,
                             PersonnelView.class,
-                            PersonnelMediator.class
+                            PersonnelMediator.class,
+                            TurnView.class,
+                            TurnViewMediator.class
                     );
 
                     new MemoryEntityStoreAssembler().assemble(assembly);
@@ -67,16 +67,16 @@ public class Game extends Application {
         }
 
         assembler.module()
-                .findService(DataBootstrap.class)
-                .get()
-                .bootstrap();
+                 .findService(DataBootstrap.class)
+                 .get()
+                 .bootstrap();
 
         assembler.module()
-                .newUnitOfWork();
+                 .newUnitOfWork();
 
         assembler.module()
-                .newTransient(UI.class)
-                .display(stage);
+                 .newTransient(UI.class)
+                 .display(stage);
     }
 
 }

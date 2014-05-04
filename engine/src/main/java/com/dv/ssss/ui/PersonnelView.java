@@ -7,10 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.structure.Module;
 import rx.Observable;
 
 import static javafx.collections.FXCollections.observableArrayList;
@@ -27,9 +25,6 @@ public interface PersonnelView {
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
         private static final Font FONT = new Font("Arial", 20);
-
-        @Structure
-        Module module;
 
         @Uses
         VBox vbox;
@@ -49,10 +44,8 @@ public interface PersonnelView {
 
             vbox.setSpacing(SPACING);
             vbox.setPadding(INSETS);
-            vbox.getChildren().addAll(label, table);
-
-            module.newTransient(PersonnelMediator.class, this)
-                    .loadPeople();
+            vbox.getChildren()
+                .addAll(label, table);
 
             return vbox;
         }
@@ -60,9 +53,9 @@ public interface PersonnelView {
         @Override
         public void update(Observable<Person> people) {
 
-            items.removeAll();
+            items.clear();
             people.toList()
-                    .subscribe(items::addAll);
+                  .subscribe(items::addAll);
         }
     }
 }

@@ -1,41 +1,21 @@
 package com.dv.ssss.ui;
 
-import com.dv.ssss.Engine;
-import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonnelRepository;
-import com.dv.ssss.turn.TurnRepository;
-import com.google.common.collect.Lists;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.structure.Module;
+import rx.Observable;
 
 public class UIImpl implements UI {
 
-    private static final int SPACING = 5;
-    private static final Insets INSETS = new Insets(10, 0, 0, 10);
-    private static final Font FONT = new Font("Arial", 20);
-
-    @Service
-    private Engine engine;
-
     @Service
     private PersonnelRepository personnelRepository;
-
-    @Service
-    private TurnRepository turnRepository;
 
     @Structure
     Module module;
@@ -49,42 +29,26 @@ public class UIImpl implements UI {
         stage.setWidth(300);
         stage.setHeight(500);
 
-        VBox personnel = module.newTransient(PersonnelView.class)
-                .getView();
+        PersonnelView personnelView = module.newTransient(PersonnelView.class);
+        PersonnelMediator personnelMediator = module.newTransient(PersonnelMediator.class, personnelView);
+        VBox personnel = personnelView.getView();
+        personnelMediator.loadPeople();
 
-        HBox turn = turnTrack(personnel);
+        TurnViewMediator turnViewMediator = module.newTransient(TurnViewMediator.class);
+        TurnView turnView = module.newTransient(TurnView.class);
+        HBox turn = turnView.getView();
+        Observable<TurnEndedEvent> events = turnView.getEvents();
+
+        events.subscribe(personnelMediator::turnEnded);
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);
         layout.setCenter(personnel);
 
-        group.getChildren().addAll(layout);
+        group.getChildren()
+             .addAll(layout);
         stage.setScene(scene);
         stage.show();
     }
 
-    private HBox turnTrack(VBox personnel) {
-
-        Label label = new Label("Turn");
-
-        Text turnCount = new Text(
-                String.valueOf(turnRepository.get().turn())
-        );
-
-        //TODO Make table take a callback to get at the data and allow it to refresh itself
-        Button endTurn = new Button("End Turn");
-        endTurn.setOnAction(event -> {
-            engine.endTurn();
-            TableView<Person> node = (TableView<Person>) personnel.getChildren().get(1);
-            ObservableList<Person> items = node.getItems();
-            items.clear();
-            items.addAll(Lists.newArrayList(personnelRepository.getByName("Aegis")));
-        });
-
-        HBox turn = new HBox();
-        turn.setSpacing(SPACING);
-        turn.setPadding(INSETS);
-        turn.getChildren().addAll(label, turnCount, endTurn);
-        return turn;
-    }
 }
