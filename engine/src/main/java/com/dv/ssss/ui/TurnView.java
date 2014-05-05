@@ -1,13 +1,12 @@
 package com.dv.ssss.ui;
 
-import com.dv.ssss.turn.TurnRepository;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
@@ -18,15 +17,16 @@ public interface TurnView {
 
     Observable<TurnEndedEvent> getEvents();
 
+    void update(int turn);
+
     class TurnViewMixin implements TurnView {
 
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
-        @Service
-        TurnRepository turnRepository;
-
         Observable<TurnEndedEvent> events;
+
+        StringProperty turnString;
 
         @Override
         public Observable<TurnEndedEvent> getEvents() {
@@ -39,10 +39,8 @@ public interface TurnView {
 
             Label label = new Label("Turn");
 
-            Text turnCount = new Text(
-                    String.valueOf(turnRepository.get()
-                                                 .turn())
-            );
+            Text turnCount = new Text();
+            turnString = turnCount.textProperty();
 
             Button endTurn = new Button("End Turn");
 
@@ -55,6 +53,12 @@ public interface TurnView {
             turn.getChildren()
                 .addAll(label, turnCount, endTurn);
             return turn;
+        }
+
+        @Override
+        public void update(int turn) {
+
+            turnString.set(String.valueOf(turn));
         }
     }
 }

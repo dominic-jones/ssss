@@ -11,6 +11,7 @@ import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.structure.Module;
 import rx.Observable;
+import rx.observables.ConnectableObservable;
 
 public class UIImpl implements UI {
 
@@ -34,19 +35,23 @@ public class UIImpl implements UI {
         VBox personnel = personnelView.getView();
         personnelMediator.loadPeople();
 
-        TurnViewMediator turnViewMediator = module.newTransient(TurnViewMediator.class);
         TurnView turnView = module.newTransient(TurnView.class);
+        TurnViewMediator turnViewMediator = module.newTransient(TurnViewMediator.class, turnView);
         HBox turn = turnView.getView();
+        turnViewMediator.initializeTurn();
+
         Observable<TurnEndedEvent> events = turnView.getEvents();
 
-        events.subscribe(personnelMediator::turnEnded);
+        ConnectableObservable<TurnEndedEvent> publish = events.publish();
+        publish.subscribe(personnelMediator::turnEnded);
+        publish.subscribe(turnViewMediator::turnEnded);
+        publish.connect();
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);
         layout.setCenter(personnel);
 
-        group.getChildren()
-             .addAll(layout);
+        group.getChildren().addAll(layout);
         stage.setScene(scene);
         stage.show();
     }
