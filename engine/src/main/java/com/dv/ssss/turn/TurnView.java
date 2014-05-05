@@ -1,6 +1,7 @@
 package com.dv.ssss.turn;
 
 import com.dv.ssss.ui.ObservableEvent;
+import com.google.common.eventbus.EventBus;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -8,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
@@ -16,8 +18,6 @@ public interface TurnView {
 
     HBox getView();
 
-    Observable<TurnEndedEvent> getEvents();
-
     void update(int turn);
 
     class TurnViewMixin implements TurnView {
@@ -25,15 +25,10 @@ public interface TurnView {
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
-        Observable<TurnEndedEvent> events;
+        @Uses
+        EventBus eventBus;
 
         StringProperty turnString;
-
-        @Override
-        public Observable<TurnEndedEvent> getEvents() {
-
-            return events;
-        }
 
         @Override
         public HBox getView() {
@@ -45,8 +40,9 @@ public interface TurnView {
 
             Button endTurn = new Button("End Turn");
 
-            events = Observable.create(new ObservableEvent<ActionEvent>(endTurn::setOnAction))
-                               .map(event -> new TurnEndedEvent());
+            Observable.create(new ObservableEvent<ActionEvent>(endTurn::setOnAction))
+                      .map(event -> new TurnEndedEvent())
+                      .subscribe(eventBus::post);
 
             HBox turn = new HBox();
             turn.setSpacing(SPACING);
