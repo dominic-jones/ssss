@@ -1,8 +1,8 @@
 package com.dv.ssss.ui;
 
 import com.dv.ssss.people.PersonnelRepository;
-import com.dv.ssss.personnel.PersonnelMediator;
 import com.dv.ssss.personnel.PersonnelView;
+import com.dv.ssss.personnel.PersonnelViewMediator;
 import com.dv.ssss.turn.TurnView;
 import com.dv.ssss.turn.TurnViewMediator;
 import com.google.common.eventbus.EventBus;
@@ -36,9 +36,9 @@ public class UIImpl implements UI {
         EventBus eventBus = new EventBus();
 
         PersonnelView personnelView = module.newTransient(PersonnelView.class);
-        PersonnelMediator personnelMediator = module.newTransient(PersonnelMediator.class, personnelView);
+        PersonnelViewMediator personnelViewMediator = module.newTransient(PersonnelViewMediator.class, personnelView);
         VBox personnel = personnelView.getView();
-        personnelMediator.loadPeople();
+        personnelViewMediator.loadPeople();
 
         TurnView turnView = module.newTransient(TurnView.class, eventBus);
         TurnViewMediator turnViewMediator = module.newTransient(TurnViewMediator.class, turnView);
@@ -46,7 +46,7 @@ public class UIImpl implements UI {
         turnViewMediator.initializeTurn();
 
         eventBus.register(turnViewMediator);
-        eventBus.register(personnelMediator);
+        eventBus.register(personnelViewMediator);
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);

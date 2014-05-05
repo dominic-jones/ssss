@@ -9,15 +9,15 @@ import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
-@Mixins(PersonnelMediator.PersonnelMediatorMixin.class)
-public interface PersonnelMediator {
+@Mixins(PersonnelViewMediator.PersonnelViewMediatorMixin.class)
+public interface PersonnelViewMediator {
 
     void loadPeople();
 
     @Subscribe
     void turnEnded(TurnEndedEvent event);
 
-    class PersonnelMediatorMixin implements PersonnelMediator {
+    class PersonnelViewMediatorMixin implements PersonnelViewMediator {
 
         @Uses
         PersonnelView view;

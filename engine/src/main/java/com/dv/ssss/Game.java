@@ -4,8 +4,8 @@ import com.dv.ssss.age.AgeRepository;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
-import com.dv.ssss.personnel.PersonnelMediator;
 import com.dv.ssss.personnel.PersonnelView;
+import com.dv.ssss.personnel.PersonnelViewMediator;
 import com.dv.ssss.turn.*;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
@@ -53,7 +53,7 @@ public class Game extends Application {
                     assembly.transients(
                             UI.class,
                             PersonnelView.class,
-                            PersonnelMediator.class,
+                            PersonnelViewMediator.class,
                             TurnView.class,
                             TurnViewMediator.class
                     );
