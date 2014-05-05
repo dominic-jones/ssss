@@ -24,6 +24,9 @@ public class UIImpl implements UI {
     @Structure
     Module module;
 
+    @Service
+    MediatorBuilder mediatorBuilder;
+
     @Override
     public void display(Stage stage) {
 
@@ -36,17 +39,14 @@ public class UIImpl implements UI {
         EventBus eventBus = new EventBus();
 
         PersonnelView personnelView = module.newTransient(PersonnelView.class);
-        PersonnelViewMediator personnelViewMediator = module.newTransient(PersonnelViewMediator.class, personnelView);
+        PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView, eventBus);
         VBox personnel = personnelView.getView();
         personnelViewMediator.loadPeople();
 
         TurnView turnView = module.newTransient(TurnView.class, eventBus);
-        TurnViewMediator turnViewMediator = module.newTransient(TurnViewMediator.class, turnView);
+        TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView, eventBus);
         HBox turn = turnView.getView();
         turnViewMediator.initializeTurn();
-
-        eventBus.register(turnViewMediator);
-        eventBus.register(personnelViewMediator);
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);

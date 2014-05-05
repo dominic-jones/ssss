@@ -6,7 +6,12 @@ import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewMediator;
-import com.dv.ssss.turn.*;
+import com.dv.ssss.turn.Turn;
+import com.dv.ssss.turn.TurnFactory;
+import com.dv.ssss.turn.TurnRepository;
+import com.dv.ssss.turn.TurnView;
+import com.dv.ssss.turn.TurnViewMediatorTransient;
+import com.dv.ssss.ui.MediatorBuilder;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -48,14 +53,15 @@ public class Game extends Application {
 
                     assembly.services(
                             DataBootstrap.class,
-                            EngineImpl.class
+                            EngineImpl.class,
+                            MediatorBuilder.class
                     );
                     assembly.transients(
                             UI.class,
                             PersonnelView.class,
                             PersonnelViewMediator.class,
                             TurnView.class,
-                            TurnViewMediator.class
+                            TurnViewMediatorTransient.class
                     );
 
                     new MemoryEntityStoreAssembler().assemble(assembly);

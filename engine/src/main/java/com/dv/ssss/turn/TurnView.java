@@ -1,7 +1,7 @@
 package com.dv.ssss.turn;
 
 import com.dv.ssss.ui.ObservableEvent;
-import com.google.common.eventbus.EventBus;
+import com.dv.ssss.ui.events.FiresEvents;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -9,7 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import org.qi4j.api.injection.scope.Uses;
+import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
@@ -25,8 +25,8 @@ public interface TurnView {
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
-        @Uses
-        EventBus eventBus;
+        @This
+        FiresEvents firesEvents;
 
         StringProperty turnString;
 
@@ -42,7 +42,7 @@ public interface TurnView {
 
             Observable.create(new ObservableEvent<ActionEvent>(endTurn::setOnAction))
                       .map(event -> new TurnEndedEvent())
-                      .subscribe(eventBus::post);
+                      .subscribe(firesEvents::post);
 
             HBox turn = new HBox();
             turn.setSpacing(SPACING);
