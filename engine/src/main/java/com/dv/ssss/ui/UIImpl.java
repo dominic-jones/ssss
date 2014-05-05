@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.structure.Module;
-import rx.Observable;
 import rx.observables.ConnectableObservable;
 
 public class UIImpl implements UI {
@@ -40,12 +39,10 @@ public class UIImpl implements UI {
         HBox turn = turnView.getView();
         turnViewMediator.initializeTurn();
 
-        Observable<TurnEndedEvent> events = turnView.getEvents();
-
-        ConnectableObservable<TurnEndedEvent> publish = events.publish();
-        publish.subscribe(personnelMediator::turnEnded);
-        publish.subscribe(turnViewMediator::turnEnded);
-        publish.connect();
+        ConnectableObservable<TurnEndedEvent> publishedEvents = turnView.getEvents().publish();
+        publishedEvents.subscribe(personnelMediator::turnEnded);
+        publishedEvents.subscribe(turnViewMediator::turnEnded);
+        publishedEvents.connect();
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);
