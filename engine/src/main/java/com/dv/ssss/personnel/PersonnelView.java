@@ -1,6 +1,7 @@
-package com.dv.ssss.ui;
+package com.dv.ssss.personnel;
 
 import com.dv.ssss.people.Person;
+import com.dv.ssss.ui.AnnotatedTable;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;

@@ -1,7 +1,8 @@
-package com.dv.ssss.ui;
+package com.dv.ssss.personnel;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.people.PersonnelRepository;
+import com.dv.ssss.turn.TurnEndedEvent;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;

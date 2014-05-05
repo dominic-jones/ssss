@@ -1,6 +1,11 @@
 package com.dv.ssss.ui;
 
 import com.dv.ssss.people.PersonnelRepository;
+import com.dv.ssss.personnel.PersonnelMediator;
+import com.dv.ssss.personnel.PersonnelView;
+import com.dv.ssss.turn.TurnEndedEvent;
+import com.dv.ssss.turn.TurnView;
+import com.dv.ssss.turn.TurnViewMediator;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;

@@ -1,5 +1,6 @@
-package com.dv.ssss.ui;
+package com.dv.ssss.turn;
 
+import com.dv.ssss.ui.ObservableEvent;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;

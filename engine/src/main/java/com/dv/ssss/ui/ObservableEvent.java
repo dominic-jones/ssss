@@ -12,7 +12,7 @@ public class ObservableEvent<T extends Event> implements Observable.OnSubscribe<
 
     private Subscriber<? super T> subscriber;
 
-    ObservableEvent(Action1<EventHandler<T>> addListener) {
+    public ObservableEvent(Action1<EventHandler<T>> addListener) {
 
         this.addListener = addListener;
     }

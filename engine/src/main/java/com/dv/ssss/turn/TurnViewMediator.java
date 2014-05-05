@@ -1,7 +1,6 @@
-package com.dv.ssss.ui;
+package com.dv.ssss.turn;
 
 import com.dv.ssss.Engine;
-import com.dv.ssss.turn.TurnRepository;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;

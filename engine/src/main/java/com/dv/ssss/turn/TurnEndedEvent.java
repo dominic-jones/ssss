@@ -1,4 +1,4 @@
-package com.dv.ssss.ui;
+package com.dv.ssss.turn;
 
 public class TurnEndedEvent {
 
