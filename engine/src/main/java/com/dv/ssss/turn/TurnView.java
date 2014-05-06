@@ -41,7 +41,7 @@ public interface TurnView {
             Button endTurn = new Button("End Turn");
 
             Observable.create(new ObservableEvent<ActionEvent>(endTurn::setOnAction))
-                      .map(event -> new TurnEndedEvent())
+                      .map(event -> new EndTurnCommand())
                       .subscribe(firesEvents::post);
 
             HBox turn = new HBox();
