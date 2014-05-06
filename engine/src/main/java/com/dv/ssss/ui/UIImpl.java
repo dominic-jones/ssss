@@ -37,16 +37,8 @@ public class UIImpl implements UI {
         stage.setHeight(500);
 
         EventBus eventBus = new EventBus();
-
-        PersonnelView personnelView = module.newTransient(PersonnelView.class);
-        PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView, eventBus);
-        VBox personnel = personnelView.getView();
-        personnelViewMediator.loadPeople();
-
-        TurnView turnView = module.newTransient(TurnView.class, eventBus);
-        TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView, eventBus);
-        HBox turn = turnView.getView();
-        turnViewMediator.initializeTurn();
+        VBox personnel = personnel(eventBus);
+        HBox turn = turn(eventBus);
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);
@@ -55,6 +47,24 @@ public class UIImpl implements UI {
         group.getChildren().addAll(layout);
         stage.setScene(scene);
         stage.show();
+    }
+
+    private VBox personnel(EventBus eventBus) {
+
+        PersonnelView personnelView = module.newTransient(PersonnelView.class);
+        PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView, eventBus);
+        VBox personnel = personnelView.getView();
+        personnelViewMediator.loadPeople();
+        return personnel;
+    }
+
+    private HBox turn(EventBus eventBus) {
+
+        TurnView turnView = module.newTransient(TurnView.class, eventBus);
+        TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView, eventBus);
+        HBox turn = turnView.getView();
+        turnViewMediator.initializeTurn();
+        return turn;
     }
 
 }
