@@ -53,7 +53,7 @@ public class Game extends Application {
 
                     assembly.services(
                             DataBootstrap.class,
-                            EngineImpl.class,
+                            Engine.class,
                             MediatorBuilder.class
                     );
                     assembly.transients(
