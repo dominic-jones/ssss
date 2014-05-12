@@ -1,6 +1,7 @@
 package com.dv.ssss;
 
 import com.dv.ssss.age.AgeRepository;
+import com.dv.ssss.bootstrap.ApplicatedStartedEvent;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
@@ -13,9 +14,11 @@ import com.dv.ssss.turn.TurnView;
 import com.dv.ssss.turn.TurnViewMediatorTransient;
 import com.dv.ssss.ui.MediatorBuilder;
 import com.dv.ssss.ui.UI;
+import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
+import org.qi4j.api.structure.Module;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.bootstrap.SingletonAssembler;
@@ -72,17 +75,20 @@ public class Game extends Application {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
 
-        assembler.module()
-                 .findService(DataBootstrap.class)
-                 .get()
-                 .bootstrap();
+        Module module = assembler.module();
 
-        assembler.module()
-                 .newUnitOfWork();
+        module.findService(DataBootstrap.class)
+              .get()
+              .bootstrap();
 
-        assembler.module()
-                 .newTransient(UI.class)
-                 .display(stage);
+        module.newUnitOfWork();
+
+        EventBus eventBus = new EventBus();
+        eventBus.register(module.findService(Engine.class).get());
+        UI ui = module.newTransient(UI.class, eventBus);
+        eventBus.register(ui);
+
+        eventBus.post(new ApplicatedStartedEvent(ui, stage));
     }
 
 }

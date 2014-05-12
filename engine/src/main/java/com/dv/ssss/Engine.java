@@ -2,12 +2,15 @@ package com.dv.ssss;
 
 import com.dv.ssss.age.Age;
 import com.dv.ssss.age.AgeRepository;
+import com.dv.ssss.bootstrap.ApplicatedStartedEvent;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnRepository;
+import com.google.common.eventbus.Subscribe;
 import org.qi4j.api.composite.Composite;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.structure.Module;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
@@ -16,6 +19,9 @@ public interface Engine extends Composite {
 
     void endTurn();
 
+    @Subscribe
+    void startApplication(ApplicatedStartedEvent event);
+
     class EngineImpl implements Engine {
 
         @Service
@@ -23,6 +29,9 @@ public interface Engine extends Composite {
 
         @Service
         TurnRepository turnRepository;
+
+        @Structure
+        Module module;
 
         @Structure
         UnitOfWorkFactory unitOfWorkFactory;
@@ -50,6 +59,12 @@ public interface Engine extends Composite {
             }
 
             unitOfWorkFactory.newUnitOfWork();
+        }
+
+        @Override
+        public void startApplication(ApplicatedStartedEvent event) {
+
+            event.getUi().display(event.getStage());
         }
     }
 }

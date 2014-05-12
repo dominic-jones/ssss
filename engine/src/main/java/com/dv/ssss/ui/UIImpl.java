@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.structure.Module;
 
 public class UIImpl implements UI {
@@ -27,6 +28,9 @@ public class UIImpl implements UI {
     @Service
     MediatorBuilder mediatorBuilder;
 
+    @Uses
+    EventBus eventBus;
+
     @Override
     public void display(Stage stage) {
 
@@ -36,7 +40,6 @@ public class UIImpl implements UI {
         stage.setWidth(300);
         stage.setHeight(500);
 
-        EventBus eventBus = new EventBus();
         VBox personnel = personnel(eventBus);
         HBox turn = turn(eventBus);
 
