@@ -8,8 +8,7 @@ import rx.functions.Action1;
 
 public class ObservableEvent<T extends Event> implements Observable.OnSubscribe<T>, EventHandler<T> {
 
-    private final Action1<EventHandler<T>> addListener;
-
+    private Action1<EventHandler<T>> addListener;
     private Subscriber<? super T> subscriber;
 
     public ObservableEvent(Action1<EventHandler<T>> addListener) {
