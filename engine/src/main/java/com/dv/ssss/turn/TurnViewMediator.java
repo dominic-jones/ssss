@@ -23,11 +23,14 @@ public interface TurnViewMediator {
         @Service
         Engine engine;
 
-        @Uses
-        EventBus eventBus;
+        @Service
+        TurnEndedEventFactory turnEndedEventFactory;
 
         @Service
         TurnRepository turnRepository;
+
+        @Uses
+        EventBus eventBus;
 
         @Uses
         TurnView view;
@@ -36,7 +39,7 @@ public interface TurnViewMediator {
         public void endTurn(EndTurnCommand endTurnCommand) {
 
             engine.endTurn();
-            eventBus.post(new TurnEndedEvent());
+            eventBus.post(turnEndedEventFactory.create());
         }
 
         @Override

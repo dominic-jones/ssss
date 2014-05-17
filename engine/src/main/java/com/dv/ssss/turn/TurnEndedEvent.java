@@ -1,5 +1,5 @@
 package com.dv.ssss.turn;
 
-public class TurnEndedEvent {
+public interface TurnEndedEvent {
 
 }

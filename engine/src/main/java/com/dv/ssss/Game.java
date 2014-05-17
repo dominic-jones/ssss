@@ -8,6 +8,8 @@ import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewMediator;
 import com.dv.ssss.turn.Turn;
+import com.dv.ssss.turn.TurnEndedEvent;
+import com.dv.ssss.turn.TurnEndedEventFactory;
 import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.turn.TurnView;
@@ -46,12 +48,17 @@ public class Game extends Application {
                             Turn.class
                     );
 
+                    assembly.values(
+                            TurnEndedEvent.class
+                    );
+
                     assembly.services(
                             AgeRepository.class,
                             PersonFactory.class,
                             PersonnelRepository.PersonnelRepositoryMixin.class,
                             TurnFactory.class,
-                            TurnRepository.class
+                            TurnRepository.class,
+                            TurnEndedEventFactory.class
                     );
 
                     assembly.services(
