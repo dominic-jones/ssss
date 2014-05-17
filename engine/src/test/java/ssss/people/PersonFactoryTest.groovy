@@ -1,5 +1,7 @@
-package com.dv.ssss.turn
+package ssss.people
 
+import com.dv.ssss.people.PersonEntity
+import com.dv.ssss.people.PersonFactory
 import org.junit.Before
 import org.junit.Test
 import org.qi4j.api.injection.scope.Service
@@ -10,10 +12,10 @@ import org.qi4j.bootstrap.ModuleAssembly
 import org.qi4j.test.AbstractQi4jTest
 import org.qi4j.test.EntityTestAssembler
 
-class TurnFactoryTest extends AbstractQi4jTest {
+class PersonFactoryTest extends AbstractQi4jTest {
 
     @Service
-    TurnFactory factory
+    PersonFactory factory
 
     @Structure
     UnitOfWorkFactory unitOfWorkFactory
@@ -27,15 +29,17 @@ class TurnFactoryTest extends AbstractQi4jTest {
 
     @Test
     void 'Should initialize turns at one'() {
-        def result = factory.create()
+        def age = '23'
 
-        assert 1 == result.turn()
+        def result = factory.create('Aegis', 'Overlord', age)
+
+        assert age == result.age
     }
 
     @Override
     void assemble(ModuleAssembly module) throws AssemblyException {
-        module.entities(Turn)
-        module.services(TurnFactory)
+        module.entities(PersonEntity)
+        module.services(PersonFactory)
 
         new EntityTestAssembler().assemble(module)
     }

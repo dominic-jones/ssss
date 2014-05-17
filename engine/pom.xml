@@ -16,12 +16,14 @@
     </properties>
 
     <dependencies>
+        <!--RxJava-->
         <dependency>
             <groupId>com.netflix.rxjava</groupId>
             <artifactId>rxjava-core</artifactId>
             <version>0.18.1</version>
         </dependency>
 
+        <!--Qi4J-->
         <dependency>
             <groupId>org.qi4j.core</groupId>
             <artifactId>org.qi4j.core.bootstrap</artifactId>
@@ -47,10 +49,39 @@
             <scope>runtime</scope>
         </dependency>
 
+        <!--Common-->
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>17.0</version>
+        </dependency>
+
+        <!--Test-->
+        <dependency>
+            <groupId>org.qi4j.core</groupId>
+            <artifactId>org.qi4j.core.testsupport</artifactId>
+            <version>${org.qi4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.3.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
         </dependency>
     </dependencies>
 
