@@ -1,7 +1,6 @@
-package ssss.turn
+package com.dv.ssss.turn
 
-import com.dv.ssss.turn.Turn
-import com.dv.ssss.turn.TurnFactory
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.qi4j.api.injection.scope.Service
@@ -25,6 +24,11 @@ class TurnFactoryTest extends AbstractQi4jTest {
         super.setUp()
 
         unitOfWorkFactory.newUnitOfWork()
+    }
+
+    @After
+    void tearDown() {
+        unitOfWorkFactory.currentUnitOfWork().discard()
     }
 
     @Test

@@ -1,7 +1,6 @@
-package ssss.people
+package com.dv.ssss.people
 
-import com.dv.ssss.people.PersonEntity
-import com.dv.ssss.people.PersonFactory
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.qi4j.api.injection.scope.Service
@@ -25,6 +24,11 @@ class PersonFactoryTest extends AbstractQi4jTest {
         super.setUp()
 
         unitOfWorkFactory.newUnitOfWork()
+    }
+
+    @After
+    void tearDown() {
+        unitOfWorkFactory.currentUnitOfWork().discard()
     }
 
     @Test
