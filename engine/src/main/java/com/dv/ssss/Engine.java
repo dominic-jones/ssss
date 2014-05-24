@@ -27,6 +27,9 @@ public interface Engine extends Composite {
         AgeRepository ageRepository;
 
         @Service
+        DataBootstrap dataBootstrap;
+
+        @Service
         TurnRepository turnRepository;
 
         @Structure
@@ -59,6 +62,8 @@ public interface Engine extends Composite {
 
         @Override
         public void startApplication(ApplicationStartedEvent event) {
+
+            dataBootstrap.bootstrap();
 
             event.getUi().display(event.getStage());
         }

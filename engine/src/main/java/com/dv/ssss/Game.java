@@ -85,10 +85,6 @@ public class Game extends Application {
 
         Module module = assembler.module();
 
-        module.findService(DataBootstrap.class)
-              .get()
-              .bootstrap();
-
         EventRepository eventRepository = module.findService(EventRepository.class)
                                                 .get();
 
