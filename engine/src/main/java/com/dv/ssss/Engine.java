@@ -3,6 +3,7 @@ package com.dv.ssss;
 import com.dv.ssss.age.Age;
 import com.dv.ssss.age.AgeRepository;
 import com.dv.ssss.bootstrap.ApplicationStartedEvent;
+import com.dv.ssss.event.EventSubscriber;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnRepository;
 import com.google.common.eventbus.Subscribe;
@@ -14,14 +15,14 @@ import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
 @Mixins(Engine.EngineImpl.class)
-public interface Engine extends Composite {
+public interface Engine extends Composite, EventSubscriber {
 
     void endTurn();
 
     @Subscribe
     void startApplication(ApplicationStartedEvent event);
 
-    class EngineImpl implements Engine {
+    abstract class EngineImpl implements Engine {
 
         @Service
         AgeRepository ageRepository;
