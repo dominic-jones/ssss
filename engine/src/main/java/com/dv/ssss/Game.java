@@ -2,6 +2,7 @@ package com.dv.ssss;
 
 import com.dv.ssss.age.AgeRepository;
 import com.dv.ssss.bootstrap.ApplicationStartedEvent;
+import com.dv.ssss.event.EventRepository;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
@@ -16,7 +17,6 @@ import com.dv.ssss.turn.TurnView;
 import com.dv.ssss.turn.TurnViewMediatorTransient;
 import com.dv.ssss.ui.MediatorBuilder;
 import com.dv.ssss.ui.UI;
-import com.google.common.eventbus.EventBus;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
@@ -64,7 +64,8 @@ public class Game extends Application {
                     assembly.services(
                             DataBootstrap.class,
                             Engine.class,
-                            MediatorBuilder.class
+                            MediatorBuilder.class,
+                            EventRepository.class
                     );
                     assembly.transients(
                             UI.class,
@@ -88,14 +89,16 @@ public class Game extends Application {
               .get()
               .bootstrap();
 
+        EventRepository eventRepository = module.findService(EventRepository.class)
+                                                .get();
+
         module.newUnitOfWork();
 
-        EventBus eventBus = new EventBus();
-        eventBus.register(module.findService(Engine.class).get());
-        UI ui = module.newTransient(UI.class, eventBus);
-        eventBus.register(ui);
+        UI ui = module.newTransient(UI.class);
+        eventRepository.register(ui);
+        eventRepository.register(module.findService(Engine.class).get());
 
-        eventBus.post(new ApplicationStartedEvent(ui, stage));
+        eventRepository.post(new ApplicationStartedEvent(ui, stage));
     }
 
 }

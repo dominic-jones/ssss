@@ -5,7 +5,6 @@ import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewMediator;
 import com.dv.ssss.turn.TurnView;
 import com.dv.ssss.turn.TurnViewMediator;
-import com.google.common.eventbus.EventBus;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -14,22 +13,18 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.structure.Module;
 
 public class UIImpl implements UI {
 
     @Service
-    private PersonnelRepository personnelRepository;
+    PersonnelRepository personnelRepository;
 
     @Structure
     Module module;
 
     @Service
     MediatorBuilder mediatorBuilder;
-
-    @Uses
-    EventBus eventBus;
 
     @Override
     public void display(Stage stage) {
@@ -40,8 +35,8 @@ public class UIImpl implements UI {
         stage.setWidth(300);
         stage.setHeight(500);
 
-        VBox personnel = personnel(eventBus);
-        HBox turn = turn(eventBus);
+        VBox personnel = personnel();
+        HBox turn = turn();
 
         BorderPane layout = new BorderPane();
         layout.setTop(turn);
@@ -52,19 +47,19 @@ public class UIImpl implements UI {
         stage.show();
     }
 
-    private VBox personnel(EventBus eventBus) {
+    private VBox personnel() {
 
         PersonnelView personnelView = module.newTransient(PersonnelView.class);
-        PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView, eventBus);
+        PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView);
         VBox personnel = personnelView.getView();
         personnelViewMediator.loadPeople();
         return personnel;
     }
 
-    private HBox turn(EventBus eventBus) {
+    private HBox turn() {
 
-        TurnView turnView = module.newTransient(TurnView.class, eventBus);
-        TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView, eventBus);
+        TurnView turnView = module.newTransient(TurnView.class);
+        TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView);
         HBox turn = turnView.getView();
         turnViewMediator.initializeTurn();
         return turn;

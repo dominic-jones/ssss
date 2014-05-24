@@ -1,7 +1,7 @@
 package com.dv.ssss.turn;
 
 import com.dv.ssss.Engine;
-import com.google.common.eventbus.EventBus;
+import com.dv.ssss.event.EventRepository;
 import com.google.common.eventbus.Subscribe;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Uses;
@@ -24,13 +24,13 @@ public interface TurnViewMediator {
         Engine engine;
 
         @Service
+        EventRepository eventRepository;
+
+        @Service
         TurnEndedEventFactory turnEndedEventFactory;
 
         @Service
         TurnRepository turnRepository;
-
-        @Uses
-        EventBus eventBus;
 
         @Uses
         TurnView view;
@@ -39,7 +39,7 @@ public interface TurnViewMediator {
         public void endTurn(EndTurnCommand endTurnCommand) {
 
             engine.endTurn();
-            eventBus.post(turnEndedEventFactory.create());
+            eventRepository.post(turnEndedEventFactory.create());
         }
 
         @Override

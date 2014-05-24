@@ -1,7 +1,7 @@
 package com.dv.ssss.ui.events;
 
-import com.google.common.eventbus.EventBus;
-import org.qi4j.api.injection.scope.Uses;
+import com.dv.ssss.event.EventRepository;
+import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(FiresEvents.FiresEventsMixin.class)
@@ -11,13 +11,13 @@ public interface FiresEvents {
 
     class FiresEventsMixin implements FiresEvents {
 
-        @Uses
-        EventBus eventBus;
+        @Service
+        EventRepository eventRepository;
 
         @Override
         public void post(Object event) {
 
-            eventBus.post(event);
+            eventRepository.post(event);
         }
     }
 }
