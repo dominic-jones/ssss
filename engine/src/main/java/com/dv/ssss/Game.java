@@ -1,7 +1,7 @@
 package com.dv.ssss;
 
 import com.dv.ssss.age.AgeRepository;
-import com.dv.ssss.bootstrap.ApplicatedStartedEvent;
+import com.dv.ssss.bootstrap.ApplicationStartedEvent;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
@@ -95,7 +95,7 @@ public class Game extends Application {
         UI ui = module.newTransient(UI.class, eventBus);
         eventBus.register(ui);
 
-        eventBus.post(new ApplicatedStartedEvent(ui, stage));
+        eventBus.post(new ApplicationStartedEvent(ui, stage));
     }
 
 }
