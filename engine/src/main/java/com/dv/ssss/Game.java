@@ -91,7 +91,6 @@ public class Game extends Application {
         module.newUnitOfWork();
 
         UI ui = module.newTransient(UI.class);
-        eventRepository.register(ui);
         eventRepository.register(module.findService(Engine.class).get());
 
         eventRepository.post(new ApplicationStartedEvent(ui, stage));
