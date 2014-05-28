@@ -24,7 +24,7 @@ public class DataBootstrapImpl implements DataBootstrap {
 
         UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
-        personFactory.create("Aegis", "Overlord", "23");
+        personFactory.create("Aegis", "Overlord", 23);
         turnFactory.create();
 
         try {

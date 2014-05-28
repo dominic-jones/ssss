@@ -9,7 +9,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 @Mixins(PersonFactory.PersonFactoryMixin.class)
 public interface PersonFactory {
 
-    Person create(String name, String rank, String age);
+    Person create(String name, String rank, int age);
 
     class PersonFactoryMixin implements PersonFactory {
 
@@ -17,7 +17,7 @@ public interface PersonFactory {
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public Person create(String name, String rank, String age) {
+        public Person create(String name, String rank, int age) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 

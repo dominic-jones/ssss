@@ -43,7 +43,7 @@ public interface PersonView {
         @Override
         public String getAge() {
 
-            return ageState.age().get();
+            return String.valueOf(ageState.age().get());
         }
     }
 }

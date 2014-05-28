@@ -17,15 +17,14 @@ public interface Age {
         @Override
         public void increaseAge(int increment) {
 
-            //TODO Should not be a string
             state.age().set(
-                    String.valueOf(Integer.valueOf(state.age().get()) + increment)
+                    state.age().get() + increment
             );
         }
     }
 
     interface AgeState {
 
-        Property<String> age();
+        Property<Integer> age();
     }
 }
