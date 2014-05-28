@@ -56,7 +56,7 @@ public class Game extends Application {
                     assembly.services(
                             AgeRepository.class,
                             PersonFactory.class,
-                            PersonnelRepository.PersonnelRepositoryMixin.class,
+                            PersonnelRepository.class,
                             TurnFactory.class,
                             TurnRepository.class,
                             TurnEndedEventFactory.class
