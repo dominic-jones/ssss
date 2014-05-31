@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
@@ -16,7 +17,7 @@ import rx.Observable;
 @Mixins(TurnView.TurnViewMixin.class)
 public interface TurnView {
 
-    HBox getView();
+    Pane getView();
 
     void update(int turn);
 
@@ -31,7 +32,7 @@ public interface TurnView {
         StringProperty turnString;
 
         @Override
-        public HBox getView() {
+        public Pane getView() {
 
             Label label = new Label("Turn");
 
@@ -44,12 +45,12 @@ public interface TurnView {
                       .map(event -> new EndTurnCommand())
                       .subscribe(eventRepository::post);
 
-            HBox turn = new HBox();
-            turn.setSpacing(SPACING);
-            turn.setPadding(INSETS);
-            turn.getChildren()
+            HBox pane = new HBox();
+            pane.setSpacing(SPACING);
+            pane.setPadding(INSETS);
+            pane.getChildren()
                 .addAll(label, turnCount, endTurn);
-            return turn;
+            return pane;
         }
 
         @Override

@@ -6,9 +6,9 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
@@ -17,7 +17,7 @@ import static javafx.collections.FXCollections.observableArrayList;
 @Mixins(PersonnelView.PersonnelViewMixin.class)
 public interface PersonnelView {
 
-    VBox getView();
+    Pane getView();
 
     void update(Observable<Person> events);
 
@@ -27,13 +27,10 @@ public interface PersonnelView {
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
         private static final Font FONT = new Font("Arial", 20);
 
-        @Uses
-        VBox vbox;
-
         ObservableList<Person> items;
 
         @Override
-        public VBox getView() {
+        public Pane getView() {
 
             Label label = new Label("Personnel");
             label.setFont(FONT);
@@ -43,12 +40,14 @@ public interface PersonnelView {
                     .createTable(items, Person.class);
             table.setEditable(false);
 
-            vbox.setSpacing(SPACING);
-            vbox.setPadding(INSETS);
-            vbox.getChildren()
+            VBox pane = new VBox();
+
+            pane.setSpacing(SPACING);
+            pane.setPadding(INSETS);
+            pane.getChildren()
                 .addAll(label, table);
 
-            return vbox;
+            return pane;
         }
 
         @Override

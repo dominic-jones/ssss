@@ -8,8 +8,7 @@ import com.dv.ssss.turn.TurnViewMediator;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -41,8 +40,8 @@ public interface UI {
             stage.setWidth(300);
             stage.setHeight(500);
 
-            VBox personnel = personnel();
-            HBox turn = turn();
+            Pane personnel = personnel();
+            Pane turn = turn();
 
             BorderPane layout = new BorderPane();
             layout.setTop(turn);
@@ -53,20 +52,20 @@ public interface UI {
             stage.show();
         }
 
-        private VBox personnel() {
+        private Pane personnel() {
 
             PersonnelView personnelView = module.newTransient(PersonnelView.class);
             PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView);
-            VBox personnel = personnelView.getView();
+            Pane personnel = personnelView.getView();
             personnelViewMediator.loadPeople();
             return personnel;
         }
 
-        private HBox turn() {
+        private Pane turn() {
 
             TurnView turnView = module.newTransient(TurnView.class);
             TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView);
-            HBox turn = turnView.getView();
+            Pane turn = turnView.getView();
             turnViewMediator.initializeTurn();
             return turn;
         }
