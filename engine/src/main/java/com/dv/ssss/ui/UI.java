@@ -1,6 +1,5 @@
 package com.dv.ssss.ui;
 
-import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewMediator;
 import com.dv.ssss.turn.TurnView;
@@ -10,10 +9,10 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.structure.Module;
 
 @Mixins(UI.UIMixin.class)
 public interface UI {
@@ -23,13 +22,10 @@ public interface UI {
     class UIMixin implements UI {
 
         @Service
-        PersonnelRepository personnelRepository;
+        MediatorBuilder mediatorBuilder;
 
         @Structure
-        Module module;
-
-        @Service
-        MediatorBuilder mediatorBuilder;
+        TransientBuilderFactory transientBuilderFactory;
 
         @Override
         public void display(Stage stage) {
@@ -54,7 +50,7 @@ public interface UI {
 
         private Pane personnel() {
 
-            PersonnelView personnelView = module.newTransient(PersonnelView.class);
+            PersonnelView personnelView = transientBuilderFactory.newTransient(PersonnelView.class);
             PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView);
             Pane personnel = personnelView.getView();
             personnelViewMediator.loadPeople();
@@ -63,7 +59,7 @@ public interface UI {
 
         private Pane turn() {
 
-            TurnView turnView = module.newTransient(TurnView.class);
+            TurnView turnView = transientBuilderFactory.newTransient(TurnView.class);
             TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView);
             Pane turn = turnView.getView();
             turnViewMediator.initializeTurn();
