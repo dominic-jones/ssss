@@ -15,7 +15,7 @@ import com.dv.ssss.turn.TurnEndedEventFactory;
 import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.turn.TurnView;
-import com.dv.ssss.turn.TurnViewMediatorTransient;
+import com.dv.ssss.turn.TurnViewMediator;
 import com.dv.ssss.ui.MediatorBuilder;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
@@ -78,7 +78,7 @@ public class Game extends Application {
                             PersonnelView.class,
                             PersonnelViewMediator.class,
                             TurnView.class,
-                            TurnViewMediatorTransient.class
+                            TurnViewMediator.class
                     );
 
                     new MemoryEntityStoreAssembler().assemble(assembly);
