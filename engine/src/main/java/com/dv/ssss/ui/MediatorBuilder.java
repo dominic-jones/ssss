@@ -1,6 +1,6 @@
 package com.dv.ssss.ui;
 
-import com.dv.ssss.event.EventRepository;
+import com.dv.ssss.event.EventRegistry;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
@@ -18,7 +18,7 @@ public interface MediatorBuilder {
         Module module;
 
         @Service
-        EventRepository eventRepository;
+        EventRegistry eventRegistry;
 
         @Override
         public <T> T create(Class<T> mediatorClass, Object view) {
@@ -26,7 +26,7 @@ public interface MediatorBuilder {
             T mediator = module.newTransient(mediatorClass, view);
 
             //TODO SideEffect or PostConstruct this or similar
-            eventRepository.register(mediator);
+            eventRegistry.register(mediator);
 
             return mediator;
         }

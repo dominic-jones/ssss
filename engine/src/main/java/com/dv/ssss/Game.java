@@ -3,7 +3,9 @@ package com.dv.ssss;
 import com.dv.ssss.age.AgeRepository;
 import com.dv.ssss.bootstrap.ApplicationStartedEvent;
 import com.dv.ssss.event.EventActivator;
-import com.dv.ssss.event.EventRepository;
+import com.dv.ssss.event.EventBusService;
+import com.dv.ssss.event.EventPoster;
+import com.dv.ssss.event.EventRegistry;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
@@ -62,7 +64,11 @@ public class Game extends Application {
                             TurnEndedEventFactory.class
                     );
 
-                    assembly.services(EventRepository.class);
+                    assembly.services(
+                            EventBusService.class,
+                            EventPoster.class,
+                            EventRegistry.class
+                    );
 
                     assembly.services(
                             DataBootstrap.class,
@@ -91,14 +97,14 @@ public class Game extends Application {
 
         Module module = assembler.module();
 
-        EventRepository eventRepository = module.findService(EventRepository.class)
-                                                .get();
+        EventPoster eventPoster = module.findService(EventPoster.class)
+                                        .get();
 
         module.newUnitOfWork();
 
         UI ui = module.newTransient(UI.class);
 
-        eventRepository.post(new ApplicationStartedEvent(ui, stage));
+        eventPoster.post(new ApplicationStartedEvent(ui, stage));
     }
 
 }

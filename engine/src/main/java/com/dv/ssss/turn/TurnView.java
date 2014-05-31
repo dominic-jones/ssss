@@ -1,6 +1,6 @@
 package com.dv.ssss.turn;
 
-import com.dv.ssss.event.EventRepository;
+import com.dv.ssss.event.EventPoster;
 import com.dv.ssss.ui.ObservableEvent;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ public interface TurnView {
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
         @Service
-        EventRepository eventRepository;
+        EventPoster eventPoster;
 
         StringProperty turnString;
 
@@ -43,7 +43,7 @@ public interface TurnView {
 
             Observable.create(new ObservableEvent<ActionEvent>(endTurn::setOnAction))
                       .map(event -> new EndTurnCommand())
-                      .subscribe(eventRepository::post);
+                      .subscribe(eventPoster::post);
 
             HBox pane = new HBox();
             pane.setSpacing(SPACING);

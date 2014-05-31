@@ -12,12 +12,12 @@ public interface EventSubscriber extends ServiceComposite {
     abstract class EventSubscriberMixin implements EventSubscriber {
 
         @Service
-        EventRepository eventRepository;
+        EventRegistry eventRegistry;
 
         @Override
         public void register(ServiceComposite serviceComposite) {
 
-            eventRepository.register(serviceComposite);
+            eventRegistry.register(serviceComposite);
         }
     }
 

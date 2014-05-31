@@ -1,7 +1,7 @@
 package com.dv.ssss.turn;
 
 import com.dv.ssss.Engine;
-import com.dv.ssss.event.EventRepository;
+import com.dv.ssss.event.EventPoster;
 import com.google.common.eventbus.Subscribe;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -26,7 +26,7 @@ public interface TurnViewMediator {
         Engine engine;
 
         @Service
-        EventRepository eventRepository;
+        EventPoster eventPoster;
 
         @Structure
         ValueBuilderFactory valueBuilderFactory;
@@ -41,7 +41,7 @@ public interface TurnViewMediator {
         public void endTurn(EndTurnCommand endTurnCommand) {
 
             engine.endTurn();
-            eventRepository.post(
+            eventPoster.post(
                     valueBuilderFactory.newValueBuilder(TurnEndedEvent.class).newInstance()
             );
         }

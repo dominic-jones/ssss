@@ -3,14 +3,14 @@ package com.dv.ssss.event;
 import com.google.common.eventbus.EventBus;
 import org.qi4j.api.mixin.Mixins;
 
-@Mixins(EventRepository.EventRepositoryMixin.class)
-public interface EventRepository {
+@Mixins(EventBusService.EventBusServiceMixin.class)
+public interface EventBusService {
 
     void register(Object object);
 
     void post(Object object);
 
-    class EventRepositoryMixin implements EventRepository {
+    class EventBusServiceMixin implements EventBusService {
 
         EventBus eventBus = new EventBus();
 
