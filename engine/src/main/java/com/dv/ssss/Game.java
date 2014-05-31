@@ -3,9 +3,8 @@ package com.dv.ssss;
 import com.dv.ssss.age.AgeRepository;
 import com.dv.ssss.bootstrap.ApplicationStartedEvent;
 import com.dv.ssss.event.EventActivator;
-import com.dv.ssss.event.EventBusService;
+import com.dv.ssss.event.EventAssembler;
 import com.dv.ssss.event.EventPoster;
-import com.dv.ssss.event.EventRegistry;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
@@ -64,11 +63,7 @@ public class Game extends Application {
                             TurnEndedEventFactory.class
                     );
 
-                    assembly.services(
-                            EventBusService.class,
-                            EventPoster.class,
-                            EventRegistry.class
-                    );
+                    new EventAssembler().assemble(assembly);
 
                     assembly.services(
                             DataBootstrap.class,
