@@ -4,8 +4,10 @@ import com.dv.ssss.Engine;
 import com.dv.ssss.event.EventRepository;
 import com.google.common.eventbus.Subscribe;
 import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.value.ValueBuilderFactory;
 
 @Mixins(TurnViewMediator.TurnViewMediatorMixin.class)
 public interface TurnViewMediator {
@@ -26,8 +28,8 @@ public interface TurnViewMediator {
         @Service
         EventRepository eventRepository;
 
-        @Service
-        TurnEndedEventFactory turnEndedEventFactory;
+        @Structure
+        ValueBuilderFactory valueBuilderFactory;
 
         @Service
         TurnRepository turnRepository;
@@ -39,7 +41,9 @@ public interface TurnViewMediator {
         public void endTurn(EndTurnCommand endTurnCommand) {
 
             engine.endTurn();
-            eventRepository.post(turnEndedEventFactory.create());
+            eventRepository.post(
+                    valueBuilderFactory.newValueBuilder(TurnEndedEvent.class).newInstance()
+            );
         }
 
         @Override
