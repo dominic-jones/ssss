@@ -1,9 +1,9 @@
 package com.dv.ssss.ui;
 
-import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewPresenter;
-import com.dv.ssss.turn.TurnView;
+import com.dv.ssss.personnel.PersonnelWidget;
 import com.dv.ssss.turn.TurnViewPresenter;
+import com.dv.ssss.turn.TurnWidget;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -50,18 +50,18 @@ public interface UI {
 
         private Pane personnel() {
 
-            PersonnelView personnelView = transientBuilderFactory.newTransient(PersonnelView.class);
-            PersonnelViewPresenter personnelViewPresenter = presenterFactory.create(PersonnelViewPresenter.class, personnelView);
-            Pane personnel = personnelView.getView();
+            PersonnelWidget personnelWidget = transientBuilderFactory.newTransient(PersonnelWidget.class);
+            PersonnelViewPresenter personnelViewPresenter = presenterFactory.create(PersonnelViewPresenter.class, personnelWidget);
+            Pane personnel = personnelWidget.getView();
             personnelViewPresenter.loadPeople();
             return personnel;
         }
 
         private Pane turn() {
 
-            TurnView turnView = transientBuilderFactory.newTransient(TurnView.class);
-            TurnViewPresenter turnViewPresenter = presenterFactory.create(TurnViewPresenter.class, turnView);
-            Pane turn = turnView.getView();
+            TurnWidget turnWidget = transientBuilderFactory.newTransient(TurnWidget.class);
+            TurnViewPresenter turnViewPresenter = presenterFactory.create(TurnViewPresenter.class, turnWidget);
+            Pane turn = turnWidget.getView();
             turnViewPresenter.initializeTurn();
             return turn;
         }

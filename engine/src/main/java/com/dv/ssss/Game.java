@@ -7,15 +7,15 @@ import com.dv.ssss.event.EventAssembler;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
-import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewPresenter;
+import com.dv.ssss.personnel.PersonnelWidget;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnEndedEvent;
 import com.dv.ssss.turn.TurnEndedEventFactory;
 import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
-import com.dv.ssss.turn.TurnView;
 import com.dv.ssss.turn.TurnViewPresenter;
+import com.dv.ssss.turn.TurnWidget;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.UI;
 import javafx.application.Application;
@@ -75,9 +75,9 @@ public class Game extends Application {
 
                     assembly.transients(
                             UI.class,
-                            PersonnelView.class,
+                            PersonnelWidget.class,
                             PersonnelViewPresenter.class,
-                            TurnView.class,
+                            TurnWidget.class,
                             TurnViewPresenter.class
                     );
 

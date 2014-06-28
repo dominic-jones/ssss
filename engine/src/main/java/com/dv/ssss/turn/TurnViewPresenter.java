@@ -35,7 +35,7 @@ public interface TurnViewPresenter {
         TurnRepository turnRepository;
 
         @Uses
-        TurnView view;
+        TurnWidget view;
 
         @Override
         public void endTurn(EndTurnCommand endTurnCommand) {

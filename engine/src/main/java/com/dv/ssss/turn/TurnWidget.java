@@ -14,14 +14,14 @@ import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
-@Mixins(TurnView.TurnViewMixin.class)
-public interface TurnView {
+@Mixins(TurnWidget.TurnWidgetMixin.class)
+public interface TurnWidget {
 
     Pane getView();
 
     void update(int turn);
 
-    class TurnViewMixin implements TurnView {
+    class TurnWidgetMixin implements TurnWidget {
 
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);

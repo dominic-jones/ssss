@@ -19,7 +19,7 @@ public interface PersonnelViewPresenter {
     class PersonnelViewPresenterMixin implements PersonnelViewPresenter {
 
         @Uses
-        PersonnelView view;
+        PersonnelWidget view;
 
         @Service
         PersonnelRepository personnelRepository;

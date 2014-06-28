@@ -14,14 +14,14 @@ import rx.Observable;
 
 import static javafx.collections.FXCollections.observableArrayList;
 
-@Mixins(PersonnelView.PersonnelViewMixin.class)
-public interface PersonnelView {
+@Mixins(PersonnelWidget.PersonnelWidgetMixin.class)
+public interface PersonnelWidget {
 
     Pane getView();
 
     void update(Observable<Person> events);
 
-    class PersonnelViewMixin implements PersonnelView {
+    class PersonnelWidgetMixin implements PersonnelWidget {
 
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
