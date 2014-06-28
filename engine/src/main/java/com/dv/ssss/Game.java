@@ -1,10 +1,9 @@
 package com.dv.ssss;
 
 import com.dv.ssss.age.AgeRepository;
-import com.dv.ssss.bootstrap.ApplicationStartedEvent;
+import com.dv.ssss.bootstrap.StartApplicationCommand;
 import com.dv.ssss.event.EventActivator;
 import com.dv.ssss.event.EventAssembler;
-import com.dv.ssss.event.EventPoster;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
@@ -92,14 +91,13 @@ public class Game extends Application {
 
         Module module = assembler.module();
 
-        EventPoster eventPoster = module.findService(EventPoster.class)
-                                        .get();
-
         module.newUnitOfWork();
 
         UI ui = module.newTransient(UI.class);
 
-        eventPoster.post(new ApplicationStartedEvent(ui, stage));
+        module.findService(Engine.class)
+              .get()
+              .startApplication(new StartApplicationCommand(ui, stage));
     }
 
 }

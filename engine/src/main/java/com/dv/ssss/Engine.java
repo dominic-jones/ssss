@@ -2,7 +2,7 @@ package com.dv.ssss;
 
 import com.dv.ssss.age.Age;
 import com.dv.ssss.age.AgeRepository;
-import com.dv.ssss.bootstrap.ApplicationStartedEvent;
+import com.dv.ssss.bootstrap.StartApplicationCommand;
 import com.dv.ssss.event.EventSubscriber;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnRepository;
@@ -20,7 +20,7 @@ public interface Engine extends Composite, EventSubscriber {
     void endTurn();
 
     @Subscribe
-    void startApplication(ApplicationStartedEvent event);
+    void startApplication(StartApplicationCommand event);
 
     abstract class EngineImpl implements Engine {
 
@@ -62,7 +62,7 @@ public interface Engine extends Composite, EventSubscriber {
         }
 
         @Override
-        public void startApplication(ApplicationStartedEvent event) {
+        public void startApplication(StartApplicationCommand event) {
 
             dataBootstrap.bootstrap();
 

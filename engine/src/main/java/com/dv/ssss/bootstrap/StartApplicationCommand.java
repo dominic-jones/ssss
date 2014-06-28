@@ -3,12 +3,12 @@ package com.dv.ssss.bootstrap;
 import com.dv.ssss.ui.UI;
 import javafx.stage.Stage;
 
-public class ApplicationStartedEvent {
+public class StartApplicationCommand {
 
     private UI ui;
     private Stage stage;
 
-    public ApplicationStartedEvent(UI ui, Stage stage) {
+    public StartApplicationCommand(UI ui, Stage stage) {
 
         this.ui = ui;
         this.stage = stage;
