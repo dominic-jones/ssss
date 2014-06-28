@@ -1,16 +1,16 @@
 package com.dv.ssss.bootstrap;
 
-import com.dv.ssss.ui.UI;
+import com.dv.ssss.ui.PersonnelView;
 import javafx.stage.Stage;
 
 public class StartApplicationCommand {
 
-    private UI ui;
+    private PersonnelView personnelView;
     private Stage stage;
 
-    public StartApplicationCommand(UI ui, Stage stage) {
+    public StartApplicationCommand(PersonnelView personnelView, Stage stage) {
 
-        this.ui = ui;
+        this.personnelView = personnelView;
         this.stage = stage;
     }
 
@@ -19,8 +19,8 @@ public class StartApplicationCommand {
         return stage;
     }
 
-    public UI getUi() {
+    public PersonnelView getPersonnelView() {
 
-        return ui;
+        return personnelView;
     }
 }

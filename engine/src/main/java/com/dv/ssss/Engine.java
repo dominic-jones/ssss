@@ -66,7 +66,7 @@ public interface Engine extends Composite, EventSubscriber {
 
             dataBootstrap.bootstrap();
 
-            event.getUi().display(event.getStage());
+            event.getPersonnelView().display(event.getStage());
         }
     }
 }

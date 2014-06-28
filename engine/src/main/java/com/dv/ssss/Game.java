@@ -16,8 +16,8 @@ import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.turn.TurnViewPresenter;
 import com.dv.ssss.turn.TurnWidget;
+import com.dv.ssss.ui.PersonnelView;
 import com.dv.ssss.ui.PresenterFactory;
-import com.dv.ssss.ui.UI;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
@@ -74,7 +74,7 @@ public class Game extends Application {
                             .instantiateOnStartup();
 
                     assembly.transients(
-                            UI.class,
+                            PersonnelView.class,
                             PersonnelWidget.class,
                             PersonnelViewPresenter.class,
                             TurnWidget.class,
@@ -93,11 +93,11 @@ public class Game extends Application {
 
         module.newUnitOfWork();
 
-        UI ui = module.newTransient(UI.class);
+        PersonnelView personnelView = module.newTransient(PersonnelView.class);
 
         module.findService(Engine.class)
               .get()
-              .startApplication(new StartApplicationCommand(ui, stage));
+              .startApplication(new StartApplicationCommand(personnelView, stage));
     }
 
 }

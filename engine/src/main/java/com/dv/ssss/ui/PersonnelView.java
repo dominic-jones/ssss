@@ -17,12 +17,12 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 import rx.functions.Action1;
 
-@Mixins(UI.UIMixin.class)
-public interface UI {
+@Mixins(PersonnelView.PersonnelViewMixin.class)
+public interface PersonnelView {
 
     void display(Stage stage);
 
-    class UIMixin implements UI {
+    class PersonnelViewMixin implements PersonnelView {
 
         @Service
         EventPoster eventPoster;
