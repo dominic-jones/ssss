@@ -1,5 +1,6 @@
 package com.dv.ssss.personnel;
 
+import com.dv.ssss.people.Person;
 import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.turn.TurnEndedEvent;
 import com.google.common.eventbus.Subscribe;
@@ -11,7 +12,7 @@ import rx.Observable;
 @Mixins(PersonnelWidgetController.PersonnelWidgetControllerMixin.class)
 public interface PersonnelWidgetController {
 
-    void loadPeople();
+    void loadPeople(Observable<Person> aegis);
 
     @Subscribe
     void turnEnded(TurnEndedEvent event);
@@ -25,15 +26,15 @@ public interface PersonnelWidgetController {
         PersonnelRepository personnelRepository;
 
         @Override
-        public void loadPeople() {
+        public void loadPeople(Observable<Person> people) {
 
-            view.update(Observable.from(personnelRepository.getByName("Aegis")));
+            view.update(people);
         }
 
         @Override
         public void turnEnded(TurnEndedEvent event) {
 
-            loadPeople();
+            loadPeople(Observable.from(personnelRepository.getByName("Aegis")));
         }
     }
 }

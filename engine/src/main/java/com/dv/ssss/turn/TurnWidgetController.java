@@ -18,7 +18,7 @@ public interface TurnWidgetController {
     @Subscribe
     void turnEnded(TurnEndedEvent event);
 
-    void initializeTurn();
+    void initializeTurn(int turn1);
 
     class TurnWidgetControllerMixin implements TurnWidgetController {
 
@@ -49,13 +49,12 @@ public interface TurnWidgetController {
         @Override
         public void turnEnded(TurnEndedEvent event) {
 
-            initializeTurn();
+            initializeTurn(turnRepository.get().turn());
         }
 
         @Override
-        public void initializeTurn() {
+        public void initializeTurn(int turn) {
 
-            int turn = turnRepository.get().turn();
             view.update(turn);
         }
     }

@@ -8,6 +8,7 @@ import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.personnel.PersonnelView;
+import com.dv.ssss.personnel.PersonnelViewPresenter;
 import com.dv.ssss.personnel.PersonnelWidget;
 import com.dv.ssss.personnel.PersonnelWidgetController;
 import com.dv.ssss.turn.Turn;
@@ -75,6 +76,7 @@ public class Game extends Application {
 
                     assembly.transients(
                             PersonnelView.class,
+                            PersonnelViewPresenter.class,
                             PersonnelWidget.class,
                             PersonnelWidgetController.class,
                             TurnWidget.class,
@@ -93,7 +95,13 @@ public class Game extends Application {
 
         module.newUnitOfWork();
 
+        module.findService(DataBootstrap.class)
+              .get()
+              .bootstrap();
+
         PersonnelView personnelView = module.newTransient(PersonnelView.class);
+        PersonnelViewPresenter personnelViewPresenter = module.newTransient(PersonnelViewPresenter.class, personnelView);
+        personnelViewPresenter.init(personnelView);
 
         module.findService(Engine.class)
               .get()

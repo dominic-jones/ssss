@@ -1,6 +1,6 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.event.EventPoster;
+import com.dv.ssss.people.Person;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnWidget;
 import com.dv.ssss.turn.TurnWidgetController;
@@ -14,6 +14,7 @@ import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
+import rx.Observable;
 import rx.functions.Action1;
 
 @Mixins(PersonnelView.PersonnelViewMixin.class)
@@ -21,16 +22,30 @@ public interface PersonnelView {
 
     void display(Stage stage);
 
-    class PersonnelViewMixin implements PersonnelView {
+    void attachPresenter(PersonnelViewPresenter personnelViewPresenter);
 
-        @Service
-        EventPoster eventPoster;
+    void loadPeople(Observable<Person> people);
+
+    void initializeTurn(int turn);
+
+    //TODO Remove
+    void init();
+
+    class PersonnelViewMixin implements PersonnelView {
 
         @Service
         PresenterFactory presenterFactory;
 
         @Structure
         TransientBuilderFactory transientBuilderFactory;
+
+        PersonnelViewPresenter personnelViewPresenter;
+        PersonnelWidget personnelWidget;
+
+        PersonnelWidgetController personnelWidgetController;
+
+        TurnWidget turnWidget;
+        TurnWidgetController turnWidgetController;
 
         @Override
         public void display(Stage stage) {
@@ -41,8 +56,9 @@ public interface PersonnelView {
             stage.setWidth(300);
             stage.setHeight(500);
 
-            Pane personnel = personnel();
-            Pane turn = turn();
+            Pane personnel = personnelWidget.getView();
+
+            Pane turn = turnWidget.getView();
 
             BorderPane layout = new BorderPane();
             layout.setTop(turn);
@@ -53,25 +69,35 @@ public interface PersonnelView {
             stage.show();
         }
 
-        private Pane personnel() {
+        @Override
+        public void attachPresenter(PersonnelViewPresenter personnelViewPresenter) {
 
-            PersonnelWidget personnelWidget = transientBuilderFactory.newTransient(PersonnelWidget.class);
-            PersonnelWidgetController personnelWidgetController = presenterFactory.create(PersonnelWidgetController.class, personnelWidget);
-            Pane personnel = personnelWidget.getView();
-            personnelWidgetController.loadPeople();
-            return personnel;
+            this.personnelViewPresenter = personnelViewPresenter;
         }
 
-        private Pane turn() {
+        @Override
+        public void loadPeople(Observable<Person> people) {
 
-            TurnWidget turnWidget = transientBuilderFactory.newTransient(
+            personnelWidgetController.loadPeople(people);
+        }
+
+        @Override
+        public void initializeTurn(int turn) {
+
+            turnWidgetController.initializeTurn(turn);
+        }
+
+        @Override
+        public void init() {
+
+            personnelWidget = transientBuilderFactory.newTransient(PersonnelWidget.class);
+            personnelWidgetController = presenterFactory.create(PersonnelWidgetController.class, personnelWidget);
+
+            turnWidget = transientBuilderFactory.newTransient(
                     TurnWidget.class,
-                    (Action1<? super EndTurnCommand>) eventPoster::post
+                    (Action1<? super EndTurnCommand>) personnelViewPresenter::endTurn
             );
-            TurnWidgetController turnWidgetController = presenterFactory.create(TurnWidgetController.class, turnWidget);
-            Pane turn = turnWidget.getView();
-            turnWidgetController.initializeTurn();
-            return turn;
+            turnWidgetController = presenterFactory.create(TurnWidgetController.class, turnWidget);
         }
 
     }

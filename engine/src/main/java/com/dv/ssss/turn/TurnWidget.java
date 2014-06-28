@@ -1,7 +1,6 @@
 package com.dv.ssss.turn;
 
 import com.dv.ssss.ui.ObservableEvent;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -29,15 +28,12 @@ public interface TurnWidget {
         @Uses
         Action1<? super EndTurnCommand> endTurnEvent;
 
-        StringProperty turnString;
+        Text turnCount = new Text();
 
         @Override
         public Pane getView() {
 
             Label label = new Label("Turn");
-
-            Text turnCount = new Text();
-            turnString = turnCount.textProperty();
 
             Button endTurn = new Button("End Turn");
 
@@ -55,8 +51,8 @@ public interface TurnWidget {
 
         @Override
         public void update(int turn) {
-
-            turnString.set(String.valueOf(turn));
+            //TODO Observable this
+            turnCount.textProperty().set(String.valueOf(turn));
         }
     }
 }

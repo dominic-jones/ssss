@@ -64,8 +64,6 @@ public interface Engine extends Composite, EventSubscriber {
         @Override
         public void startApplication(StartApplicationCommand event) {
 
-            dataBootstrap.bootstrap();
-
             event.getPersonnelView().display(event.getStage());
         }
     }

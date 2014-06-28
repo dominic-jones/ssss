@@ -27,7 +27,7 @@ public interface PersonnelWidget {
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
         private static final Font FONT = new Font("Arial", 20);
 
-        ObservableList<Person> items;
+        ObservableList<Person> items = observableArrayList();
 
         @Override
         public Pane getView() {
@@ -35,7 +35,6 @@ public interface PersonnelWidget {
             Label label = new Label("Personnel");
             label.setFont(FONT);
 
-            items = observableArrayList();
             TableView<Person> table = new AnnotatedTable()
                     .createTable(items, Person.class);
             table.setEditable(false);
