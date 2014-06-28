@@ -1,11 +1,11 @@
 package com.dv.ssss.ui;
 
 import com.dv.ssss.event.EventPoster;
-import com.dv.ssss.personnel.PersonnelViewPresenter;
 import com.dv.ssss.personnel.PersonnelWidget;
+import com.dv.ssss.personnel.PersonnelWidgetController;
 import com.dv.ssss.turn.EndTurnCommand;
-import com.dv.ssss.turn.TurnViewPresenter;
 import com.dv.ssss.turn.TurnWidget;
+import com.dv.ssss.turn.TurnWidgetController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -57,9 +57,9 @@ public interface PersonnelView {
         private Pane personnel() {
 
             PersonnelWidget personnelWidget = transientBuilderFactory.newTransient(PersonnelWidget.class);
-            PersonnelViewPresenter personnelViewPresenter = presenterFactory.create(PersonnelViewPresenter.class, personnelWidget);
+            PersonnelWidgetController personnelWidgetController = presenterFactory.create(PersonnelWidgetController.class, personnelWidget);
             Pane personnel = personnelWidget.getView();
-            personnelViewPresenter.loadPeople();
+            personnelWidgetController.loadPeople();
             return personnel;
         }
 
@@ -69,9 +69,9 @@ public interface PersonnelView {
                     TurnWidget.class,
                     (Action1<? super EndTurnCommand>) eventPoster::post
             );
-            TurnViewPresenter turnViewPresenter = presenterFactory.create(TurnViewPresenter.class, turnWidget);
+            TurnWidgetController turnWidgetController = presenterFactory.create(TurnWidgetController.class, turnWidget);
             Pane turn = turnWidget.getView();
-            turnViewPresenter.initializeTurn();
+            turnWidgetController.initializeTurn();
             return turn;
         }
 

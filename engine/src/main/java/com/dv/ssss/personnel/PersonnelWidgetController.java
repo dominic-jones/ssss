@@ -8,15 +8,15 @@ import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
-@Mixins(PersonnelViewPresenter.PersonnelViewPresenterMixin.class)
-public interface PersonnelViewPresenter {
+@Mixins(PersonnelWidgetController.PersonnelWidgetControllerMixin.class)
+public interface PersonnelWidgetController {
 
     void loadPeople();
 
     @Subscribe
     void turnEnded(TurnEndedEvent event);
 
-    class PersonnelViewPresenterMixin implements PersonnelViewPresenter {
+    class PersonnelWidgetControllerMixin implements PersonnelWidgetController {
 
         @Uses
         PersonnelWidget view;
