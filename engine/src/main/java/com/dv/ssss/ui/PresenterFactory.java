@@ -6,13 +6,13 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.structure.Module;
 
-@Mixins(MediatorBuilder.MediatorBuilderMixin.class)
-public interface MediatorBuilder {
+@Mixins(PresenterFactory.PresenterFactoryMixin.class)
+public interface PresenterFactory {
 
     //TODO Do not leave as object.
-    <T> T create(Class<T> mediatorClass, Object view);
+    <T> T create(Class<T> presenterClass, Object view);
 
-    class MediatorBuilderMixin implements MediatorBuilder {
+    class PresenterFactoryMixin implements PresenterFactory {
 
         @Structure
         Module module;
@@ -21,14 +21,14 @@ public interface MediatorBuilder {
         EventRegistry eventRegistry;
 
         @Override
-        public <T> T create(Class<T> mediatorClass, Object view) {
+        public <T> T create(Class<T> presenterClass, Object view) {
 
-            T mediator = module.newTransient(mediatorClass, view);
+            T presenter = module.newTransient(presenterClass, view);
 
             //TODO SideEffect or PostConstruct this or similar
-            eventRegistry.register(mediator);
+            eventRegistry.register(presenter);
 
-            return mediator;
+            return presenter;
         }
     }
 

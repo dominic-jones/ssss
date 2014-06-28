@@ -1,9 +1,9 @@
 package com.dv.ssss.ui;
 
 import com.dv.ssss.personnel.PersonnelView;
-import com.dv.ssss.personnel.PersonnelViewMediator;
+import com.dv.ssss.personnel.PersonnelViewPresenter;
 import com.dv.ssss.turn.TurnView;
-import com.dv.ssss.turn.TurnViewMediator;
+import com.dv.ssss.turn.TurnViewPresenter;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -22,7 +22,7 @@ public interface UI {
     class UIMixin implements UI {
 
         @Service
-        MediatorBuilder mediatorBuilder;
+        PresenterFactory presenterFactory;
 
         @Structure
         TransientBuilderFactory transientBuilderFactory;
@@ -51,18 +51,18 @@ public interface UI {
         private Pane personnel() {
 
             PersonnelView personnelView = transientBuilderFactory.newTransient(PersonnelView.class);
-            PersonnelViewMediator personnelViewMediator = mediatorBuilder.create(PersonnelViewMediator.class, personnelView);
+            PersonnelViewPresenter personnelViewPresenter = presenterFactory.create(PersonnelViewPresenter.class, personnelView);
             Pane personnel = personnelView.getView();
-            personnelViewMediator.loadPeople();
+            personnelViewPresenter.loadPeople();
             return personnel;
         }
 
         private Pane turn() {
 
             TurnView turnView = transientBuilderFactory.newTransient(TurnView.class);
-            TurnViewMediator turnViewMediator = mediatorBuilder.create(TurnViewMediator.class, turnView);
+            TurnViewPresenter turnViewPresenter = presenterFactory.create(TurnViewPresenter.class, turnView);
             Pane turn = turnView.getView();
-            turnViewMediator.initializeTurn();
+            turnViewPresenter.initializeTurn();
             return turn;
         }
 

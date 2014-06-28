@@ -9,8 +9,8 @@ import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.value.ValueBuilderFactory;
 
-@Mixins(TurnViewMediator.TurnViewMediatorMixin.class)
-public interface TurnViewMediator {
+@Mixins(TurnViewPresenter.TurnViewPresenterMixin.class)
+public interface TurnViewPresenter {
 
     @Subscribe
     void endTurn(EndTurnCommand endTurnCommand);
@@ -20,7 +20,7 @@ public interface TurnViewMediator {
 
     void initializeTurn();
 
-    class TurnViewMediatorMixin implements TurnViewMediator {
+    class TurnViewPresenterMixin implements TurnViewPresenter {
 
         @Service
         Engine engine;
