@@ -1,6 +1,5 @@
 package com.dv.ssss.turn;
 
-import com.dv.ssss.event.EventPoster;
 import com.dv.ssss.ui.ObservableEvent;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
@@ -10,9 +9,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
+import rx.functions.Action1;
 
 @Mixins(TurnWidget.TurnWidgetMixin.class)
 public interface TurnWidget {
@@ -26,8 +26,8 @@ public interface TurnWidget {
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
-        @Service
-        EventPoster eventPoster;
+        @Uses
+        Action1<? super EndTurnCommand> endTurnEvent;
 
         StringProperty turnString;
 
@@ -43,7 +43,7 @@ public interface TurnWidget {
 
             Observable.create(new ObservableEvent<ActionEvent>(endTurn::setOnAction))
                       .map(event -> new EndTurnCommand())
-                      .subscribe(eventPoster::post);
+                      .subscribe(endTurnEvent);
 
             HBox pane = new HBox();
             pane.setSpacing(SPACING);
