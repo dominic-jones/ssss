@@ -1,6 +1,6 @@
 package com.dv.ssss.bootstrap;
 
-import com.dv.ssss.ui.PersonnelView;
+import com.dv.ssss.personnel.PersonnelView;
 import javafx.stage.Stage;
 
 public class StartApplicationCommand {

@@ -1,11 +1,10 @@
-package com.dv.ssss.ui;
+package com.dv.ssss.personnel;
 
 import com.dv.ssss.event.EventPoster;
-import com.dv.ssss.personnel.PersonnelWidget;
-import com.dv.ssss.personnel.PersonnelWidgetController;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnWidget;
 import com.dv.ssss.turn.TurnWidgetController;
+import com.dv.ssss.ui.PresenterFactory;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
