@@ -65,9 +65,7 @@ public interface PersonnelViewPresenter extends Presenter<PersonnelView> {
         public void endTurn(EndTurnCommand endTurnCommand) {
 
             engine.endTurn();
-            eventPoster.post(
-                    valueBuilderFactory.newValueBuilder(TurnEndedEvent.class).newInstance()
-            );
+            eventPoster.post(new TurnEndedEvent());
         }
 
         @Override
