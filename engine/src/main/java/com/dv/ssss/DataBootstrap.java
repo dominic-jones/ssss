@@ -28,7 +28,7 @@ public interface DataBootstrap {
         @Override
         public void bootstrap() {
 
-            UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
+            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
             personFactory.create("Aegis", "Overlord", 23);
             turnFactory.create();

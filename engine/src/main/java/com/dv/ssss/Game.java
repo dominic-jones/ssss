@@ -53,8 +53,6 @@ public class Game extends javafx.application.Application {
         Module userInterface = application.findModule("user-interface", "all");
         Module domain = application.findModule("domain", "all");
 
-        domain.newUnitOfWork();
-
         domain.findService(DataBootstrap.class)
               .get()
               .bootstrap();
