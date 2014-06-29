@@ -102,7 +102,7 @@ public class Game extends Application {
 
         module.findService(Engine.class)
               .get()
-              .startApplication(new StartApplicationCommand(personnelView, stage));
+              .startApplication(new StartApplicationCommand(personnelViewPresenter, stage));
     }
 
 }

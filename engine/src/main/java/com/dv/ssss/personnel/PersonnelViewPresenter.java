@@ -8,6 +8,7 @@ import com.dv.ssss.turn.TurnEndedEvent;
 import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
+import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.Uses;
@@ -17,6 +18,8 @@ import rx.Observable;
 
 @Mixins(PersonnelViewPresenter.PersonnelViewPresenterMixin.class)
 public interface PersonnelViewPresenter extends Presenter<PersonnelView> {
+
+    void display(Stage stage);
 
     void endTurn(EndTurnCommand endTurnCommand);
 
@@ -50,6 +53,12 @@ public interface PersonnelViewPresenter extends Presenter<PersonnelView> {
             personnelView.init();
             personnelView.loadPeople(Observable.from(personnelRepository.getByName("Aegis")));
             personnelView.initializeTurn(turnRepository.get().turn());
+        }
+
+        @Override
+        public void display(Stage stage) {
+
+            personnelView.display(stage);
         }
 
         @Override

@@ -43,10 +43,6 @@ public interface PersonnelView extends View {
         public void display(Stage stage) {
 
             Group group = new Group();
-            Scene scene = new Scene(group);
-            stage.setTitle("SSSS");
-            stage.setWidth(300);
-            stage.setHeight(500);
 
             Pane personnel = personnelWidget.getView();
 
@@ -57,6 +53,10 @@ public interface PersonnelView extends View {
             layout.setCenter(personnel);
 
             group.getChildren().addAll(layout);
+            Scene scene = new Scene(group);
+            stage.setTitle("SSSS");
+            stage.setWidth(300);
+            stage.setHeight(500);
             stage.setScene(scene);
             stage.show();
         }

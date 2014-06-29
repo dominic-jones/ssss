@@ -1,16 +1,16 @@
 package com.dv.ssss.bootstrap;
 
-import com.dv.ssss.personnel.PersonnelView;
+import com.dv.ssss.personnel.PersonnelViewPresenter;
 import javafx.stage.Stage;
 
 public class StartApplicationCommand {
 
-    private PersonnelView personnelView;
+    private PersonnelViewPresenter personnelViewPresenter;
     private Stage stage;
 
-    public StartApplicationCommand(PersonnelView personnelView, Stage stage) {
+    public StartApplicationCommand(PersonnelViewPresenter personnelViewPresenter, Stage stage) {
 
-        this.personnelView = personnelView;
+        this.personnelViewPresenter = personnelViewPresenter;
         this.stage = stage;
     }
 
@@ -19,8 +19,8 @@ public class StartApplicationCommand {
         return stage;
     }
 
-    public PersonnelView getPersonnelView() {
+    public PersonnelViewPresenter getPersonnelViewPresenter() {
 
-        return personnelView;
+        return personnelViewPresenter;
     }
 }
