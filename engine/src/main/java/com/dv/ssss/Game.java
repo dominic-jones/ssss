@@ -45,56 +45,12 @@ public class Game extends Application {
 
             ApplicationAssembly assembly = factory.newApplicationAssembly();
 
-            LayerAssembly userInterface = assembly.layer("user-interface");
-            ModuleAssembly userInterfaceModules = userInterface.module("all");
+            LayerAssembly userInterface = userInterface(assembly);
+            LayerAssembly domain = domain(assembly);
+            LayerAssembly persistence = persistence(assembly);
 
-            userInterfaceModules.services(
-                    PresenterFactory.class
-            );
-
-            userInterfaceModules.transients(
-                    PersonnelView.class,
-                    PersonnelViewPresenter.class,
-                    PersonnelWidget.class,
-                    TurnWidget.class
-            );
-
-            LayerAssembly remainder = assembly.layer("remainder");
-            ModuleAssembly rest = remainder.module("rest");
-
-            userInterface.uses(remainder);
-
-            rest.entities(
-                    PersonEntity.class,
-                    Turn.class
-            );
-
-            rest.services(
-                    AgeRepository.class,
-                    PersonnelRepository.class,
-                    TurnRepository.class
-            ).visibleIn(application);
-
-            rest.services(
-                    PersonFactory.class,
-                    TurnFactory.class,
-                    TurnEndedEventFactory.class
-            );
-
-            new EventAssembler().assemble(userInterfaceModules);
-            new EventAssembler().assemble(rest);
-
-            rest.services(
-                    DataBootstrap.class
-            );
-
-            rest.services(Engine.class)
-                .withActivators(EventActivator.class)
-                .instantiateOnStartup()
-                .visibleIn(application);
-
-            new MemoryEntityStoreAssembler().assemble(rest);
-            new RdfMemoryStoreAssembler().assemble(rest);
+            userInterface.uses(domain);
+            domain.uses(persistence);
 
             return assembly;
         };
@@ -109,24 +65,90 @@ public class Game extends Application {
         }
 
         Module userInterface = application.findModule("user-interface", "all");
-        Module rest = application.findModule("remainder", "rest");
+        Module domain = application.findModule("domain", "all");
 
-        rest.newUnitOfWork();
+        domain.newUnitOfWork();
 
-        rest.findService(DataBootstrap.class)
-            .get()
-            .bootstrap();
+        domain.findService(DataBootstrap.class)
+              .get()
+              .bootstrap();
 
-        rest.newUnitOfWork();
+        domain.newUnitOfWork();
 
         PersonnelView personnelView = userInterface.newTransient(PersonnelView.class);
         PersonnelViewPresenter personnelViewPresenter = userInterface.findService(PresenterFactory.class)
                                                                      .get()
                                                                      .create(PersonnelViewPresenter.class, personnelView);
 
-        rest.findService(Engine.class)
-            .get()
-            .startApplication(new StartApplicationCommand(personnelViewPresenter, stage));
+        domain.findService(Engine.class)
+              .get()
+              .startApplication(new StartApplicationCommand(personnelViewPresenter, stage));
+    }
+
+    private LayerAssembly userInterface(ApplicationAssembly assembly) throws AssemblyException {
+
+        LayerAssembly userInterface = assembly.layer("user-interface");
+        ModuleAssembly userInterfaceModules = userInterface.module("all");
+
+        userInterfaceModules.services(
+                PresenterFactory.class
+        );
+
+        userInterfaceModules.transients(
+                PersonnelView.class,
+                PersonnelViewPresenter.class,
+                PersonnelWidget.class,
+                TurnWidget.class
+        );
+        new EventAssembler().assemble(userInterfaceModules);
+        return userInterface;
+    }
+
+    private LayerAssembly domain(ApplicationAssembly assembly) throws AssemblyException {
+
+        LayerAssembly domain = assembly.layer("domain");
+        ModuleAssembly domainModules = domain.module("all");
+
+        domainModules.entities(
+                PersonEntity.class,
+                Turn.class
+        );
+
+        domainModules.services(
+                AgeRepository.class,
+                PersonnelRepository.class,
+                TurnRepository.class
+        ).visibleIn(application);
+
+        domainModules.services(
+                PersonFactory.class,
+                TurnFactory.class,
+                TurnEndedEventFactory.class
+        );
+
+        new EventAssembler().assemble(domainModules);
+
+        domainModules.services(
+                DataBootstrap.class
+        );
+
+        domainModules.services(Engine.class)
+                     .withActivators(EventActivator.class)
+                     .instantiateOnStartup()
+                     .visibleIn(application);
+        return domain;
+    }
+
+    private LayerAssembly persistence(ApplicationAssembly assembly) throws AssemblyException {
+
+        LayerAssembly persistence = assembly.layer("persistence");
+        ModuleAssembly infrastructure = persistence.module("infrastructure");
+
+        new MemoryEntityStoreAssembler()
+                .visibleIn(application)
+                .assemble(infrastructure);
+        new RdfMemoryStoreAssembler().assemble(infrastructure);
+        return persistence;
     }
 
 }
