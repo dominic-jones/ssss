@@ -17,9 +17,9 @@ import rx.functions.Action1;
 @Mixins(PersonnelView.PersonnelViewMixin.class)
 public interface PersonnelView {
 
-    void display(Stage stage);
-
     void attachPresenter(PersonnelViewPresenter personnelViewPresenter);
+
+    void display(Stage stage);
 
     void loadPeople(Observable<Person> people);
 

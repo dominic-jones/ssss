@@ -18,8 +18,6 @@ public interface TurnWidget {
 
     Pane getView();
 
-    void update(int turn);
-
     void initializeTurn(int turn);
 
     class TurnWidgetMixin implements TurnWidget {
@@ -52,15 +50,11 @@ public interface TurnWidget {
         }
 
         @Override
-        public void update(int turn) {
+        public void initializeTurn(int turn) {
+
             //TODO Observable this
             turnCount.textProperty().set(String.valueOf(turn));
         }
 
-        @Override
-        public void initializeTurn(int turn) {
-
-            update(turn);
-        }
     }
 }

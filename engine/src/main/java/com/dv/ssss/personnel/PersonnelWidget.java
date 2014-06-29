@@ -19,8 +19,6 @@ public interface PersonnelWidget {
 
     Pane getView();
 
-    void update(Observable<Person> events);
-
     void loadPeople(Observable<Person> aegis);
 
     class PersonnelWidgetMixin implements PersonnelWidget {
@@ -52,17 +50,11 @@ public interface PersonnelWidget {
         }
 
         @Override
-        public void update(Observable<Person> people) {
+        public void loadPeople(Observable<Person> people) {
 
             items.clear();
             people.toList()
                   .subscribe(items::addAll);
-        }
-
-        @Override
-        public void loadPeople(Observable<Person> people) {
-
-            update(people);
         }
     }
 }
