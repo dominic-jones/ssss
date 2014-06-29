@@ -53,7 +53,7 @@ public class Game extends javafx.application.Application {
         Module userInterface = application.findModule("user-interface", "all");
         Module domain = application.findModule("domain", "all");
 
-        domain.findService(DataBootstrap.class)
+        domain.findService(DataBootstrapService.class)
               .get()
               .bootstrap();
 
@@ -129,7 +129,7 @@ public class Game extends javafx.application.Application {
         new EventAssembler().assemble(domainModules);
 
         domainModules.services(
-                DataBootstrap.class
+                DataBootstrapService.class
         );
 
         domainModules.services(Engine.class)

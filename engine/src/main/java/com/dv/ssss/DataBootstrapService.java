@@ -9,12 +9,12 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
-@Mixins(DataBootstrap.DataBootstrapMixin.class)
-public interface DataBootstrap {
+@Mixins(DataBootstrapService.DataBootstrapServiceMixin.class)
+public interface DataBootstrapService {
 
     void bootstrap();
 
-    class DataBootstrapMixin implements DataBootstrap {
+    class DataBootstrapServiceMixin implements DataBootstrapService {
 
         @Service
         PersonFactory personFactory;
