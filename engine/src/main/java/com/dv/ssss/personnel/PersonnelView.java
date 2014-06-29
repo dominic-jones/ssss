@@ -40,8 +40,8 @@ public interface PersonnelView {
         TransientBuilderFactory transientBuilderFactory;
 
         PersonnelViewPresenter personnelViewPresenter;
-        PersonnelWidget personnelWidget;
 
+        PersonnelWidget personnelWidget;
         TurnWidget turnWidget;
 
         @Override

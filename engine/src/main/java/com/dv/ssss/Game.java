@@ -96,7 +96,9 @@ public class Game extends Application {
               .bootstrap();
 
         PersonnelView personnelView = module.newTransient(PersonnelView.class);
-        PersonnelViewPresenter personnelViewPresenter = module.newTransient(PersonnelViewPresenter.class, personnelView);
+        PersonnelViewPresenter personnelViewPresenter = module.findService(PresenterFactory.class)
+                                                              .get()
+                                                              .create(PersonnelViewPresenter.class, personnelView);
         personnelViewPresenter.init(personnelView);
 
         module.findService(Engine.class)
