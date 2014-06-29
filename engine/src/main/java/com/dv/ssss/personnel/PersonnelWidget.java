@@ -1,10 +1,7 @@
 package com.dv.ssss.personnel;
 
 import com.dv.ssss.people.Person;
-import com.dv.ssss.people.PersonnelRepository;
-import com.dv.ssss.turn.TurnEndedEvent;
 import com.dv.ssss.ui.AnnotatedTable;
-import com.google.common.eventbus.Subscribe;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -12,7 +9,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
 
@@ -27,9 +23,6 @@ public interface PersonnelWidget {
 
     void loadPeople(Observable<Person> aegis);
 
-    @Subscribe
-    void turnEnded(TurnEndedEvent event);
-
     class PersonnelWidgetMixin implements PersonnelWidget {
 
         private static final int SPACING = 5;
@@ -37,9 +30,6 @@ public interface PersonnelWidget {
         private static final Font FONT = new Font("Arial", 20);
 
         ObservableList<Person> items = observableArrayList();
-
-        @Service
-        PersonnelRepository personnelRepository;
 
         @Override
         public Pane getView() {
@@ -73,12 +63,6 @@ public interface PersonnelWidget {
         public void loadPeople(Observable<Person> people) {
 
             update(people);
-        }
-
-        @Override
-        public void turnEnded(TurnEndedEvent event) {
-
-            loadPeople(Observable.from(personnelRepository.getByName("Aegis")));
         }
     }
 }

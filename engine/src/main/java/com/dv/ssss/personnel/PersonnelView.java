@@ -1,17 +1,14 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.event.EventRegistry;
 import com.dv.ssss.people.Person;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnWidget;
-import com.dv.ssss.ui.PresenterFactory;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.qi4j.api.composite.TransientBuilderFactory;
-import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
@@ -32,9 +29,6 @@ public interface PersonnelView {
     void init();
 
     class PersonnelViewMixin implements PersonnelView {
-
-        @Service
-        PresenterFactory presenterFactory;
 
         @Structure
         TransientBuilderFactory transientBuilderFactory;
@@ -84,20 +78,14 @@ public interface PersonnelView {
             turnWidget.initializeTurn(turn);
         }
 
-        @Service
-        EventRegistry eventRegistry;
-
         @Override
         public void init() {
 
             personnelWidget = transientBuilderFactory.newTransient(PersonnelWidget.class);
-            eventRegistry.register(personnelWidget);
-
             turnWidget = transientBuilderFactory.newTransient(
                     TurnWidget.class,
                     (Action1<? super EndTurnCommand>) personnelViewPresenter::endTurn
             );
-            eventRegistry.register(turnWidget);
         }
 
     }

@@ -66,6 +66,7 @@ public interface PersonnelViewPresenter {
         public void turnEnded(TurnEndedEvent event) {
 
             personnelView.initializeTurn(turnRepository.get().turn());
+            personnelView.loadPeople(Observable.from(personnelRepository.getByName("Aegis")));
         }
     }
 }
