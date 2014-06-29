@@ -28,9 +28,6 @@ public interface Engine extends Composite, EventSubscriber {
         AgeRepository ageRepository;
 
         @Service
-        DataBootstrap dataBootstrap;
-
-        @Service
         TurnRepository turnRepository;
 
         @Structure
