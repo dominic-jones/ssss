@@ -31,7 +31,7 @@ import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 
 import static org.qi4j.api.common.Visibility.application;
 
-public class Game extends javafx.application.Application {
+public class Bootstrap extends javafx.application.Application {
 
     public static void main(String[] args) {
 
