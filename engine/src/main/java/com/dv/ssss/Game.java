@@ -10,7 +10,6 @@ import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewPresenter;
 import com.dv.ssss.personnel.PersonnelWidget;
-import com.dv.ssss.personnel.PersonnelWidgetController;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnEndedEvent;
 import com.dv.ssss.turn.TurnEndedEventFactory;
@@ -77,7 +76,6 @@ public class Game extends Application {
                             PersonnelView.class,
                             PersonnelViewPresenter.class,
                             PersonnelWidget.class,
-                            PersonnelWidgetController.class,
                             TurnWidget.class
                     );
 

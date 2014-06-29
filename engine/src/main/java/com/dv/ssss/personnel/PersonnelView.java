@@ -42,8 +42,6 @@ public interface PersonnelView {
         PersonnelViewPresenter personnelViewPresenter;
         PersonnelWidget personnelWidget;
 
-        PersonnelWidgetController personnelWidgetController;
-
         TurnWidget turnWidget;
 
         @Override
@@ -77,7 +75,7 @@ public interface PersonnelView {
         @Override
         public void loadPeople(Observable<Person> people) {
 
-            personnelWidgetController.loadPeople(people);
+            personnelWidget.loadPeople(people);
         }
 
         @Override
@@ -93,7 +91,7 @@ public interface PersonnelView {
         public void init() {
 
             personnelWidget = transientBuilderFactory.newTransient(PersonnelWidget.class);
-            personnelWidgetController = presenterFactory.create(PersonnelWidgetController.class, personnelWidget);
+            eventRegistry.register(personnelWidget);
 
             turnWidget = transientBuilderFactory.newTransient(
                     TurnWidget.class,
