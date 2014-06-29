@@ -29,6 +29,8 @@ import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entitystore.memory.MemoryEntityStoreAssembler;
 import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 
+import static org.qi4j.api.common.Visibility.application;
+
 public class Game extends Application {
 
     public static void main(String[] args) {
@@ -45,6 +47,10 @@ public class Game extends Application {
 
             LayerAssembly userInterface = assembly.layer("user-interface");
             ModuleAssembly userInterfaceModules = userInterface.module("all");
+
+            userInterfaceModules.services(
+                    PresenterFactory.class
+            );
 
             userInterfaceModules.transients(
                     PersonnelView.class,
@@ -65,30 +71,27 @@ public class Game extends Application {
 
             rest.services(
                     AgeRepository.class,
-                    PersonFactory.class,
                     PersonnelRepository.class,
+                    TurnRepository.class
+            ).visibleIn(application);
+
+            rest.services(
+                    PersonFactory.class,
                     TurnFactory.class,
-                    TurnRepository.class,
                     TurnEndedEventFactory.class
             );
 
+            new EventAssembler().assemble(userInterfaceModules);
             new EventAssembler().assemble(rest);
 
             rest.services(
-                    DataBootstrap.class,
-                    PresenterFactory.class
+                    DataBootstrap.class
             );
 
             rest.services(Engine.class)
                 .withActivators(EventActivator.class)
-                .instantiateOnStartup();
-
-            rest.transients(
-                    PersonnelView.class,
-                    PersonnelViewPresenter.class,
-                    PersonnelWidget.class,
-                    TurnWidget.class
-            );
+                .instantiateOnStartup()
+                .visibleIn(application);
 
             new MemoryEntityStoreAssembler().assemble(rest);
             new RdfMemoryStoreAssembler().assemble(rest);
@@ -105,24 +108,25 @@ public class Game extends Application {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
 
-        Module module = application.findModule("remainder", "rest");
+        Module userInterface = application.findModule("user-interface", "all");
+        Module rest = application.findModule("remainder", "rest");
 
-        module.newUnitOfWork();
+        rest.newUnitOfWork();
 
-        module.findService(DataBootstrap.class)
-              .get()
-              .bootstrap();
+        rest.findService(DataBootstrap.class)
+            .get()
+            .bootstrap();
 
-        module.newUnitOfWork();
+        rest.newUnitOfWork();
 
-        PersonnelView personnelView = module.newTransient(PersonnelView.class);
-        PersonnelViewPresenter personnelViewPresenter = module.findService(PresenterFactory.class)
-                                                              .get()
-                                                              .create(PersonnelViewPresenter.class, personnelView);
+        PersonnelView personnelView = userInterface.newTransient(PersonnelView.class);
+        PersonnelViewPresenter personnelViewPresenter = userInterface.findService(PresenterFactory.class)
+                                                                     .get()
+                                                                     .create(PersonnelViewPresenter.class, personnelView);
 
-        module.findService(Engine.class)
-              .get()
-              .startApplication(new StartApplicationCommand(personnelViewPresenter, stage));
+        rest.findService(Engine.class)
+            .get()
+            .startApplication(new StartApplicationCommand(personnelViewPresenter, stage));
     }
 
 }
