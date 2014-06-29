@@ -16,9 +16,9 @@ import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.turn.TurnWidget;
 import com.dv.ssss.ui.PresenterFactory;
-import javafx.application.Application;
 import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
+import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
 import org.qi4j.bootstrap.ApplicationAssembler;
 import org.qi4j.bootstrap.ApplicationAssembly;
@@ -31,7 +31,7 @@ import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 
 import static org.qi4j.api.common.Visibility.application;
 
-public class Game extends Application {
+public class Game extends javafx.application.Application {
 
     public static void main(String[] args) {
 
@@ -41,24 +41,10 @@ public class Game extends Application {
     @Override
     public void start(Stage stage) {
 
-        ApplicationAssembler assembler = factory -> {
-
-            ApplicationAssembly assembly = factory.newApplicationAssembly();
-
-            LayerAssembly userInterface = userInterface(assembly);
-            LayerAssembly domain = domain(assembly);
-            LayerAssembly persistence = persistence(assembly);
-
-            userInterface.uses(domain);
-            domain.uses(persistence);
-
-            return assembly;
-        };
-
-        Energy4Java energy4Java = new Energy4Java();
-        org.qi4j.api.structure.Application application;
+        Energy4Java qi4j = new Energy4Java();
+        Application application;
         try {
-            application = energy4Java.newApplication(assembler);
+            application = qi4j.newApplication(assembler());
             application.activate();
         } catch (AssemblyException | ActivationException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
@@ -83,6 +69,22 @@ public class Game extends Application {
         domain.findService(Engine.class)
               .get()
               .startApplication(new StartApplicationCommand(personnelViewPresenter, stage));
+    }
+
+    private ApplicationAssembler assembler() {
+
+        return factory -> {
+            ApplicationAssembly assembly = factory.newApplicationAssembly();
+
+            LayerAssembly userInterface = userInterface(assembly);
+            LayerAssembly domain = domain(assembly);
+            LayerAssembly persistence = persistence(assembly);
+
+            userInterface.uses(domain);
+            domain.uses(persistence);
+
+            return assembly;
+        };
     }
 
     private LayerAssembly userInterface(ApplicationAssembly assembly) throws AssemblyException {
