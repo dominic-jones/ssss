@@ -3,6 +3,7 @@ package com.dv.ssss.personnel;
 import com.dv.ssss.people.Person;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnWidget;
+import com.dv.ssss.ui.View;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -15,7 +16,7 @@ import rx.Observable;
 import rx.functions.Action1;
 
 @Mixins(PersonnelView.PersonnelViewMixin.class)
-public interface PersonnelView {
+public interface PersonnelView extends View {
 
     void attachPresenter(PersonnelViewPresenter personnelViewPresenter);
 

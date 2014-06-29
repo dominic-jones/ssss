@@ -99,7 +99,6 @@ public class Game extends Application {
         PersonnelViewPresenter personnelViewPresenter = module.findService(PresenterFactory.class)
                                                               .get()
                                                               .create(PersonnelViewPresenter.class, personnelView);
-        personnelViewPresenter.init(personnelView);
 
         module.findService(Engine.class)
               .get()

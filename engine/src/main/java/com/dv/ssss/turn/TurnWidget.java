@@ -52,7 +52,6 @@ public interface TurnWidget {
         @Override
         public void initializeTurn(int turn) {
 
-            //TODO Observable this
             turnCount.textProperty().set(String.valueOf(turn));
         }
 

@@ -6,6 +6,7 @@ import com.dv.ssss.people.PersonnelRepository;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnEndedEvent;
 import com.dv.ssss.turn.TurnRepository;
+import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -15,9 +16,7 @@ import org.qi4j.api.value.ValueBuilderFactory;
 import rx.Observable;
 
 @Mixins(PersonnelViewPresenter.PersonnelViewPresenterMixin.class)
-public interface PersonnelViewPresenter {
-
-    void init(PersonnelView personnelView);
+public interface PersonnelViewPresenter extends Presenter<PersonnelView> {
 
     void endTurn(EndTurnCommand endTurnCommand);
 

@@ -9,8 +9,7 @@ import org.qi4j.api.structure.Module;
 @Mixins(PresenterFactory.PresenterFactoryMixin.class)
 public interface PresenterFactory {
 
-    //TODO Do not leave as object.
-    <T> T create(Class<T> presenterClass, Object view);
+    <T extends Presenter<V>, V extends View> T create(Class<T> presenterClass, V view);
 
     class PresenterFactoryMixin implements PresenterFactory {
 
@@ -21,11 +20,12 @@ public interface PresenterFactory {
         EventRegistry eventRegistry;
 
         @Override
-        public <T> T create(Class<T> presenterClass, Object view) {
+        public <T extends Presenter<V>, V extends View> T create(Class<T> presenterClass, V view) {
 
             T presenter = module.newTransient(presenterClass, view);
 
             //TODO SideEffect or PostConstruct this or similar
+            presenter.init(view);
             eventRegistry.register(presenter);
 
             return presenter;
