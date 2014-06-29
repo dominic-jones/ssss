@@ -1,9 +1,9 @@
 package com.dv.ssss.personnel;
 
+import com.dv.ssss.event.EventRegistry;
 import com.dv.ssss.people.Person;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnWidget;
-import com.dv.ssss.turn.TurnWidgetController;
 import com.dv.ssss.ui.PresenterFactory;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -45,7 +45,6 @@ public interface PersonnelView {
         PersonnelWidgetController personnelWidgetController;
 
         TurnWidget turnWidget;
-        TurnWidgetController turnWidgetController;
 
         @Override
         public void display(Stage stage) {
@@ -84,8 +83,11 @@ public interface PersonnelView {
         @Override
         public void initializeTurn(int turn) {
 
-            turnWidgetController.initializeTurn(turn);
+            turnWidget.initializeTurn(turn);
         }
+
+        @Service
+        EventRegistry eventRegistry;
 
         @Override
         public void init() {
@@ -97,7 +99,7 @@ public interface PersonnelView {
                     TurnWidget.class,
                     (Action1<? super EndTurnCommand>) personnelViewPresenter::endTurn
             );
-            turnWidgetController = presenterFactory.create(TurnWidgetController.class, turnWidget);
+            eventRegistry.register(turnWidget);
         }
 
     }

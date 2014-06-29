@@ -17,7 +17,6 @@ import com.dv.ssss.turn.TurnEndedEventFactory;
 import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.turn.TurnWidget;
-import com.dv.ssss.turn.TurnWidgetController;
 import com.dv.ssss.ui.PresenterFactory;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -79,8 +78,7 @@ public class Game extends Application {
                             PersonnelViewPresenter.class,
                             PersonnelWidget.class,
                             PersonnelWidgetController.class,
-                            TurnWidget.class,
-                            TurnWidgetController.class
+                            TurnWidget.class
                     );
 
                     new MemoryEntityStoreAssembler().assemble(assembly);
