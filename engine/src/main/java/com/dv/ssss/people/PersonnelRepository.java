@@ -16,7 +16,7 @@ import static org.qi4j.api.query.QueryExpressions.templateFor;
 @Mixins(PersonnelRepository.PersonnelRepositoryMixin.class)
 public interface PersonnelRepository extends Composite {
 
-    Iterable<Person> getByName(String name);
+    Iterable<PersonEntity> getByName(String name);
 
     class PersonnelRepositoryMixin implements PersonnelRepository {
 
@@ -27,16 +27,16 @@ public interface PersonnelRepository extends Composite {
         Module module;
 
         @Override
-        public Iterable<Person> getByName(String name) {
+        public Iterable<PersonEntity> getByName(String name) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
             Name.NameState template = templateFor(Name.NameState.class);
 
-            QueryBuilder<Person> builder = module
-                    .newQueryBuilder(Person.class)
+            QueryBuilder<PersonEntity> builder = module
+                    .newQueryBuilder(PersonEntity.class)
                     .where(eq(template.name(), name));
-            Query<Person> query = unitOfWork.newQuery(builder);
+            Query<PersonEntity> query = unitOfWork.newQuery(builder);
 
             return newArrayList(query);
         }

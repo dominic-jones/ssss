@@ -1,6 +1,6 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.people.Person;
+import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonnelRepository;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -31,7 +31,7 @@ public interface PersonnelService {
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
             //TODO Get all
             //TODO Give better name, not just people
-            Iterable<Person> people = personnelRepository.getByName("Aegis");
+            Iterable<PersonEntity> people = personnelRepository.getByName("Aegis");
             Iterable<PersonDto> personDtos = newArrayList(transform(people, PersonDto::new));
             try {
                 unitOfWork.complete();

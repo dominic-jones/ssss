@@ -1,19 +1,19 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.people.Person;
+import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.ui.Column;
 
 public class PersonDto {
 
     private final String name;
-    private final String age;
+    private final Integer age;
     private final String rank;
 
-    public PersonDto(Person person) {
+    public PersonDto(PersonEntity person) {
 
-        name = person.getName();
-        age = person.getAge();
-        rank = person.getRank();
+        name = person.name().get();
+        age = person.age().get();
+        rank = person.rank().get();
     }
 
     @Column(name = "Name", order = 0)
@@ -25,7 +25,7 @@ public class PersonDto {
     @Column(name = "Age", order = 2)
     public String getAge() {
 
-        return age;
+        return String.valueOf(age);
     }
 
     @Column(name = "Rank", order = 1)
