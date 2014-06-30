@@ -16,7 +16,6 @@ import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewPresenter;
 import com.dv.ssss.personnel.PersonnelWidget;
 import com.dv.ssss.turn.Turn;
-import com.dv.ssss.turn.TurnEndedEventFactory;
 import com.dv.ssss.turn.TurnFactory;
 import com.dv.ssss.turn.TurnRepository;
 import com.dv.ssss.turn.TurnWidget;
@@ -38,7 +37,6 @@ import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 
 import static org.qi4j.api.common.Visibility.application;
 import static org.qi4j.api.common.Visibility.layer;
-import static org.qi4j.api.common.Visibility.module;
 
 public class Bootstrap extends javafx.application.Application {
 
@@ -155,8 +153,7 @@ public class Bootstrap extends javafx.application.Application {
 
         domainModules.services(
                 PersonFactory.class,
-                TurnFactory.class,
-                TurnEndedEventFactory.class
+                TurnFactory.class
         ).visibleIn(layer);
 
         new EventAssembler().assemble(domainModules);
