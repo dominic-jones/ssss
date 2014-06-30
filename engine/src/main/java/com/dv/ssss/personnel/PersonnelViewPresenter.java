@@ -2,7 +2,7 @@ package com.dv.ssss.personnel;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.event.EventPoster;
-import com.dv.ssss.people.PersonnelRepository;
+import com.dv.ssss.game.GameService;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnEndedEvent;
 import com.dv.ssss.turn.TurnRepository;
@@ -10,10 +10,9 @@ import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
 import javafx.stage.Stage;
 import org.qi4j.api.injection.scope.Service;
-import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.value.ValueBuilderFactory;
+import org.qi4j.api.property.Property;
 import rx.Observable;
 
 @Mixins(PersonnelViewPresenter.PersonnelViewPresenterMixin.class)
@@ -35,13 +34,13 @@ public interface PersonnelViewPresenter extends Presenter<PersonnelView> {
         EventPoster eventPoster;
 
         @Service
-        PersonnelRepository personnelRepository;
+        PersonnelService personnelService;
 
         @Service
-        TurnRepository turnRepository;
+        GameService gameService;
 
-        @Structure
-        ValueBuilderFactory valueBuilderFactory;
+        @Uses
+        Property<String> game;
 
         @Uses
         PersonnelView personnelView;
@@ -51,8 +50,8 @@ public interface PersonnelViewPresenter extends Presenter<PersonnelView> {
 
             personnelView.attachPresenter(this);
             personnelView.init();
-            personnelView.loadPeople(Observable.from(personnelRepository.getByName("Aegis")));
-            personnelView.initializeTurn(turnRepository.get().turn());
+            personnelView.initializeTurn(gameService.turnCount(game));
+            personnelView.loadPeople(Observable.from(personnelService.all()));
         }
 
         @Override
@@ -71,8 +70,8 @@ public interface PersonnelViewPresenter extends Presenter<PersonnelView> {
         @Override
         public void turnEnded(TurnEndedEvent event) {
 
-            personnelView.initializeTurn(turnRepository.get().turn());
-            personnelView.loadPeople(Observable.from(personnelRepository.getByName("Aegis")));
+            personnelView.initializeTurn(gameService.turnCount(game));
+            personnelView.loadPeople(Observable.from(personnelService.all()));
         }
     }
 }

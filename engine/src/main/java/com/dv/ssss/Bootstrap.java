@@ -4,9 +4,14 @@ import com.dv.ssss.age.AgeRepository;
 import com.dv.ssss.bootstrap.StartApplicationCommand;
 import com.dv.ssss.event.EventActivator;
 import com.dv.ssss.event.EventAssembler;
+import com.dv.ssss.game.Game;
+import com.dv.ssss.game.GameFactory;
+import com.dv.ssss.game.GameRepository;
+import com.dv.ssss.game.GameService;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
+import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.personnel.PersonnelView;
 import com.dv.ssss.personnel.PersonnelViewPresenter;
 import com.dv.ssss.personnel.PersonnelWidget;
@@ -18,8 +23,10 @@ import com.dv.ssss.turn.TurnWidget;
 import com.dv.ssss.ui.PresenterFactory;
 import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
+import org.qi4j.api.property.Property;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.bootstrap.ApplicationAssembler;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.AssemblyException;
@@ -30,6 +37,8 @@ import org.qi4j.entitystore.memory.MemoryEntityStoreAssembler;
 import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 
 import static org.qi4j.api.common.Visibility.application;
+import static org.qi4j.api.common.Visibility.layer;
+import static org.qi4j.api.common.Visibility.module;
 
 public class Bootstrap extends javafx.application.Application {
 
@@ -50,23 +59,32 @@ public class Bootstrap extends javafx.application.Application {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
 
+        Module module = application.findModule("domain", "game");
+        module.newUnitOfWork();
+        GameFactory gameFactory = module.findService(GameFactory.class).get();
+        Game game = gameFactory.create();
+        Property<String> gameIdentity = game.identity();
+        try {
+            module.currentUnitOfWork().complete();
+        } catch (UnitOfWorkCompletionException e) {
+            throw new IllegalArgumentException(e.getMessage(), e);
+        }
+
         Module userInterface = application.findModule("user-interface", "all");
-        Module domain = application.findModule("domain", "all");
+        Module domain = application.findModule("domain", "root");
 
         domain.findService(DataBootstrapService.class)
               .get()
               .bootstrap();
 
-        domain.newUnitOfWork();
-
         PersonnelView personnelView = userInterface.newTransient(PersonnelView.class);
         PersonnelViewPresenter personnelViewPresenter = userInterface.findService(PresenterFactory.class)
                                                                      .get()
-                                                                     .create(PersonnelViewPresenter.class, personnelView);
+                                                                     .create(PersonnelViewPresenter.class, personnelView, gameIdentity);
 
         domain.findService(Engine.class)
               .get()
-              .startApplication(new StartApplicationCommand(personnelViewPresenter, stage));
+              .startApplication(new StartApplicationCommand(personnelViewPresenter, stage, game));
     }
 
     private ApplicationAssembler assembler() {
@@ -107,24 +125,39 @@ public class Bootstrap extends javafx.application.Application {
     private LayerAssembly domain(ApplicationAssembly assembly) throws AssemblyException {
 
         LayerAssembly domain = assembly.layer("domain");
-        ModuleAssembly domainModules = domain.module("all");
+
+        ModuleAssembly game = domain.module("game");
+        game.services(
+                GameService.class
+        ).visibleIn(application);
+        game.services(
+                GameFactory.class,
+                GameRepository.class
+        );
+        game.entities(Game.class);
+
+        ModuleAssembly domainModules = domain.module("root");
 
         domainModules.entities(
                 PersonEntity.class,
                 Turn.class
-        );
+        ).visibleIn(layer);
+
+        domainModules.services(
+                PersonnelService.class
+        ).visibleIn(application);
 
         domainModules.services(
                 AgeRepository.class,
                 PersonnelRepository.class,
                 TurnRepository.class
-        ).visibleIn(application);
+        );
 
         domainModules.services(
                 PersonFactory.class,
                 TurnFactory.class,
                 TurnEndedEventFactory.class
-        );
+        ).visibleIn(layer);
 
         new EventAssembler().assemble(domainModules);
 

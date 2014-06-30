@@ -1,6 +1,5 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.people.Person;
 import com.dv.ssss.turn.EndTurnCommand;
 import com.dv.ssss.turn.TurnWidget;
 import com.dv.ssss.ui.View;
@@ -22,7 +21,7 @@ public interface PersonnelView extends View {
 
     void display(Stage stage);
 
-    void loadPeople(Observable<Person> people);
+    void loadPeople(Observable<PersonDto> people);
 
     void initializeTurn(int turn);
 
@@ -68,7 +67,7 @@ public interface PersonnelView extends View {
         }
 
         @Override
-        public void loadPeople(Observable<Person> people) {
+        public void loadPeople(Observable<PersonDto> people) {
 
             personnelWidget.loadPeople(people);
         }

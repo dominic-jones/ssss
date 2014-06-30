@@ -4,12 +4,13 @@ import com.dv.ssss.event.EventRegistry;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.property.Property;
 import org.qi4j.api.structure.Module;
 
 @Mixins(PresenterFactory.PresenterFactoryMixin.class)
 public interface PresenterFactory {
 
-    <T extends Presenter<V>, V extends View> T create(Class<T> presenterClass, V view);
+    <T extends Presenter<V>, V extends View> T create(Class<T> presenterClass, V view, Property<String> game);
 
     class PresenterFactoryMixin implements PresenterFactory {
 
@@ -20,9 +21,9 @@ public interface PresenterFactory {
         EventRegistry eventRegistry;
 
         @Override
-        public <T extends Presenter<V>, V extends View> T create(Class<T> presenterClass, V view) {
+        public <T extends Presenter<V>, V extends View> T create(Class<T> presenterClass, V view, Property<String> game) {
 
-            T presenter = module.newTransient(presenterClass, view);
+            T presenter = module.newTransient(presenterClass, view, game);
 
             //TODO SideEffect or PostConstruct this or similar
             presenter.init(view);

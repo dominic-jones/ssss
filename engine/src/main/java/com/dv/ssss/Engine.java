@@ -11,6 +11,7 @@ import org.qi4j.api.composite.Composite;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
@@ -36,6 +37,8 @@ public interface Engine extends Composite, EventSubscriber {
         @Override
         public void endTurn() {
 
+            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
+
             Iterable<Age> ageables = ageRepository.findAgeables();
             for (Age ageable : ageables) {
                 ageable.increaseAge(1);
@@ -49,13 +52,10 @@ public interface Engine extends Composite, EventSubscriber {
 
             //TODO Handle it
             try {
-                unitOfWorkFactory.currentUnitOfWork()
-                                 .complete();
+                unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
                 throw new IllegalArgumentException(e.getMessage(), e);
             }
-
-            unitOfWorkFactory.newUnitOfWork();
         }
 
         @Override

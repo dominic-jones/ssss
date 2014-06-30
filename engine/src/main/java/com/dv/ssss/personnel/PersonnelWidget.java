@@ -1,6 +1,5 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.people.Person;
 import com.dv.ssss.ui.AnnotatedTable;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,7 +18,7 @@ public interface PersonnelWidget {
 
     Pane getView();
 
-    void loadPeople(Observable<Person> aegis);
+    void loadPeople(Observable<PersonDto> people);
 
     class PersonnelWidgetMixin implements PersonnelWidget {
 
@@ -27,7 +26,7 @@ public interface PersonnelWidget {
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
         private static final Font FONT = new Font("Arial", 20);
 
-        ObservableList<Person> items = observableArrayList();
+        ObservableList<PersonDto> items = observableArrayList();
 
         @Override
         public Pane getView() {
@@ -35,8 +34,8 @@ public interface PersonnelWidget {
             Label label = new Label("Personnel");
             label.setFont(FONT);
 
-            TableView<Person> table = new AnnotatedTable()
-                    .createTable(items, Person.class);
+            TableView<PersonDto> table = new AnnotatedTable()
+                    .createTable(items, PersonDto.class);
             table.setEditable(false);
 
             VBox pane = new VBox();
@@ -50,7 +49,7 @@ public interface PersonnelWidget {
         }
 
         @Override
-        public void loadPeople(Observable<Person> people) {
+        public void loadPeople(Observable<PersonDto> people) {
 
             items.clear();
             people.toList()
