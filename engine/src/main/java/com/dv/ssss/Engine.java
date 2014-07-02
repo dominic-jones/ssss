@@ -1,9 +1,9 @@
 package com.dv.ssss;
 
-import com.dv.ssss.age.Age;
-import com.dv.ssss.age.AgeRepository;
-import com.dv.ssss.turn.Turn;
-import com.dv.ssss.turn.TurnRepository;
+import com.dv.ssss.domain.age.Age;
+import com.dv.ssss.domain.age.AgeRepository;
+import com.dv.ssss.domain.turn.Turn;
+import com.dv.ssss.domain.turn.TurnRepository;
 import org.qi4j.api.composite.Composite;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;

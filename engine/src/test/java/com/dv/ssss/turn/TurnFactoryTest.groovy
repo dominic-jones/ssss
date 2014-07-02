@@ -1,5 +1,7 @@
 package com.dv.ssss.turn
 
+import com.dv.ssss.domain.turn.Turn
+import com.dv.ssss.domain.turn.TurnFactory
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

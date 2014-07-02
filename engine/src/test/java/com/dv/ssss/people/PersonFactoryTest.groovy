@@ -1,5 +1,7 @@
 package com.dv.ssss.people
 
+import com.dv.ssss.domain.people.PersonEntity
+import com.dv.ssss.domain.people.PersonFactory
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

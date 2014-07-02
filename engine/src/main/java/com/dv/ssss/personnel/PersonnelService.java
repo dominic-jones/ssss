@@ -1,7 +1,8 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.people.PersonEntity;
-import com.dv.ssss.people.PersonnelRepository;
+import com.dv.ssss.domain.people.PersonEntity;
+import com.dv.ssss.domain.people.PersonnelRepository;
+import com.dv.ssss.ui.personnel.PersonDto;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;

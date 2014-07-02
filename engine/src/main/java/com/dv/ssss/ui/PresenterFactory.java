@@ -1,6 +1,6 @@
 package com.dv.ssss.ui;
 
-import com.dv.ssss.event.EventRegistry;
+import com.dv.ssss.inf.event.EventRegistry;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;

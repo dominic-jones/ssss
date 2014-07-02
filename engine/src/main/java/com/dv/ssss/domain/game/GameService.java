@@ -1,42 +1,40 @@
-package com.dv.ssss;
+package com.dv.ssss.domain.game;
 
-import com.dv.ssss.domain.people.PersonFactory;
-import com.dv.ssss.domain.turn.TurnFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.property.Property;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
-@Mixins(DataBootstrapService.DataBootstrapServiceMixin.class)
-public interface DataBootstrapService {
+@Mixins(GameService.GameServiceMixin.class)
+public interface GameService {
 
-    void bootstrap();
+    //TODO Return dto
+    int turnCount(Property<String> identity);
 
-    class DataBootstrapServiceMixin implements DataBootstrapService {
-
-        @Service
-        PersonFactory personFactory;
+    class GameServiceMixin implements GameService {
 
         @Service
-        TurnFactory turnFactory;
+        GameRepository gameRepository;
 
         @Structure
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public void bootstrap() {
+        public int turnCount(Property<String> identity) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
-
-            personFactory.create("Aegis", "Overlord", 23);
-
+            int turn = gameRepository.get(identity).turn().get().turn();
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
                 throw new IllegalArgumentException(e.getMessage(), e);
             }
+            return turn;
         }
     }
+
 }
+
