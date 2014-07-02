@@ -1,92 +1,58 @@
 package com.dv.ssss.personnel;
 
-import com.dv.ssss.turn.EndTurnCommand;
-import com.dv.ssss.turn.TurnWidget;
+import com.dv.ssss.ui.AnnotatedTable;
 import com.dv.ssss.ui.View;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-import org.qi4j.api.composite.TransientBuilderFactory;
-import org.qi4j.api.injection.scope.Structure;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import org.qi4j.api.mixin.Mixins;
-import rx.Observable;
-import rx.functions.Action1;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static javafx.collections.FXCollections.observableArrayList;
 
 @Mixins(PersonnelView.PersonnelViewMixin.class)
 public interface PersonnelView extends View {
 
-    void attachPresenter(PersonnelViewPresenter personnelViewPresenter);
-
-    void display(Stage stage);
-
-    void loadPeople(Observable<PersonDto> people);
-
-    void initializeTurn(int turn);
-
-    //TODO Remove
-    void init();
+    void setPeople(Iterable<PersonDto> people);
 
     class PersonnelViewMixin implements PersonnelView {
 
-        @Structure
-        TransientBuilderFactory transientBuilderFactory;
+        private static final int SPACING = 5;
+        private static final Insets INSETS = new Insets(10, 0, 0, 10);
+        private static final Font FONT = new Font("Arial", 20);
 
-        PersonnelViewPresenter personnelViewPresenter;
-
-        PersonnelWidget personnelWidget;
-        TurnWidget turnWidget;
+        ObservableList<PersonDto> items = observableArrayList();
 
         @Override
-        public void display(Stage stage) {
+        public Parent getView() {
 
-            Group group = new Group();
+            Label label = new Label("Personnel");
+            label.setFont(FONT);
 
-            Pane personnel = personnelWidget.getView();
+            TableView<PersonDto> table = new AnnotatedTable()
+                    .createTable(items, PersonDto.class);
+            table.setEditable(false);
 
-            Pane turn = turnWidget.getView();
+            VBox pane = new VBox();
 
-            BorderPane layout = new BorderPane();
-            layout.setTop(turn);
-            layout.setCenter(personnel);
+            pane.setSpacing(SPACING);
+            pane.setPadding(INSETS);
+            pane.getChildren()
+                .addAll(label, table);
 
-            group.getChildren().addAll(layout);
-            Scene scene = new Scene(group);
-            stage.setTitle("SSSS");
-            stage.setWidth(300);
-            stage.setHeight(500);
-            stage.setScene(scene);
-            stage.show();
+            return pane;
         }
 
         @Override
-        public void attachPresenter(PersonnelViewPresenter personnelViewPresenter) {
+        public void setPeople(Iterable<PersonDto> people) {
 
-            this.personnelViewPresenter = personnelViewPresenter;
+            items.clear();
+            items.addAll(newArrayList(people));
         }
-
-        @Override
-        public void loadPeople(Observable<PersonDto> people) {
-
-            personnelWidget.loadPeople(people);
-        }
-
-        @Override
-        public void initializeTurn(int turn) {
-
-            turnWidget.initializeTurn(turn);
-        }
-
-        @Override
-        public void init() {
-
-            personnelWidget = transientBuilderFactory.newTransient(PersonnelWidget.class);
-            turnWidget = transientBuilderFactory.newTransient(
-                    TurnWidget.class,
-                    (Action1<? super EndTurnCommand>) personnelViewPresenter::endTurn
-            );
-        }
-
     }
+
 }

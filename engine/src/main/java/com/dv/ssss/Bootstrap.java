@@ -1,25 +1,26 @@
 package com.dv.ssss;
 
 import com.dv.ssss.age.AgeRepository;
-import com.dv.ssss.bootstrap.StartApplicationCommand;
-import com.dv.ssss.event.EventActivator;
 import com.dv.ssss.event.EventAssembler;
 import com.dv.ssss.game.Game;
 import com.dv.ssss.game.GameFactory;
 import com.dv.ssss.game.GameRepository;
 import com.dv.ssss.game.GameService;
+import com.dv.ssss.main.MainPresenter;
+import com.dv.ssss.main.MainView;
 import com.dv.ssss.people.PersonEntity;
 import com.dv.ssss.people.PersonFactory;
 import com.dv.ssss.people.PersonnelRepository;
+import com.dv.ssss.personnel.PersonnelPresenter;
 import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.personnel.PersonnelView;
-import com.dv.ssss.personnel.PersonnelViewPresenter;
-import com.dv.ssss.personnel.PersonnelWidget;
 import com.dv.ssss.turn.Turn;
 import com.dv.ssss.turn.TurnFactory;
+import com.dv.ssss.turn.TurnPresenter;
 import com.dv.ssss.turn.TurnRepository;
-import com.dv.ssss.turn.TurnWidget;
+import com.dv.ssss.turn.TurnView;
 import com.dv.ssss.ui.PresenterFactory;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
 import org.qi4j.api.property.Property;
@@ -75,14 +76,21 @@ public class Bootstrap extends javafx.application.Application {
               .get()
               .bootstrap();
 
-        PersonnelView personnelView = userInterface.newTransient(PersonnelView.class);
-        PersonnelViewPresenter personnelViewPresenter = userInterface.findService(PresenterFactory.class)
-                                                                     .get()
-                                                                     .create(PersonnelViewPresenter.class, personnelView, gameIdentity);
+        MainPresenter mainPresenter = userInterface.findService(PresenterFactory.class)
+                                                   .get()
+                                                   .create(MainPresenter.class, gameIdentity);
 
-        domain.findService(Engine.class)
-              .get()
-              .startApplication(new StartApplicationCommand(personnelViewPresenter, stage, game));
+        run(stage, mainPresenter);
+    }
+
+    private void run(Stage stage, MainPresenter mainPresenter) {
+
+        Scene scene = new Scene(mainPresenter.getView().getView());
+        stage.setTitle("SSSS");
+        stage.setWidth(500);
+        stage.setHeight(500);
+        stage.setScene(scene);
+        stage.show();
     }
 
     private ApplicationAssembler assembler() {
@@ -111,10 +119,12 @@ public class Bootstrap extends javafx.application.Application {
         );
 
         userInterfaceModules.transients(
+                MainPresenter.class,
+                MainView.class,
+                PersonnelPresenter.class,
                 PersonnelView.class,
-                PersonnelViewPresenter.class,
-                PersonnelWidget.class,
-                TurnWidget.class
+                TurnPresenter.class,
+                TurnView.class
         );
         new EventAssembler().assemble(userInterfaceModules);
         return userInterface;
@@ -163,8 +173,6 @@ public class Bootstrap extends javafx.application.Application {
         );
 
         domainModules.services(Engine.class)
-                     .withActivators(EventActivator.class)
-                     .instantiateOnStartup()
                      .visibleIn(application);
         return domain;
     }

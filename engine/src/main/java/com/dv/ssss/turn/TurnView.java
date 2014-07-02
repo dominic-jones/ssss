@@ -1,37 +1,35 @@
 package com.dv.ssss.turn;
 
 import com.dv.ssss.ui.ObservableEvent;
+import com.dv.ssss.ui.View;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
-import rx.functions.Action1;
 
-@Mixins(TurnWidget.TurnWidgetMixin.class)
-public interface TurnWidget {
+@Mixins(TurnView.TurnViewMixin.class)
+public interface TurnView extends View {
 
-    Pane getView();
+    void setTurn(int turn);
 
-    void initializeTurn(int turn);
-
-    class TurnWidgetMixin implements TurnWidget {
+    class TurnViewMixin implements TurnView {
 
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
         @Uses
-        Action1<? super EndTurnCommand> endTurnEvent;
+        TurnPresenter turnPresenter;
 
         Text turnCount = new Text();
 
         @Override
-        public Pane getView() {
+        public Parent getView() {
 
             Label label = new Label("Turn");
 
@@ -39,7 +37,7 @@ public interface TurnWidget {
 
             Observable.create(new ObservableEvent<ActionEvent>(endTurn::setOnAction))
                       .map(event -> new EndTurnCommand())
-                      .subscribe(endTurnEvent);
+                      .subscribe(turnPresenter::endTurn);
 
             HBox pane = new HBox();
             pane.setSpacing(SPACING);
@@ -50,10 +48,10 @@ public interface TurnWidget {
         }
 
         @Override
-        public void initializeTurn(int turn) {
+        public void setTurn(int turn) {
 
             turnCount.textProperty().set(String.valueOf(turn));
         }
-
     }
+
 }

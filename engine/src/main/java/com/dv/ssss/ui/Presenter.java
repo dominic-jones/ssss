@@ -1,7 +1,7 @@
 package com.dv.ssss.ui;
 
-public interface Presenter<V extends View> {
+public interface Presenter {
 
-    void init(V view);
+    void init();
 
 }
