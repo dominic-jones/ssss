@@ -46,6 +46,8 @@ public interface TurnPresenter extends Presenter {
                     this
             );
 
+            view.bindEndTurn(this::endTurn);
+
             updateTurn();
         }
 
