@@ -58,6 +58,7 @@ public class Bootstrap extends javafx.application.Application {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
 
+        // TODO 2014-07-04 dom: Put this in its own damn service.
         Module module = application.findModule("domain", "game");
         module.newUnitOfWork();
         GameFactory gameFactory = module.findService(GameFactory.class).get();
