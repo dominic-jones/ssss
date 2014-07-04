@@ -1,17 +1,19 @@
 package com.dv.ssss.ui.main;
 
-import com.dv.ssss.ui.View;
-import com.dv.ssss.ui.other.ObservableEvent;
-import com.dv.ssss.ui.test.SelectTestScreenCommand;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import org.qi4j.api.injection.scope.Uses;
-import org.qi4j.api.mixin.Mixins;
 import rx.Observable;
+import rx.functions.Action1;
+
+import com.dv.ssss.ui.View;
+import com.dv.ssss.ui.other.ObservableEvent;
+
+import org.qi4j.api.mixin.Mixins;
 
 @Mixins(MainView.MainViewMixin.class)
 public interface MainView extends View {
@@ -20,38 +22,50 @@ public interface MainView extends View {
 
     void setTop(View view);
 
+    Button addButton(String name,
+                     SelectScreenCommand command,
+                     Action1<? super SelectScreenCommand> binding);
+
     class MainViewMixin implements MainView {
 
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
-        @Uses
-        MainPresenter mainPresenter;
-
-        BorderPane layout = new BorderPane();
+        Pane controls = controls();
+        BorderPane layout = layout(controls);
 
         @Override
         public Parent getView() {
 
-            VBox controls = new VBox();
+            return layout;
+        }
 
-            Button main = new Button("Main");
-            Observable.create(new ObservableEvent<ActionEvent>(main::setOnAction))
-                      .map(event -> new SelectTestScreenCommand())
-                      .subscribe(mainPresenter::selectOtherScreen);
+        @Override
+        public Button addButton(String name,
+                                SelectScreenCommand command,
+                                Action1<? super SelectScreenCommand> binding) {
 
-            Button personnel = new Button("Personnel");
-            Observable.create(new ObservableEvent<ActionEvent>(personnel::setOnAction))
-                      .map(event -> new SelectPersonnelScreenCommand())
-                      .subscribe(mainPresenter::selectPersonnelScreen);
+            Button button = new Button(name);
+            Observable.create(new ObservableEvent<ActionEvent>(button::setOnAction))
+                      .map(event -> command)
+                      .subscribe(binding);
 
+            controls.getChildren()
+                    .add(button);
+
+            return button;
+        }
+
+        private Pane controls() {
+
+            Pane controls = new VBox();
             controls.setPadding(INSETS);
-            controls.getChildren().addAll(
-                    main,
-                    personnel
-            );
+            return controls;
+        }
 
+        private BorderPane layout(Pane controls) {
+
+            BorderPane layout = new BorderPane();
             layout.setRight(controls);
-
             return layout;
         }
 
