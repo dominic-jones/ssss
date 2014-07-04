@@ -22,9 +22,9 @@ public interface MainView extends View {
 
     void setTop(View view);
 
-    Button addButton(String name,
-                     SelectScreenCommand command,
-                     Action1<? super SelectScreenCommand> binding);
+    void addButton(String name,
+                   SelectScreenCommand command,
+                   Action1<? super SelectScreenCommand> binding);
 
     class MainViewMixin implements MainView {
 
@@ -40,9 +40,9 @@ public interface MainView extends View {
         }
 
         @Override
-        public Button addButton(String name,
-                                SelectScreenCommand command,
-                                Action1<? super SelectScreenCommand> binding) {
+        public void addButton(String name,
+                              SelectScreenCommand command,
+                              Action1<? super SelectScreenCommand> binding) {
 
             Button button = new Button(name);
             Observable.create(new ObservableEvent<ActionEvent>(button::setOnAction))
@@ -51,8 +51,6 @@ public interface MainView extends View {
 
             controls.getChildren()
                     .add(button);
-
-            return button;
         }
 
         private Pane controls() {
