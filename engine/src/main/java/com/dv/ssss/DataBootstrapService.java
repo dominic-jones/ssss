@@ -19,9 +19,6 @@ public interface DataBootstrapService {
         @Service
         PersonFactory personFactory;
 
-        @Service
-        TurnFactory turnFactory;
-
         @Structure
         UnitOfWorkFactory unitOfWorkFactory;
 
