@@ -17,7 +17,6 @@ import com.dv.ssss.domain.turn.Turn;
 import com.dv.ssss.domain.turn.TurnFactory;
 import com.dv.ssss.domain.turn.TurnRepository;
 import com.dv.ssss.inf.LayerAssembler;
-import com.dv.ssss.inf.event.EventAssembler;
 import com.dv.ssss.personnel.PersonnelService;
 
 import org.qi4j.bootstrap.ApplicationAssembly;
@@ -52,8 +51,6 @@ public class DomainAssembler implements LayerAssembler {
                 PersonFactory.class,
                 TurnFactory.class
         ).visibleIn(layer);
-
-        new EventAssembler().assemble(domainModules);
 
         domainModules.services(
                 DataBootstrapService.class
