@@ -54,7 +54,7 @@ public class DomainAssembler implements LayerAssembler {
 
         domainModules.services(
                 DataBootstrapService.class
-        );
+        ).visibleIn(layer);
 
         domainModules.services(Engine.class)
                      .visibleIn(application);

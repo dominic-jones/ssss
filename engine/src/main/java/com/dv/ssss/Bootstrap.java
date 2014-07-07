@@ -3,14 +3,12 @@ package com.dv.ssss;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.dv.ssss.domain.DataBootstrapService;
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.main.MainPresenter;
 
 import org.qi4j.api.activation.ActivationException;
 import org.qi4j.api.structure.Application;
-import org.qi4j.api.structure.Module;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.Energy4Java;
 
@@ -26,15 +24,11 @@ public class Bootstrap extends javafx.application.Application {
 
         Application application = application();
 
+        // TODO 2014-07-07 dom: Should eventually be instantiated from a new-game button.
         String gameIdentity = application.findModule("domain", "game")
                                          .findService(GameService.class)
                                          .get()
                                          .newGame();
-
-        application.findModule("domain", "root")
-                   .findService(DataBootstrapService.class)
-                   .get()
-                   .bootstrap();
 
         MainPresenter mainPresenter = application.findModule("user-interface", "all")
                                                  .findService(PresenterFactory.class)
