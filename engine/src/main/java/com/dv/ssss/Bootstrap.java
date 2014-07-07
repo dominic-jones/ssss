@@ -1,24 +1,12 @@
 package com.dv.ssss;
 
 import static org.qi4j.api.common.Visibility.application;
-import static org.qi4j.api.common.Visibility.layer;
 
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.dv.ssss.domain.age.AgeRepository;
-import com.dv.ssss.domain.game.Game;
-import com.dv.ssss.domain.game.GameFactory;
-import com.dv.ssss.domain.game.GameRepository;
+import com.dv.ssss.domain.DomainAssembler;
 import com.dv.ssss.domain.game.GameService;
-import com.dv.ssss.domain.people.PersonEntity;
-import com.dv.ssss.domain.people.PersonFactory;
-import com.dv.ssss.domain.people.PersonnelRepository;
-import com.dv.ssss.domain.turn.Turn;
-import com.dv.ssss.domain.turn.TurnFactory;
-import com.dv.ssss.domain.turn.TurnRepository;
-import com.dv.ssss.inf.event.EventAssembler;
-import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.UserInterfaceAssembler;
 import com.dv.ssss.ui.main.MainPresenter;
@@ -90,7 +78,7 @@ public class Bootstrap extends javafx.application.Application {
             ApplicationAssembly assembly = factory.newApplicationAssembly();
 
             LayerAssembly userInterface = new UserInterfaceAssembler().assemble(assembly);
-            LayerAssembly domain = domain(assembly);
+            LayerAssembly domain = new DomainAssembler().assemble(assembly);
             LayerAssembly persistence = persistence(assembly);
 
             userInterface.uses(domain);
@@ -98,53 +86,6 @@ public class Bootstrap extends javafx.application.Application {
 
             return assembly;
         };
-    }
-
-    private LayerAssembly domain(ApplicationAssembly assembly) throws AssemblyException {
-
-        LayerAssembly domain = assembly.layer("domain");
-
-        ModuleAssembly game = domain.module("game");
-        game.services(
-                GameService.class
-        ).visibleIn(application);
-        game.services(
-                GameFactory.class,
-                GameRepository.class
-        );
-        game.entities(Game.class);
-
-        ModuleAssembly domainModules = domain.module("root");
-
-        domainModules.entities(
-                PersonEntity.class,
-                Turn.class
-        ).visibleIn(layer);
-
-        domainModules.services(
-                PersonnelService.class
-        ).visibleIn(application);
-
-        domainModules.services(
-                AgeRepository.class,
-                PersonnelRepository.class,
-                TurnRepository.class
-        );
-
-        domainModules.services(
-                PersonFactory.class,
-                TurnFactory.class
-        ).visibleIn(layer);
-
-        new EventAssembler().assemble(domainModules);
-
-        domainModules.services(
-                DataBootstrapService.class
-        );
-
-        domainModules.services(Engine.class)
-                     .visibleIn(application);
-        return domain;
     }
 
     private LayerAssembly persistence(ApplicationAssembly assembly) throws AssemblyException {
