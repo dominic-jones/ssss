@@ -24,6 +24,28 @@ public class Bootstrap extends javafx.application.Application {
     @Override
     public void start(Stage stage) {
 
+        Application application = application();
+
+        String gameIdentity = application.findModule("domain", "game")
+                                         .findService(GameService.class)
+                                         .get()
+                                         .newGame();
+
+        application.findModule("domain", "root")
+                   .findService(DataBootstrapService.class)
+                   .get()
+                   .bootstrap();
+
+        MainPresenter mainPresenter = application.findModule("user-interface", "all")
+                                                 .findService(PresenterFactory.class)
+                                                 .get()
+                                                 .create(MainPresenter.class, gameIdentity);
+
+        run(stage, mainPresenter);
+    }
+
+    private Application application() {
+
         Energy4Java qi4j = new Energy4Java();
         Application application;
         try {
@@ -32,25 +54,7 @@ public class Bootstrap extends javafx.application.Application {
         } catch (AssemblyException | ActivationException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
-
-        Module game = application.findModule("domain", "game");
-
-        String gameIdentity = game.findService(GameService.class)
-                                  .get()
-                                  .newGame();
-
-        Module userInterface = application.findModule("user-interface", "all");
-        Module domain = application.findModule("domain", "root");
-
-        domain.findService(DataBootstrapService.class)
-              .get()
-              .bootstrap();
-
-        MainPresenter mainPresenter = userInterface.findService(PresenterFactory.class)
-                                                   .get()
-                                                   .create(MainPresenter.class, gameIdentity);
-
-        run(stage, mainPresenter);
+        return application;
     }
 
     private void run(Stage stage, MainPresenter mainPresenter) {
