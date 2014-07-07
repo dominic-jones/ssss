@@ -14,19 +14,41 @@ public interface GameService {
     //TODO Return dto
     int turnCount(Property<String> identity);
 
+    Property<String> newGame();
+
     class GameServiceMixin implements GameService {
 
         @Service
         GameRepository gameRepository;
 
+        @Service
+        GameFactory gameFactory;
+
         @Structure
         UnitOfWorkFactory unitOfWorkFactory;
+
+        @Override
+        public Property<String> newGame() {
+
+            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
+            Game game = gameFactory.create();
+            Property<String> gameIdentity = game.identity();
+            try {
+                unitOfWork.complete();
+            } catch (UnitOfWorkCompletionException e) {
+                throw new IllegalArgumentException(e.getMessage(), e);
+            }
+            return gameIdentity;
+        }
 
         @Override
         public int turnCount(Property<String> identity) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
-            int turn = gameRepository.get(identity).turn().get().turn();
+            int turn = gameRepository.get(identity)
+                                     .turn()
+                                     .get()
+                                     .turn();
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {

@@ -1,5 +1,11 @@
 package com.dv.ssss;
 
+import static org.qi4j.api.common.Visibility.application;
+import static org.qi4j.api.common.Visibility.layer;
+
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 import com.dv.ssss.domain.age.AgeRepository;
 import com.dv.ssss.domain.game.Game;
 import com.dv.ssss.domain.game.GameFactory;
@@ -20,13 +26,11 @@ import com.dv.ssss.ui.personnel.PersonnelPresenter;
 import com.dv.ssss.ui.personnel.PersonnelView;
 import com.dv.ssss.ui.turn.TurnPresenter;
 import com.dv.ssss.ui.turn.TurnView;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+
 import org.qi4j.api.activation.ActivationException;
 import org.qi4j.api.property.Property;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
-import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.bootstrap.ApplicationAssembler;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.AssemblyException;
@@ -35,9 +39,6 @@ import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entitystore.memory.MemoryEntityStoreAssembler;
 import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
-
-import static org.qi4j.api.common.Visibility.application;
-import static org.qi4j.api.common.Visibility.layer;
 
 public class Bootstrap extends javafx.application.Application {
 
@@ -58,17 +59,11 @@ public class Bootstrap extends javafx.application.Application {
             throw new IllegalArgumentException(e.getMessage(), e);
         }
 
-        // TODO 2014-07-04 dom: Put this in its own damn service.
-        Module module = application.findModule("domain", "game");
-        module.newUnitOfWork();
-        GameFactory gameFactory = module.findService(GameFactory.class).get();
-        Game game = gameFactory.create();
-        Property<String> gameIdentity = game.identity();
-        try {
-            module.currentUnitOfWork().complete();
-        } catch (UnitOfWorkCompletionException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
-        }
+        Module game = application.findModule("domain", "game");
+
+        Property<String> gameIdentity = game.findService(GameService.class)
+                                            .get()
+                                            .newGame();
 
         Module userInterface = application.findModule("user-interface", "all");
         Module domain = application.findModule("domain", "root");
