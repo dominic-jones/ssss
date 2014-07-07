@@ -20,15 +20,10 @@ import com.dv.ssss.domain.turn.TurnRepository;
 import com.dv.ssss.inf.event.EventAssembler;
 import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.ui.PresenterFactory;
+import com.dv.ssss.ui.UserInterfaceAssembler;
 import com.dv.ssss.ui.main.MainPresenter;
-import com.dv.ssss.ui.main.MainView;
-import com.dv.ssss.ui.personnel.PersonnelPresenter;
-import com.dv.ssss.ui.personnel.PersonnelView;
-import com.dv.ssss.ui.turn.TurnPresenter;
-import com.dv.ssss.ui.turn.TurnView;
 
 import org.qi4j.api.activation.ActivationException;
-import org.qi4j.api.property.Property;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
 import org.qi4j.bootstrap.ApplicationAssembler;
@@ -94,7 +89,7 @@ public class Bootstrap extends javafx.application.Application {
         return factory -> {
             ApplicationAssembly assembly = factory.newApplicationAssembly();
 
-            LayerAssembly userInterface = userInterface(assembly);
+            LayerAssembly userInterface = new UserInterfaceAssembler().assemble(assembly);
             LayerAssembly domain = domain(assembly);
             LayerAssembly persistence = persistence(assembly);
 
@@ -103,27 +98,6 @@ public class Bootstrap extends javafx.application.Application {
 
             return assembly;
         };
-    }
-
-    private LayerAssembly userInterface(ApplicationAssembly assembly) throws AssemblyException {
-
-        LayerAssembly userInterface = assembly.layer("user-interface");
-        ModuleAssembly userInterfaceModules = userInterface.module("all");
-
-        userInterfaceModules.services(
-                PresenterFactory.class
-        );
-
-        userInterfaceModules.transients(
-                MainPresenter.class,
-                MainView.class,
-                PersonnelPresenter.class,
-                PersonnelView.class,
-                TurnPresenter.class,
-                TurnView.class
-        );
-        new EventAssembler().assemble(userInterfaceModules);
-        return userInterface;
     }
 
     private LayerAssembly domain(ApplicationAssembly assembly) throws AssemblyException {
