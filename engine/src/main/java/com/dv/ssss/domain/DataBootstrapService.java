@@ -1,7 +1,7 @@
-package com.dv.ssss;
+package com.dv.ssss.domain;
 
 import com.dv.ssss.domain.people.PersonFactory;
-import com.dv.ssss.domain.turn.TurnFactory;
+
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;

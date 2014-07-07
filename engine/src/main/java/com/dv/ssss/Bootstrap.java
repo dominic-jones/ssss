@@ -3,6 +3,7 @@ package com.dv.ssss;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import com.dv.ssss.domain.DataBootstrapService;
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.main.MainPresenter;
