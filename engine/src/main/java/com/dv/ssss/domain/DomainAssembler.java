@@ -25,6 +25,7 @@ import org.qi4j.bootstrap.ModuleAssembly;
 
 public class DomainAssembler implements LayerAssembler {
 
+    @Override
     public LayerAssembly assemble(ApplicationAssembly assembly) {
 
         LayerAssembly domain = assembly.layer("domain");

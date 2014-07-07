@@ -1,12 +1,11 @@
 package com.dv.ssss;
 
-import static org.qi4j.api.common.Visibility.application;
-
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.dv.ssss.domain.DomainAssembler;
 import com.dv.ssss.domain.game.GameService;
+import com.dv.ssss.inf.PersistenceAssembler;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.UserInterfaceAssembler;
 import com.dv.ssss.ui.main.MainPresenter;
@@ -19,9 +18,6 @@ import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.Energy4Java;
 import org.qi4j.bootstrap.LayerAssembly;
-import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.entitystore.memory.MemoryEntityStoreAssembler;
-import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 
 public class Bootstrap extends javafx.application.Application {
 
@@ -79,7 +75,7 @@ public class Bootstrap extends javafx.application.Application {
 
             LayerAssembly userInterface = new UserInterfaceAssembler().assemble(assembly);
             LayerAssembly domain = new DomainAssembler().assemble(assembly);
-            LayerAssembly persistence = persistence(assembly);
+            LayerAssembly persistence = new PersistenceAssembler().assemble(assembly);
 
             userInterface.uses(domain);
             domain.uses(persistence);
@@ -87,17 +83,4 @@ public class Bootstrap extends javafx.application.Application {
             return assembly;
         };
     }
-
-    private LayerAssembly persistence(ApplicationAssembly assembly) throws AssemblyException {
-
-        LayerAssembly persistence = assembly.layer("persistence");
-        ModuleAssembly infrastructure = persistence.module("infrastructure");
-
-        new MemoryEntityStoreAssembler()
-                .visibleIn(application)
-                .assemble(infrastructure);
-        new RdfMemoryStoreAssembler().assemble(infrastructure);
-        return persistence;
-    }
-
 }
