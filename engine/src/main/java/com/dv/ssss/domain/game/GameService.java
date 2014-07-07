@@ -3,7 +3,6 @@ package com.dv.ssss.domain.game;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.property.Property;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
@@ -12,9 +11,9 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 public interface GameService {
 
     //TODO Return dto
-    int turnCount(Property<String> identity);
+    int turnCount(String gameIdentity);
 
-    Property<String> newGame();
+    String newGame();
 
     class GameServiceMixin implements GameService {
 
@@ -28,11 +27,11 @@ public interface GameService {
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public Property<String> newGame() {
+        public String newGame() {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
             Game game = gameFactory.create();
-            Property<String> gameIdentity = game.identity();
+            String gameIdentity = game.identity().get();
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
@@ -42,10 +41,10 @@ public interface GameService {
         }
 
         @Override
-        public int turnCount(Property<String> identity) {
+        public int turnCount(String gameIdentity) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
-            int turn = gameRepository.get(identity)
+            int turn = gameRepository.get(gameIdentity)
                                      .turn()
                                      .get()
                                      .turn();

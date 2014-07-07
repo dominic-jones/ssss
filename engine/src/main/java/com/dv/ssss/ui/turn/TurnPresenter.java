@@ -5,12 +5,12 @@ import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.turn.TurnEndedEvent;
 import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.ui.Presenter;
+
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.property.Property;
 
 @Mixins(TurnPresenter.TurnPresenterMixin.class)
 public interface TurnPresenter extends Presenter {
@@ -34,7 +34,7 @@ public interface TurnPresenter extends Presenter {
         TransientBuilderFactory transientBuilderFactory;
 
         @Uses
-        Property<String> game;
+        String gameIdentity;
 
         TurnView view;
 
@@ -68,7 +68,7 @@ public interface TurnPresenter extends Presenter {
 
         private void updateTurn() {
 
-            int turn = gameService.turnCount(game);
+            int turn = gameService.turnCount(gameIdentity);
             view.setTurn(turn);
         }
     }

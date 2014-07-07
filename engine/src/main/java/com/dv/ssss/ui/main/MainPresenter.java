@@ -11,7 +11,6 @@ import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.property.Property;
 
 @Mixins(MainPresenter.MainPresenterMixin.class)
 public interface MainPresenter extends Presenter {
@@ -27,7 +26,7 @@ public interface MainPresenter extends Presenter {
         TransientBuilderFactory transientBuilderFactory;
 
         @Uses
-        Property<String> game;
+        String gameIdentity;
 
         MainView view;
 
@@ -38,7 +37,7 @@ public interface MainPresenter extends Presenter {
 
             view = transientBuilderFactory.newTransient(MainView.class, this);
 
-            TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, game);
+            TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, gameIdentity);
 
             personnelPresenter = presenterFactory.create(PersonnelPresenter.class);
 

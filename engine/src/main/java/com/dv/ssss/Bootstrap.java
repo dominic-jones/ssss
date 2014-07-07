@@ -61,7 +61,7 @@ public class Bootstrap extends javafx.application.Application {
 
         Module game = application.findModule("domain", "game");
 
-        Property<String> gameIdentity = game.findService(GameService.class)
+        String gameIdentity = game.findService(GameService.class)
                                             .get()
                                             .newGame();
 
