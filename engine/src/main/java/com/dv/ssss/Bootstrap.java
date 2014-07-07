@@ -40,13 +40,14 @@ public class Bootstrap extends javafx.application.Application {
 
     private Application application() {
 
-        Energy4Java qi4j = new Energy4Java();
         Application application;
         try {
-            application = qi4j.newApplication(new GameAssembler());
+            application = new Energy4Java().newApplication(
+                    new GameAssembler()
+            );
             application.activate();
         } catch (AssemblyException | ActivationException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            throw new IllegalStateException(e.getMessage(), e);
         }
         return application;
     }
