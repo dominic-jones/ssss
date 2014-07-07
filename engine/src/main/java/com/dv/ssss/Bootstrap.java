@@ -3,21 +3,15 @@ package com.dv.ssss;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import com.dv.ssss.domain.DomainAssembler;
 import com.dv.ssss.domain.game.GameService;
-import com.dv.ssss.inf.PersistenceAssembler;
 import com.dv.ssss.ui.PresenterFactory;
-import com.dv.ssss.ui.UserInterfaceAssembler;
 import com.dv.ssss.ui.main.MainPresenter;
 
 import org.qi4j.api.activation.ActivationException;
 import org.qi4j.api.structure.Application;
 import org.qi4j.api.structure.Module;
-import org.qi4j.bootstrap.ApplicationAssembler;
-import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.Energy4Java;
-import org.qi4j.bootstrap.LayerAssembly;
 
 public class Bootstrap extends javafx.application.Application {
 
@@ -32,7 +26,7 @@ public class Bootstrap extends javafx.application.Application {
         Energy4Java qi4j = new Energy4Java();
         Application application;
         try {
-            application = qi4j.newApplication(assembler());
+            application = qi4j.newApplication(new GameAssembler());
             application.activate();
         } catch (AssemblyException | ActivationException e) {
             throw new IllegalArgumentException(e.getMessage(), e);
@@ -41,8 +35,8 @@ public class Bootstrap extends javafx.application.Application {
         Module game = application.findModule("domain", "game");
 
         String gameIdentity = game.findService(GameService.class)
-                                            .get()
-                                            .newGame();
+                                  .get()
+                                  .newGame();
 
         Module userInterface = application.findModule("user-interface", "all");
         Module domain = application.findModule("domain", "root");
@@ -66,21 +60,5 @@ public class Bootstrap extends javafx.application.Application {
         stage.setHeight(500);
         stage.setScene(scene);
         stage.show();
-    }
-
-    private ApplicationAssembler assembler() {
-
-        return factory -> {
-            ApplicationAssembly assembly = factory.newApplicationAssembly();
-
-            LayerAssembly userInterface = new UserInterfaceAssembler().assemble(assembly);
-            LayerAssembly domain = new DomainAssembler().assemble(assembly);
-            LayerAssembly persistence = new PersistenceAssembler().assemble(assembly);
-
-            userInterface.uses(domain);
-            domain.uses(persistence);
-
-            return assembly;
-        };
     }
 }
