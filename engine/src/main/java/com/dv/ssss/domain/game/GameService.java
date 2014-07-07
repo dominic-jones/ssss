@@ -1,6 +1,6 @@
 package com.dv.ssss.domain.game;
 
-import com.dv.ssss.domain.DataBootstrapService;
+import com.dv.ssss.domain.DataBootstrap;
 
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -20,7 +20,7 @@ public interface GameService {
     class GameServiceMixin implements GameService {
 
         @Service
-        DataBootstrapService dataBootstrapService;
+        DataBootstrap dataBootstrap;
 
         @Service
         GameRepository gameRepository;
@@ -36,7 +36,7 @@ public interface GameService {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
-            dataBootstrapService.bootstrap();
+            dataBootstrap.bootstrap();
 
             Game game = gameFactory.create();
             String gameIdentity = game.identity().get();
