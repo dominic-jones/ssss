@@ -4,18 +4,16 @@ import com.dv.ssss.domain.turn.TurnEndedEvent;
 import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
+
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
-import rx.Observable;
 
 @Mixins(PersonnelPresenter.PersonnelPresenterMixin.class)
 public interface PersonnelPresenter extends Presenter {
 
     PersonnelView getView();
-
-    void setPeople(Observable<PersonDto> people);
 
     @Subscribe
     void turnEnded(TurnEndedEvent event);
@@ -37,7 +35,7 @@ public interface PersonnelPresenter extends Presenter {
                     PersonnelView.class,
                     this
             );
-            setPeople(Observable.from(personnelService.all()));
+            setPeople(personnelService.all());
         }
 
         @Override
@@ -46,17 +44,15 @@ public interface PersonnelPresenter extends Presenter {
             return view;
         }
 
-        @Override
-        public void setPeople(Observable<PersonDto> people) {
+        public void setPeople(Iterable<PersonDto> people) {
 
-            people.toList()
-                  .subscribe(view::setPeople);
+            view.setPeople(people);
         }
 
         @Override
         public void turnEnded(TurnEndedEvent event) {
 
-            setPeople(Observable.from(personnelService.all()));
+            setPeople(personnelService.all());
         }
     }
 }
