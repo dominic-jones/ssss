@@ -17,6 +17,8 @@ public interface MainPresenter extends Presenter {
 
     MainView getView();
 
+    void selectOtherScreen(SelectScreenCommand selectScreenCommand);
+
     class MainPresenterMixin implements MainPresenter {
 
         @Service
@@ -30,23 +32,19 @@ public interface MainPresenter extends Presenter {
 
         MainView view;
 
-        PersonnelPresenter personnelPresenter;
-
         @Override
         public void init() {
 
             view = transientBuilderFactory.newTransient(MainView.class, this);
 
-            // TODO 2014-07-04 dom: These should change based on the button clicked, perhaps a [Name : Screen] ?
-            view.addButton("Main", new SelectScreenCommand(), this::selectOtherScreen);
-            view.addButton("Personnel", new SelectScreenCommand(), this::selectPersonnelScreen);
+            PersonnelPresenter personnelPresenter = presenterFactory.create(PersonnelPresenter.class);
+            view.setCenter(personnelPresenter.getView());
+
+            view.addNavigation("Main", new TestView());
+            view.addNavigation("Personnel", personnelPresenter.getView());
 
             TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, gameIdentity);
             view.setTop(turnPresenter.getView());
-
-            //TODO Do through command?
-            personnelPresenter = presenterFactory.create(PersonnelPresenter.class);
-            view.setCenter(personnelPresenter.getView());
         }
 
         @Override
@@ -55,15 +53,10 @@ public interface MainPresenter extends Presenter {
             return view;
         }
 
-        void selectOtherScreen(SelectScreenCommand selectScreenCommand) {
+        @Override
+        public void selectOtherScreen(SelectScreenCommand selectScreenCommand) {
 
-            // TODO 2014-07-04 dom: This is just a dummy to prove the case. Replace with something real.
-            view.setCenter(new TestView());
-        }
-
-        void selectPersonnelScreen(SelectScreenCommand selectScreenCommand) {
-
-            view.setCenter(personnelPresenter.getView());
+            view.setCenter(selectScreenCommand.getView());
         }
     }
 }

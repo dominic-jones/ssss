@@ -8,11 +8,11 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import rx.Observable;
-import rx.functions.Action1;
 
 import com.dv.ssss.ui.View;
 import com.dv.ssss.ui.other.ObservableEvent;
 
+import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(MainView.MainViewMixin.class)
@@ -22,13 +22,15 @@ public interface MainView extends View {
 
     void setTop(View view);
 
-    void addButton(String name,
-                   SelectScreenCommand command,
-                   Action1<? super SelectScreenCommand> binding);
+    void addNavigation(String name,
+                       View view);
 
     class MainViewMixin implements MainView {
 
         private static final Insets INSETS = new Insets(10, 10, 10, 10);
+
+        @Uses
+        MainPresenter mainPresenter;
 
         Pane controls = controls();
         BorderPane layout = layout(controls);
@@ -40,14 +42,13 @@ public interface MainView extends View {
         }
 
         @Override
-        public void addButton(String name,
-                              SelectScreenCommand command,
-                              Action1<? super SelectScreenCommand> binding) {
+        public void addNavigation(String name,
+                                  View view) {
 
             Button button = new Button(name);
             Observable.create(new ObservableEvent<ActionEvent>(button::setOnAction))
-                      .map(event -> command)
-                      .subscribe(binding);
+                      .map(event -> new SelectScreenCommand(view))
+                      .subscribe(mainPresenter::selectOtherScreen);
 
             controls.getChildren()
                     .add(button);
