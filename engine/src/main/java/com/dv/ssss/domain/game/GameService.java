@@ -1,6 +1,7 @@
 package com.dv.ssss.domain.game;
 
 import com.dv.ssss.domain.DataBootstrap;
+import com.dv.ssss.inf.DataException;
 
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -43,7 +44,7 @@ public interface GameService {
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
-                throw new IllegalArgumentException(e.getMessage(), e);
+                throw new DataException(e);
             }
             return gameIdentity;
         }
@@ -59,7 +60,7 @@ public interface GameService {
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
-                throw new IllegalArgumentException(e.getMessage(), e);
+                throw new DataException(e);
             }
             return turn;
         }

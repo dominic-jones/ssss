@@ -2,6 +2,7 @@ package com.dv.ssss.personnel;
 
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonnelRepository;
+import com.dv.ssss.inf.DataException;
 import com.dv.ssss.ui.personnel.PersonDto;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -37,7 +38,7 @@ public interface PersonnelService {
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
-                throw new IllegalArgumentException(e.getMessage(), e);
+                throw new DataException(e);
             }
             return personDtos;
         }

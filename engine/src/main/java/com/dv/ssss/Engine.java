@@ -4,6 +4,8 @@ import com.dv.ssss.domain.age.Age;
 import com.dv.ssss.domain.age.AgeRepository;
 import com.dv.ssss.domain.turn.Turn;
 import com.dv.ssss.domain.turn.TurnRepository;
+import com.dv.ssss.inf.DataException;
+
 import org.qi4j.api.composite.Composite;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -48,7 +50,7 @@ public interface Engine extends Composite {
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
-                throw new IllegalArgumentException(e.getMessage(), e);
+                throw new DataException(e);
             }
         }
     }

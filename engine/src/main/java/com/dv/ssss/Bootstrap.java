@@ -4,6 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.dv.ssss.domain.game.GameService;
+import com.dv.ssss.inf.BootstrapException;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.main.MainPresenter;
 
@@ -47,7 +48,7 @@ public class Bootstrap extends javafx.application.Application {
             );
             application.activate();
         } catch (AssemblyException | ActivationException e) {
-            throw new IllegalStateException(e.getMessage(), e);
+            throw new BootstrapException(e);
         }
         return application;
     }
