@@ -28,7 +28,7 @@ public interface MainView extends View {
 
     class MainViewMixin implements MainView {
 
-        private static final Insets INSETS = new Insets(10, 0, 0, 10);
+        private static final Insets INSETS = new Insets(10, 10, 10, 10);
 
         Pane controls = controls();
         BorderPane layout = layout(controls);

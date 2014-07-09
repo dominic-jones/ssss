@@ -24,7 +24,7 @@ public interface PersonnelView extends View {
     class PersonnelViewMixin implements PersonnelView {
 
         private static final int SPACING = 5;
-        private static final Insets INSETS = new Insets(10, 0, 0, 10);
+        private static final Insets INSETS = new Insets(10, 10, 10, 10);
         private static final Font FONT = new Font("Arial", 20);
 
         ObservableList<PersonDto> items = observableArrayList();
