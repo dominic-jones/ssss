@@ -57,8 +57,8 @@ public class Bootstrap extends javafx.application.Application {
 
         Scene scene = new Scene(mainPresenter.getView().getView());
         stage.setTitle("SSSS");
-        stage.setWidth(500);
-        stage.setHeight(500);
+        stage.setWidth(640);
+        stage.setHeight(480);
         stage.setScene(scene);
         stage.show();
     }
