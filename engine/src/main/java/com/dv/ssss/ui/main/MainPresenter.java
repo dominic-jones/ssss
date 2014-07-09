@@ -37,16 +37,15 @@ public interface MainPresenter extends Presenter {
 
             view = transientBuilderFactory.newTransient(MainView.class, this);
 
-            TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, gameIdentity);
-
-            personnelPresenter = presenterFactory.create(PersonnelPresenter.class);
-
             // TODO 2014-07-04 dom: These should change based on the button clicked, perhaps a [Name : Screen] ?
             view.addButton("Main", new SelectScreenCommand(), this::selectOtherScreen);
             view.addButton("Personnel", new SelectScreenCommand(), this::selectPersonnelScreen);
 
+            TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, gameIdentity);
             view.setTop(turnPresenter.getView());
+
             //TODO Do through command?
+            personnelPresenter = presenterFactory.create(PersonnelPresenter.class);
             view.setCenter(personnelPresenter.getView());
         }
 
