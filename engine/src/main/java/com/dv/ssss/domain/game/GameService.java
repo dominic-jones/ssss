@@ -41,8 +41,7 @@ public interface GameService {
             dataBootstrap.bootstrap();
 
             Game game = gameFactory.create();
-            String gameIdentity = game.identity()
-                                      .get();
+            String gameIdentity = game.identity().get();
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {

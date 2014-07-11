@@ -1,7 +1,6 @@
 package com.dv.ssss.domain;
 
 import static org.qi4j.api.common.Visibility.application;
-import static org.qi4j.api.common.Visibility.layer;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.domain.age.AgeRepository;
@@ -15,6 +14,7 @@ import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.LayerAssembler;
 import com.dv.ssss.personnel.PersonnelService;
 
+import org.qi4j.api.common.Visibility;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
@@ -27,33 +27,14 @@ public class DomainAssembler implements LayerAssembler {
         LayerAssembly domain = assembly.layer("domain");
 
         game(domain);
+        person(domain);
 
-        ModuleAssembly domainModules = domain.module("root");
-        domainModules.entities(
-                PersonEntity.class
-        );
-
-        domainModules.services(
-                PersonnelService.class
-        ).visibleIn(application);
-
-        domainModules.services(
-                AgeRepository.class,
-                PersonnelRepository.class
-        );
-
-        domainModules.services(
-                PersonFactory.class
-        ).visibleIn(layer);
-
-        domainModules.services(Engine.class)
-                     .visibleIn(application);
         return domain;
     }
 
-    private void game(LayerAssembly domain) {
+    private void game(LayerAssembly layer) {
 
-        ModuleAssembly module = domain.module("game");
+        ModuleAssembly module = layer.module("game");
         module.services(
                 GameService.class
         ).visibleIn(application);
@@ -68,5 +49,28 @@ public class DomainAssembler implements LayerAssembler {
         );
 
         module.entities(Game.class);
+    }
+
+    private void person(LayerAssembly layer) {
+
+        ModuleAssembly module = layer.module("person");
+
+        module.services(
+                Engine.class,
+                PersonnelService.class
+        ).visibleIn(application);
+
+        module.services(
+                PersonFactory.class
+        ).visibleIn(Visibility.layer);
+
+        module.services(
+                AgeRepository.class,
+                PersonnelRepository.class
+        );
+
+        module.entities(
+                PersonEntity.class
+        );
     }
 }
