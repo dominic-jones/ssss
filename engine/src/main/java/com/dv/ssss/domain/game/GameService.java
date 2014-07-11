@@ -70,8 +70,7 @@ public interface GameService {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
             int turn = gameRepository.get(gameIdentity)
-                                     .turn()
-                                     .get();
+                                     .number();
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {

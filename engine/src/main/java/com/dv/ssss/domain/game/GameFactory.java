@@ -22,7 +22,7 @@ public interface GameFactory {
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
             EntityBuilder<Game> entityBuilder = unitOfWork.newEntityBuilder(Game.class);
-            Game template = entityBuilder.instance();
+            Turn.TurnState template = entityBuilder.instanceFor(Turn.TurnState.class);
             template.turn().set(1);
 
             return entityBuilder.newInstance();
