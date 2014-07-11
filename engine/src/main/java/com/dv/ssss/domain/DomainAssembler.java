@@ -31,7 +31,7 @@ public class DomainAssembler implements LayerAssembler {
         ModuleAssembly domainModules = domain.module("root");
         domainModules.entities(
                 PersonEntity.class
-        ).visibleIn(layer);
+        );
 
         domainModules.services(
                 PersonnelService.class
@@ -46,10 +46,6 @@ public class DomainAssembler implements LayerAssembler {
                 PersonFactory.class
         ).visibleIn(layer);
 
-        domainModules.services(
-                DataBootstrap.class
-        ).visibleIn(layer);
-
         domainModules.services(Engine.class)
                      .visibleIn(application);
         return domain;
@@ -57,15 +53,20 @@ public class DomainAssembler implements LayerAssembler {
 
     private void game(LayerAssembly domain) {
 
-        ModuleAssembly game = domain.module("game");
-        game.services(
+        ModuleAssembly module = domain.module("game");
+        module.services(
                 GameService.class
         ).visibleIn(application);
 
-        game.services(
+        module.services(
                 GameFactory.class,
                 GameRepository.class
         );
-        game.entities(Game.class);
+
+        module.services(
+                DataBootstrap.class
+        );
+
+        module.entities(Game.class);
     }
 }
