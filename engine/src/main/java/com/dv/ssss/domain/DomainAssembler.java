@@ -12,9 +12,6 @@ import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonFactory;
 import com.dv.ssss.domain.people.PersonnelRepository;
-import com.dv.ssss.domain.turn.Turn;
-import com.dv.ssss.domain.turn.TurnFactory;
-import com.dv.ssss.domain.turn.TurnRepository;
 import com.dv.ssss.inf.LayerAssembler;
 import com.dv.ssss.personnel.PersonnelService;
 
@@ -33,8 +30,7 @@ public class DomainAssembler implements LayerAssembler {
 
         ModuleAssembly domainModules = domain.module("root");
         domainModules.entities(
-                PersonEntity.class,
-                Turn.class
+                PersonEntity.class
         ).visibleIn(layer);
 
         domainModules.services(
@@ -43,13 +39,11 @@ public class DomainAssembler implements LayerAssembler {
 
         domainModules.services(
                 AgeRepository.class,
-                PersonnelRepository.class,
-                TurnRepository.class
+                PersonnelRepository.class
         );
 
         domainModules.services(
-                PersonFactory.class,
-                TurnFactory.class
+                PersonFactory.class
         ).visibleIn(layer);
 
         domainModules.services(

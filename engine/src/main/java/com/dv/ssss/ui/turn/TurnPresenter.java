@@ -2,7 +2,6 @@ package com.dv.ssss.ui.turn;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.domain.game.GameService;
-import com.dv.ssss.domain.turn.TurnEndedEvent;
 import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.ui.Presenter;
 

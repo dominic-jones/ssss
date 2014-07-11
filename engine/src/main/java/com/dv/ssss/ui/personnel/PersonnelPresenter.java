@@ -1,8 +1,8 @@
 package com.dv.ssss.ui.personnel;
 
-import com.dv.ssss.domain.turn.TurnEndedEvent;
 import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.ui.Presenter;
+import com.dv.ssss.ui.turn.TurnEndedEvent;
 import com.google.common.eventbus.Subscribe;
 
 import org.qi4j.api.composite.TransientBuilderFactory;
