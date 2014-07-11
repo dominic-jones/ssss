@@ -13,10 +13,11 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 @Mixins(GameService.GameServiceMixin.class)
 public interface GameService {
 
-    //TODO Return dto
     int turnCount(String gameIdentity);
 
     String newGame();
+
+    void endTurn(String gameIdentity);
 
     class GameServiceMixin implements GameService {
 
@@ -40,7 +41,8 @@ public interface GameService {
             dataBootstrap.bootstrap();
 
             Game game = gameFactory.create();
-            String gameIdentity = game.identity().get();
+            String gameIdentity = game.identity()
+                                      .get();
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
@@ -50,13 +52,26 @@ public interface GameService {
         }
 
         @Override
+        public void endTurn(String gameIdentity) {
+
+            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
+
+            Game game = gameRepository.get(gameIdentity);
+            game.endTurn();
+            try {
+                unitOfWork.complete();
+            } catch (UnitOfWorkCompletionException e) {
+                throw new DataException(e);
+            }
+        }
+
+        @Override
         public int turnCount(String gameIdentity) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
             int turn = gameRepository.get(gameIdentity)
                                      .turn()
-                                     .get()
-                                     .turn();
+                                     .get();
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {

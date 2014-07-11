@@ -2,8 +2,7 @@ package com.dv.ssss;
 
 import com.dv.ssss.domain.age.Age;
 import com.dv.ssss.domain.age.AgeRepository;
-import com.dv.ssss.domain.turn.Turn;
-import com.dv.ssss.domain.turn.TurnRepository;
+import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.inf.DataException;
 
 import org.qi4j.api.composite.Composite;
@@ -17,7 +16,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 @Mixins(Engine.EngineImpl.class)
 public interface Engine extends Composite {
 
-    void endTurn();
+    void endTurn(String gameIdentity);
 
     abstract class EngineImpl implements Engine {
 
@@ -25,13 +24,13 @@ public interface Engine extends Composite {
         AgeRepository ageRepository;
 
         @Service
-        TurnRepository turnRepository;
+        GameService gameService;
 
         @Structure
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public void endTurn() {
+        public void endTurn(String gameIdentity) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
@@ -40,8 +39,7 @@ public interface Engine extends Composite {
                 ageable.increaseAge(1);
             }
 
-            Turn turn = turnRepository.get();
-            turn.increaseTurn();
+            gameService.endTurn(gameIdentity);
 
             //TODO Do not sysout
             System.out.println("Ending turn");

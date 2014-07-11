@@ -1,9 +1,6 @@
 package com.dv.ssss.domain.game;
 
-import com.dv.ssss.domain.turn.Turn;
-import com.dv.ssss.domain.turn.TurnFactory;
 import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.unitofwork.UnitOfWork;
@@ -16,9 +13,6 @@ public interface GameFactory {
 
     class GameFactoryMixin implements GameFactory {
 
-        @Service
-        TurnFactory turnFactory;
-
         @Structure
         UnitOfWorkFactory unitOfWorkFactory;
 
@@ -27,11 +21,9 @@ public interface GameFactory {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
-            Turn turn = turnFactory.create();
-
             EntityBuilder<Game> entityBuilder = unitOfWork.newEntityBuilder(Game.class);
             Game template = entityBuilder.instance();
-            template.turn().set(turn);
+            template.turn().set(1);
 
             return entityBuilder.newInstance();
         }

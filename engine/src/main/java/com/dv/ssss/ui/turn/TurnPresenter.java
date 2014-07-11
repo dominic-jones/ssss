@@ -43,7 +43,8 @@ public interface TurnPresenter extends Presenter {
 
             view = transientBuilderFactory.newTransient(
                     TurnView.class,
-                    this
+                    this,
+                    gameIdentity
             );
 
             view.bindEndTurn(this::endTurn);
@@ -60,7 +61,7 @@ public interface TurnPresenter extends Presenter {
         @Override
         public void endTurn(EndTurnCommand endTurnCommand) {
 
-            engine.endTurn();
+            engine.endTurn(gameIdentity);
             eventPoster.post(new TurnEndedEvent());
             //TODO Fire through event
             updateTurn();

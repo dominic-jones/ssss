@@ -14,6 +14,7 @@ import rx.functions.Action1;
 import com.dv.ssss.ui.View;
 import com.dv.ssss.ui.other.ObservableEvent;
 
+import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(TurnView.TurnViewMixin.class)
@@ -27,6 +28,9 @@ public interface TurnView extends View {
 
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
+
+        @Uses
+        String gameIdentity;
 
         Text turnCount = new Text();
         Pane pane = view(
@@ -50,7 +54,7 @@ public interface TurnView extends View {
 
             Button button = new Button("End Turn");
             Observable.create(new ObservableEvent<ActionEvent>(button::setOnAction))
-                      .map(event -> new EndTurnCommand())
+                      .map(event -> new EndTurnCommand(gameIdentity))
                       .subscribe(binding);
             pane.getChildren()
                 .add(button);
