@@ -10,12 +10,11 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.qi4j.api.query.QueryExpressions.templateFor;
 
 @Mixins(PersonnelRepository.PersonnelRepositoryMixin.class)
 public interface PersonnelRepository extends Composite {
 
-    Iterable<PersonEntity> getByName(String name);
+    Iterable<PersonEntity> all(String name);
 
     class PersonnelRepositoryMixin implements PersonnelRepository {
 
@@ -26,16 +25,12 @@ public interface PersonnelRepository extends Composite {
         Module module;
 
         @Override
-        public Iterable<PersonEntity> getByName(String name) {
+        public Iterable<PersonEntity> all(String name) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
-            Name.NameState template = templateFor(Name.NameState.class);
-
             QueryBuilder<PersonEntity> builder = module
-                    .newQueryBuilder(PersonEntity.class)
-//                    .where(eq(template.name(), name))
-                    ;
+                    .newQueryBuilder(PersonEntity.class);
             Query<PersonEntity> query = unitOfWork.newQuery(builder);
 
             return newArrayList(query);

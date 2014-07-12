@@ -37,7 +37,7 @@ public interface PersonnelService {
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
             //TODO Get all
             //TODO Give better name, not just people
-            Iterable<PersonEntity> people = personnelRepository.getByName("Aegis");
+            Iterable<PersonEntity> people = personnelRepository.all("Aegis");
             Iterable<PersonDto> personDtos = newArrayList(transform(people, p -> new PersonDto(p, factionRepository.factionFor(p))));
             try {
                 unitOfWork.complete();
