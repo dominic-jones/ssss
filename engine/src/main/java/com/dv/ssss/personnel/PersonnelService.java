@@ -31,7 +31,6 @@ public interface PersonnelService {
         public Iterable<PersonDto> all() {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
-            //TODO Get all
             //TODO Give better name, not just people
             Iterable<PersonEntity> people = personnelRepository.all("Aegis");
             Iterable<PersonDto> personDtos = newArrayList(transform(people, PersonDto::new));
