@@ -4,6 +4,7 @@ import com.dv.ssss.domain.age.Age;
 import com.dv.ssss.domain.faction.FactionEntity;
 import com.dv.ssss.domain.faction.FactionFactory;
 import com.dv.ssss.domain.faction.FactionRepository;
+import com.google.common.base.Optional;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
@@ -24,20 +25,20 @@ public interface Person extends Age, Name, Rank {
         FactionRepository factionRepository;
 
         @This
-        PersonEntity personEntity;
+        PersonEntity thisEntity;
 
         @Override
         public String faction() {
 
-            FactionEntity factionEntity = factionRepository.factionFor(personEntity);
+            Optional<FactionEntity> factionEntity = factionRepository.factionFor(thisEntity);
 
-            return factionEntity == null ? "Unaligned" : factionEntity.name().get();
+            return !factionEntity.isPresent() ? "Unaligned" : factionEntity.get().name().get();
         }
 
         @Override
         public void foundFaction(String name) {
 
-            factionFactory.create(personEntity, name);
+            factionFactory.create(thisEntity, name);
         }
     }
 

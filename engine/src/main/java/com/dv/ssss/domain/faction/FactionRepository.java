@@ -1,6 +1,7 @@
 package com.dv.ssss.domain.faction;
 
 import com.dv.ssss.domain.people.PersonEntity;
+import com.google.common.base.Optional;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.QueryBuilder;
@@ -8,13 +9,14 @@ import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
+import static com.google.common.base.Optional.fromNullable;
 import static org.qi4j.api.query.QueryExpressions.contains;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
 
 @Mixins(FactionRepository.FactionRepositoryMixin.class)
 public interface FactionRepository {
 
-    FactionEntity factionFor(PersonEntity person);
+    Optional<FactionEntity> factionFor(PersonEntity person);
 
     class FactionRepositoryMixin implements FactionRepository {
 
@@ -25,7 +27,7 @@ public interface FactionRepository {
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public FactionEntity factionFor(PersonEntity person) {
+        public Optional<FactionEntity> factionFor(PersonEntity person) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
@@ -33,8 +35,7 @@ public interface FactionRepository {
             QueryBuilder<FactionEntity> queryBuilder = queryBuilderFactory.newQueryBuilder(FactionEntity.class)
                                                                           .where(contains(template.members(), person));
 
-            //TODO optional?
-            return unitOfWork.newQuery(queryBuilder).find();
+            return fromNullable(unitOfWork.newQuery(queryBuilder).find());
         }
     }
 
