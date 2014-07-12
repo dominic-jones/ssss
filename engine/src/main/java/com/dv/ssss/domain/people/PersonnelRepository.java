@@ -10,7 +10,6 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
 import static com.google.common.collect.Lists.newArrayList;
-import static org.qi4j.api.query.QueryExpressions.eq;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
 
 @Mixins(PersonnelRepository.PersonnelRepositoryMixin.class)
@@ -35,7 +34,8 @@ public interface PersonnelRepository extends Composite {
 
             QueryBuilder<PersonEntity> builder = module
                     .newQueryBuilder(PersonEntity.class)
-                    .where(eq(template.name(), name));
+//                    .where(eq(template.name(), name))
+                    ;
             Query<PersonEntity> query = unitOfWork.newQuery(builder);
 
             return newArrayList(query);

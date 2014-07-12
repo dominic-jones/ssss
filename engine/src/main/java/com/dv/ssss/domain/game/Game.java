@@ -1,11 +1,12 @@
 package com.dv.ssss.domain.game;
 
-import org.qi4j.api.entity.EntityComposite;
+import com.dv.ssss.domain.people.Person;
+import org.qi4j.api.association.ManyAssociation;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins({Game.GameMixin.class})
-public interface Game extends EntityComposite, Turn {
+public interface Game extends Turn, NewGame {
 
     void endTurn();
 
@@ -22,5 +23,11 @@ public interface Game extends EntityComposite, Turn {
                          .get() + 1
             );
         }
+    }
+
+    interface GameState {
+
+        ManyAssociation<Person> people();
+
     }
 }

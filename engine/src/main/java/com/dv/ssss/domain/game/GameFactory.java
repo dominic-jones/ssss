@@ -9,7 +9,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 @Mixins(GameFactory.GameFactoryMixin.class)
 public interface GameFactory {
 
-    Game create();
+    NewGame create();
 
     class GameFactoryMixin implements GameFactory {
 
