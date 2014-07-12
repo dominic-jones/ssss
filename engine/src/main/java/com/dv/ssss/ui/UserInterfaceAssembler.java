@@ -8,7 +8,6 @@ import com.dv.ssss.ui.personnel.PersonnelPresenter;
 import com.dv.ssss.ui.personnel.PersonnelView;
 import com.dv.ssss.ui.turn.TurnPresenter;
 import com.dv.ssss.ui.turn.TurnView;
-
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
@@ -19,13 +18,13 @@ public class UserInterfaceAssembler implements LayerAssembler {
     public LayerAssembly assemble(ApplicationAssembly assembly) {
 
         LayerAssembly userInterface = assembly.layer("user-interface");
-        ModuleAssembly userInterfaceModules = userInterface.module("all");
+        ModuleAssembly module = userInterface.module("all");
 
-        userInterfaceModules.services(
+        module.services(
                 PresenterFactory.class
         );
 
-        userInterfaceModules.transients(
+        module.transients(
                 MainPresenter.class,
                 MainView.class,
                 PersonnelPresenter.class,
@@ -33,7 +32,8 @@ public class UserInterfaceAssembler implements LayerAssembler {
                 TurnPresenter.class,
                 TurnView.class
         );
-        new EventAssembler().assemble(userInterfaceModules);
+
+        new EventAssembler().assemble(module);
         return userInterface;
     }
 }
