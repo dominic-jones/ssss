@@ -25,8 +25,11 @@ public interface NewGame extends EntityComposite {
         public void progenate() {
 
             ManyAssociation<Person> people = state.people();
-            people.add(personFactory.create("Aegis", "Overlord", 23));
+            Person aegis = personFactory.create("Aegis", "Overlord", 23);
+            people.add(aegis);
             people.add(personFactory.create("Riesz", "Warrior", 27));
+
+            aegis.foundFaction("Vandals");
         }
     }
 

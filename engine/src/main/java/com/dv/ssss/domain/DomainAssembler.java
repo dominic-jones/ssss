@@ -2,6 +2,8 @@ package com.dv.ssss.domain;
 
 import com.dv.ssss.Engine;
 import com.dv.ssss.domain.age.AgeRepository;
+import com.dv.ssss.domain.faction.FactionEntity;
+import com.dv.ssss.domain.faction.FactionFactory;
 import com.dv.ssss.domain.game.Game;
 import com.dv.ssss.domain.game.GameFactory;
 import com.dv.ssss.domain.game.GameRepository;
@@ -56,6 +58,7 @@ public class DomainAssembler implements LayerAssembler {
         ).visibleIn(application);
 
         module.services(
+                FactionFactory.class,
                 PersonFactory.class
         ).visibleIn(Visibility.layer);
 
@@ -65,6 +68,7 @@ public class DomainAssembler implements LayerAssembler {
         );
 
         module.entities(
+                FactionEntity.class,
                 PersonEntity.class
         );
     }
