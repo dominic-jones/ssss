@@ -4,6 +4,7 @@ import com.dv.ssss.Engine;
 import com.dv.ssss.domain.age.AgeRepository;
 import com.dv.ssss.domain.faction.FactionEntity;
 import com.dv.ssss.domain.faction.FactionFactory;
+import com.dv.ssss.domain.faction.FactionRepository;
 import com.dv.ssss.domain.game.Game;
 import com.dv.ssss.domain.game.GameFactory;
 import com.dv.ssss.domain.game.GameRepository;
@@ -64,6 +65,7 @@ public class DomainAssembler implements LayerAssembler {
 
         module.services(
                 AgeRepository.class,
+                FactionRepository.class,
                 PersonnelRepository.class
         );
 

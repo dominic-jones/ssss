@@ -1,5 +1,6 @@
 package com.dv.ssss.personnel;
 
+import com.dv.ssss.domain.faction.FactionRepository;
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.DataException;
@@ -24,6 +25,9 @@ public interface PersonnelService {
         @Service
         PersonnelRepository personnelRepository;
 
+        @Service
+        FactionRepository factionRepository;
+
         @Structure
         UnitOfWorkFactory unitOfWorkFactory;
 
@@ -34,7 +38,7 @@ public interface PersonnelService {
             //TODO Get all
             //TODO Give better name, not just people
             Iterable<PersonEntity> people = personnelRepository.getByName("Aegis");
-            Iterable<PersonDto> personDtos = newArrayList(transform(people, PersonDto::new));
+            Iterable<PersonDto> personDtos = newArrayList(transform(people, p -> new PersonDto(p, factionRepository.factionFor(p))));
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {
