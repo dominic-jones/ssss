@@ -11,6 +11,7 @@ import javafx.scene.text.Text;
 import rx.Observable;
 import rx.functions.Action1;
 
+import com.dv.ssss.domain.game.TurnDto;
 import com.dv.ssss.ui.View;
 import com.dv.ssss.ui.other.ObservableEvent;
 
@@ -20,7 +21,7 @@ import org.qi4j.api.mixin.Mixins;
 @Mixins(TurnView.TurnViewMixin.class)
 public interface TurnView extends View {
 
-    void setTurn(int turn);
+    void setTurn(TurnDto turn);
 
     void bindEndTurn(Action1<? super EndTurnCommand> endTurn);
 
@@ -33,6 +34,7 @@ public interface TurnView extends View {
         String gameIdentity;
 
         Text turnCount = new Text();
+        Text date = new Text();
         Pane pane = view(
                 name()
         );
@@ -45,7 +47,8 @@ public interface TurnView extends View {
 
         Label name() {
 
-            return new Label("Turn");
+            Label turn = new Label("Turn");
+            return turn;
         }
 
         // TODO 2014-07-04 dom: Looks similar to MainView::addButton. Simplify?
@@ -66,15 +69,16 @@ public interface TurnView extends View {
             pane.setSpacing(SPACING);
             pane.setPadding(INSETS);
             pane.getChildren()
-                .addAll(label, turnCount);
+                .addAll(label, turnCount, date);
             return pane;
         }
 
         @Override
-        public void setTurn(int turn) {
+        public void setTurn(TurnDto turn) {
 
             turnCount.textProperty()
-                     .set(String.valueOf(turn));
+                     .set(String.valueOf(turn.getTurnCount()));
+            date.textProperty().set(turn.getDate().toString());
         }
     }
 

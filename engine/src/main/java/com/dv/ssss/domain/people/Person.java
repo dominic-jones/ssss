@@ -5,6 +5,7 @@ import com.dv.ssss.domain.faction.FactionEntity;
 import com.dv.ssss.domain.faction.FactionFactory;
 import com.dv.ssss.domain.faction.FactionRepository;
 import com.google.common.base.Optional;
+
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
@@ -32,7 +33,7 @@ public interface Person extends Age, Name, Rank {
 
             Optional<FactionEntity> factionEntity = factionRepository.factionFor(thisEntity);
 
-            return !factionEntity.isPresent() ? "Unaligned" : factionEntity.get().name().get();
+            return factionEntity.isPresent() ? factionEntity.get().name().get() : "Unaligned";
         }
 
         @Override

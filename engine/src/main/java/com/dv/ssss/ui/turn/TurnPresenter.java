@@ -68,8 +68,7 @@ public interface TurnPresenter extends Presenter {
 
         private void updateTurn() {
 
-            int turn = gameService.turnCount(gameIdentity);
-            view.setTurn(turn);
+            view.setTurn(gameService.currentTurn(gameIdentity));
         }
     }
 }

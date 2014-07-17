@@ -4,10 +4,10 @@ import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.ui.Presenter;
 import com.dv.ssss.ui.turn.TurnEndedEvent;
 import com.google.common.eventbus.Subscribe;
-
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(PersonnelPresenter.PersonnelPresenterMixin.class)
@@ -26,6 +26,9 @@ public interface PersonnelPresenter extends Presenter {
         @Structure
         TransientBuilderFactory transientBuilderFactory;
 
+        @Uses
+        String gameIdentity;
+
         PersonnelView view;
 
         @Override
@@ -35,7 +38,7 @@ public interface PersonnelPresenter extends Presenter {
                     PersonnelView.class,
                     this
             );
-            setPeople(personnelService.all());
+            setPeople(personnelService.all(gameIdentity));
         }
 
         @Override
@@ -52,7 +55,7 @@ public interface PersonnelPresenter extends Presenter {
         @Override
         public void turnEnded(TurnEndedEvent event) {
 
-            setPeople(personnelService.all());
+            setPeople(personnelService.all(gameIdentity));
         }
     }
 }

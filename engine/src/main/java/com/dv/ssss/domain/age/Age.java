@@ -1,5 +1,7 @@
 package com.dv.ssss.domain.age;
 
+import org.joda.time.LocalDate;
+import org.joda.time.Years;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.property.Property;
@@ -7,7 +9,7 @@ import org.qi4j.api.property.Property;
 @Mixins(Age.AgeMixin.class)
 public interface Age {
 
-    void increaseAge(int increment);
+    int age(LocalDate currentDate);
 
     class AgeMixin implements Age {
 
@@ -15,16 +17,17 @@ public interface Age {
         AgeState state;
 
         @Override
-        public void increaseAge(int increment) {
+        public int age(LocalDate currentDate) {
 
-            state.age().set(
-                    state.age().get() + increment
-            );
+            LocalDate birthDate = state.birthDate().get();
+
+            return Years.yearsBetween(birthDate, currentDate).getYears();
         }
+
     }
 
     interface AgeState {
 
-        Property<Integer> age();
+        Property<LocalDate> birthDate();
     }
 }

@@ -1,7 +1,5 @@
 package com.dv.ssss;
 
-import com.dv.ssss.domain.age.Age;
-import com.dv.ssss.domain.age.AgeRepository;
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.inf.DataException;
 
@@ -21,9 +19,6 @@ public interface Engine extends Composite {
     abstract class EngineImpl implements Engine {
 
         @Service
-        AgeRepository ageRepository;
-
-        @Service
         GameService gameService;
 
         @Structure
@@ -34,17 +29,8 @@ public interface Engine extends Composite {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
-            Iterable<Age> ageables = ageRepository.findAgeables();
-            for (Age ageable : ageables) {
-                ageable.increaseAge(1);
-            }
-
             gameService.endTurn(gameIdentity);
 
-            //TODO Do not sysout
-            System.out.println("Ending turn");
-
-            //TODO Handle it
             try {
                 unitOfWork.complete();
             } catch (UnitOfWorkCompletionException e) {

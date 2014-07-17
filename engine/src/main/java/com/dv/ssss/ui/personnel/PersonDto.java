@@ -3,6 +3,8 @@ package com.dv.ssss.ui.personnel;
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.ui.other.Column;
 
+import org.joda.time.LocalDate;
+
 public class PersonDto {
 
     private final String name;
@@ -10,10 +12,11 @@ public class PersonDto {
     private final String rank;
     private final String factionName;
 
-    public PersonDto(PersonEntity person) {
+    public PersonDto(PersonEntity person,
+                     LocalDate currentDate) {
 
         name = person.name().get();
-        age = person.age().get();
+        age = person.age(currentDate);
         rank = person.rank().get();
         factionName = person.faction();
     }

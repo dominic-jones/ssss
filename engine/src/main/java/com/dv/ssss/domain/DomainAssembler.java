@@ -1,7 +1,8 @@
 package com.dv.ssss.domain;
 
+import static org.qi4j.api.common.Visibility.application;
+
 import com.dv.ssss.Engine;
-import com.dv.ssss.domain.age.AgeRepository;
 import com.dv.ssss.domain.faction.FactionEntity;
 import com.dv.ssss.domain.faction.FactionFactory;
 import com.dv.ssss.domain.faction.FactionRepository;
@@ -14,12 +15,11 @@ import com.dv.ssss.domain.people.PersonFactory;
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.LayerAssembler;
 import com.dv.ssss.personnel.PersonnelService;
+
 import org.qi4j.api.common.Visibility;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
-
-import static org.qi4j.api.common.Visibility.application;
 
 public class DomainAssembler implements LayerAssembler {
 
@@ -34,9 +34,9 @@ public class DomainAssembler implements LayerAssembler {
         return domain;
     }
 
-    private void game(LayerAssembly layer) {
+    private void game(LayerAssembly assembly) {
 
-        ModuleAssembly module = layer.module("game");
+        ModuleAssembly module = assembly.module("game");
         module.services(
                 GameService.class
         ).visibleIn(application);
@@ -64,7 +64,6 @@ public class DomainAssembler implements LayerAssembler {
         ).visibleIn(Visibility.layer);
 
         module.services(
-                AgeRepository.class,
                 FactionRepository.class,
                 PersonnelRepository.class
         );

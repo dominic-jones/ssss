@@ -1,6 +1,7 @@
 package com.dv.ssss.domain.game;
 
 import com.dv.ssss.domain.people.Person;
+
 import org.qi4j.api.association.ManyAssociation;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
