@@ -1,8 +1,10 @@
 package com.dv.ssss.domain.game;
 
 import com.dv.ssss.inf.DataException;
-
+import com.dv.ssss.inf.Transacted;
+import com.dv.ssss.inf.UnitOfWorkConcern;
 import org.joda.time.Period;
+import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
@@ -10,9 +12,11 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
+@Concerns(UnitOfWorkConcern.class)
 @Mixins(GameService.GameServiceMixin.class)
 public interface GameService {
 
+    @Transacted
     TurnDto currentTurn(String gameIdentity);
 
     Period elapsedTime(String gameIdentity);
@@ -68,13 +72,8 @@ public interface GameService {
         @Override
         public TurnDto currentTurn(String gameIdentity) {
 
-            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
             TurnDto turn = new TurnDto(gameRepository.get(gameIdentity));
-            try {
-                unitOfWork.complete();
-            } catch (UnitOfWorkCompletionException e) {
-                throw new DataException(e);
-            }
+
             return turn;
         }
 
