@@ -1,7 +1,7 @@
 package com.dv.ssss.domain.game;
 
-import com.dv.ssss.inf.Transacted;
-import com.dv.ssss.inf.UnitOfWorkConcern;
+import com.dv.ssss.inf.uow.Transacted;
+import com.dv.ssss.inf.uow.UnitOfWorkConcern;
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;

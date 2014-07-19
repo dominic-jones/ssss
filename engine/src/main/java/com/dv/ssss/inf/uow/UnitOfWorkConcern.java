@@ -1,5 +1,6 @@
-package com.dv.ssss.inf;
+package com.dv.ssss.inf.uow;
 
+import com.dv.ssss.inf.DataException;
 import org.qi4j.api.common.AppliesTo;
 import org.qi4j.api.concern.GenericConcern;
 import org.qi4j.api.injection.scope.Structure;

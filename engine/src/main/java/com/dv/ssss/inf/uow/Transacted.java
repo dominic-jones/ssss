@@ -1,4 +1,4 @@
-package com.dv.ssss.inf;
+package com.dv.ssss.inf.uow;
 
 import org.qi4j.api.injection.InjectionScope;
 
