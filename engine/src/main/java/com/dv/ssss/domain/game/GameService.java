@@ -25,6 +25,9 @@ public interface GameService {
 
     void endTurn(String gameIdentity);
 
+    @Transacted
+    void progenate(String gameIdentity);
+
     class GameServiceMixin implements GameService {
 
         @Service
@@ -55,57 +58,31 @@ public interface GameService {
             return gameIdentity;
         }
 
-        private void progenate(String gameIdentity) {
-
-            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
+        @Override
+        public void progenate(String gameIdentity) {
 
             Game game = gameRepository.get(gameIdentity);
             game.progenate(currentTurn(gameIdentity).getDate());
-
-            try {
-                unitOfWork.complete();
-            } catch (UnitOfWorkCompletionException e) {
-                throw new DataException(e);
-            }
         }
 
         @Override
         public TurnDto currentTurn(String gameIdentity) {
 
-            TurnDto turn = new TurnDto(gameRepository.get(gameIdentity));
-
-            return turn;
+            return new TurnDto(gameRepository.get(gameIdentity));
         }
 
         @Override
         public Period elapsedTime(String gameIdentity) {
 
-            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
-
             Turn turn = gameRepository.get(gameIdentity);
-            Period period = turn.elapsedTime();
-
-            try {
-                unitOfWork.complete();
-            } catch (UnitOfWorkCompletionException e) {
-                throw new DataException(e);
-            }
-
-            return period;
+            return turn.elapsedTime();
         }
 
         @Override
         public void endTurn(String gameIdentity) {
 
-            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
-
             Game game = gameRepository.get(gameIdentity);
             game.endTurn();
-            try {
-                unitOfWork.complete();
-            } catch (UnitOfWorkCompletionException e) {
-                throw new DataException(e);
-            }
         }
     }
 
