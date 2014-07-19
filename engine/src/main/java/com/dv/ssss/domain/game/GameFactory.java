@@ -10,7 +10,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 @Mixins(GameFactory.GameFactoryMixin.class)
 public interface GameFactory {
 
-    NewGame create();
+    String create();
 
     class GameFactoryMixin implements GameFactory {
 
@@ -18,16 +18,16 @@ public interface GameFactory {
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public Game create() {
+        public String create() {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
-            EntityBuilder<Game> entityBuilder = unitOfWork.newEntityBuilder(Game.class);
+            EntityBuilder<GameEntity> entityBuilder = unitOfWork.newEntityBuilder(GameEntity.class);
             Turn.TurnState template = entityBuilder.instanceFor(Turn.TurnState.class);
             template.turn().set(1);
             template.startingDate().set(LocalDate.parse("2088-6-14"));
 
-            return entityBuilder.newInstance();
+            return entityBuilder.newInstance().identity().get();
         }
     }
 

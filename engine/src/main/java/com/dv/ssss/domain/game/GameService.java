@@ -38,8 +38,7 @@ public interface GameService {
         @Override
         public String createNewGame() {
 
-            NewGame game = gameFactory.create();
-            return game.identity().get();
+            return gameFactory.create();
         }
 
         @Override
