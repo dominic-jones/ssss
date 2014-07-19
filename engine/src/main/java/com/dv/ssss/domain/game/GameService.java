@@ -1,6 +1,5 @@
 package com.dv.ssss.domain.game;
 
-import com.dv.ssss.inf.uow.Transacted;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
@@ -10,19 +9,14 @@ import org.qi4j.api.mixin.Mixins;
 @Mixins(GameService.GameServiceMixin.class)
 public interface GameService {
 
-    @Transacted
     String createNewGame();
 
-    @Transacted
     TurnDto currentTurn(String gameIdentity);
 
-    @Transacted
     void endTurn(String gameIdentity);
 
-    @Transacted
     void progenate(String gameIdentity);
 
-    @Transacted
     String startNewGame();
 
     class GameServiceMixin implements GameService {

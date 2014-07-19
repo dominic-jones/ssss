@@ -10,7 +10,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
 import java.lang.reflect.Method;
 
-@AppliesTo(Transacted.class)
+@AppliesTo({Transacted.class, TransactedFilter.class})
 public class UnitOfWorkConcern extends GenericConcern {
 
     @Structure
