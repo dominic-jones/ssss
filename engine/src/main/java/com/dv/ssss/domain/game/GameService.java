@@ -20,6 +20,7 @@ public interface GameService {
 
     String newGame();
 
+    @Transacted
     void endTurn(String gameIdentity);
 
     @Transacted
