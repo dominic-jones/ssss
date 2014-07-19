@@ -11,8 +11,6 @@ public interface Turn {
 
     LocalDate currentDate();
 
-    Period elapsedTime();
-
     int number();
 
     class TurnMixin implements Turn {
@@ -20,10 +18,9 @@ public interface Turn {
         @This
         TurnState state;
 
-        @Override
-        public Period elapsedTime() {
+        private Period elapsedTime() {
 
-            int integer = state.turn().get();
+            int integer = number();
 
             return Period.years(integer);
         }

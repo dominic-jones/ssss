@@ -3,7 +3,6 @@ package com.dv.ssss.domain.game;
 import com.dv.ssss.inf.DataException;
 import com.dv.ssss.inf.Transacted;
 import com.dv.ssss.inf.UnitOfWorkConcern;
-import org.joda.time.Period;
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -18,8 +17,6 @@ public interface GameService {
 
     @Transacted
     TurnDto currentTurn(String gameIdentity);
-
-    Period elapsedTime(String gameIdentity);
 
     String newGame();
 
@@ -69,13 +66,6 @@ public interface GameService {
         public TurnDto currentTurn(String gameIdentity) {
 
             return new TurnDto(gameRepository.get(gameIdentity));
-        }
-
-        @Override
-        public Period elapsedTime(String gameIdentity) {
-
-            Turn turn = gameRepository.get(gameIdentity);
-            return turn.elapsedTime();
         }
 
         @Override
