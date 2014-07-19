@@ -11,6 +11,8 @@ public interface Turn {
 
     LocalDate currentDate();
 
+    void endTurn();
+
     int number();
 
     class TurnMixin implements Turn {
@@ -23,6 +25,15 @@ public interface Turn {
             int integer = number();
 
             return Period.years(integer);
+        }
+
+        @Override
+        public void endTurn() {
+
+            state.turn().set(
+                    state.turn()
+                         .get() + 1
+            );
         }
 
         @Override
