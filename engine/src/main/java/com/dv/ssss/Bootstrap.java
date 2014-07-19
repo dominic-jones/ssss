@@ -1,13 +1,11 @@
 package com.dv.ssss;
 
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.inf.BootstrapException;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.main.MainPresenter;
-
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import org.qi4j.api.activation.ActivationException;
 import org.qi4j.api.structure.Application;
 import org.qi4j.bootstrap.AssemblyException;
@@ -29,7 +27,7 @@ public class Bootstrap extends javafx.application.Application {
         String gameIdentity = application.findModule("domain", "game")
                                          .findService(GameService.class)
                                          .get()
-                                         .newGame();
+                                         .startNewGame();
 
         MainPresenter mainPresenter = application.findModule("user-interface", "all")
                                                  .findService(PresenterFactory.class)

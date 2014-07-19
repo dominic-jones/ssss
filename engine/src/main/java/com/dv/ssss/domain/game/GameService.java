@@ -1,30 +1,29 @@
 package com.dv.ssss.domain.game;
 
-import com.dv.ssss.inf.DataException;
 import com.dv.ssss.inf.Transacted;
 import com.dv.ssss.inf.UnitOfWorkConcern;
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
-import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
 @Concerns(UnitOfWorkConcern.class)
 @Mixins(GameService.GameServiceMixin.class)
 public interface GameService {
 
     @Transacted
-    TurnDto currentTurn(String gameIdentity);
+    String createNewGame();
 
-    String newGame();
+    @Transacted
+    TurnDto currentTurn(String gameIdentity);
 
     @Transacted
     void endTurn(String gameIdentity);
 
     @Transacted
     void progenate(String gameIdentity);
+
+    @Transacted
+    String startNewGame();
 
     class GameServiceMixin implements GameService {
 
@@ -34,26 +33,19 @@ public interface GameService {
         @Service
         GameFactory gameFactory;
 
-        @Structure
-        UnitOfWorkFactory unitOfWorkFactory;
+        @Override
+        public String startNewGame() {
+
+            String gameIdentity = createNewGame();
+            progenate(gameIdentity);
+            return gameIdentity;
+        }
 
         @Override
-        public String newGame() {
-
-            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
+        public String createNewGame() {
 
             NewGame game = gameFactory.create();
-            String gameIdentity = game.identity().get();
-
-            try {
-                unitOfWork.complete();
-            } catch (UnitOfWorkCompletionException e) {
-                throw new DataException(e);
-            }
-
-            progenate(gameIdentity);
-
-            return gameIdentity;
+            return game.identity().get();
         }
 
         @Override
