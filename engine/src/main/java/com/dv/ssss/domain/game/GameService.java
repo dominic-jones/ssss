@@ -1,6 +1,9 @@
 package com.dv.ssss.domain.game;
 
+import com.dv.ssss.domain.people.Person;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
+import com.dv.ssss.personnel.PersonnelService;
+
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
@@ -27,11 +30,17 @@ public interface GameService {
         @Service
         GameFactory gameFactory;
 
+        @Service
+        PersonnelService personnelService;
+
         @Override
         public String startNewGame() {
 
             String gameIdentity = createNewGame();
             progenate(gameIdentity);
+
+            Person person = personnelService.getByName("Riesz");
+
             return gameIdentity;
         }
 
