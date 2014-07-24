@@ -67,7 +67,7 @@ public interface PersonnelView extends View {
                 MenuItem transfer = new MenuItem("Transfer");
 
                 Observable.create(new ObservableEvent<ActionEvent>(transfer::setOnAction))
-                          .map(event -> new RowClickedEvent(tableView.getSelectionModel().getSelectedItem()))
+                          .map(event -> new TransferClickedEvent(tableView.getSelectionModel().getSelectedItem()))
                           .subscribe(p -> System.out.println(p.getSelectedPerson().getName()));
 
                 ContextMenu contextMenu = new ContextMenu(transfer);
