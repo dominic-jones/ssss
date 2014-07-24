@@ -7,6 +7,7 @@ import org.joda.time.LocalDate;
 
 public class PersonDto {
 
+    private final String identity;
     private final String name;
     private final Integer age;
     private final String rank;
@@ -15,6 +16,7 @@ public class PersonDto {
     public PersonDto(PersonEntity person,
                      LocalDate currentDate) {
 
+        identity = person.identity().get();
         name = person.name().get();
         age = person.age(currentDate);
         rank = person.rank().get();
@@ -43,5 +45,10 @@ public class PersonDto {
     public String getFaction() {
 
         return factionName;
+    }
+
+    public String getIdentity() {
+
+        return identity;
     }
 }
