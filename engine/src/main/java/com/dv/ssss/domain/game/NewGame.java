@@ -12,7 +12,7 @@ public interface NewGame {
 
     void progenate(LocalDate startingDate);
 
-    abstract class NewGameMixin implements NewGame {
+    class NewGameMixin implements NewGame {
 
         @Service
         PersonFactory personFactory;
@@ -20,10 +20,10 @@ public interface NewGame {
         @Override
         public void progenate(LocalDate startingDate) {
 
+            personFactory.create("Riesz", "Warrior", startingDate.minusYears(27).plusWeeks(3));
+
             Person aegis = personFactory.create("Aegis", "Overlord", startingDate.minusYears(23).plusWeeks(1));
             aegis.foundFaction("Vandals");
-
-            personFactory.create("Riesz", "Warrior", startingDate.minusYears(27).plusWeeks(3));
         }
     }
 
