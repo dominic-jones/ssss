@@ -2,17 +2,24 @@ package com.dv.ssss.ui.personnel;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static javafx.collections.FXCollections.observableArrayList;
+import static javafx.scene.control.SelectionMode.MULTIPLE;
 
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import rx.Observable;
 
 import com.dv.ssss.ui.View;
 import com.dv.ssss.ui.other.AnnotatedTable;
+import com.dv.ssss.ui.other.ObservableEvent;
 
 import org.qi4j.api.mixin.Mixins;
 
@@ -50,6 +57,30 @@ public interface PersonnelView extends View {
 
             TableView<PersonDto> table = new AnnotatedTable()
                     .createTable(items, PersonDto.class);
+
+            table.getSelectionModel().setSelectionMode(MULTIPLE);
+
+            table.setRowFactory(tableView -> {
+
+                TableRow<PersonDto> row = new TableRow<>();
+
+                MenuItem transfer = new MenuItem("Transfer");
+
+                Observable.create(new ObservableEvent<ActionEvent>(transfer::setOnAction))
+                          .map(event -> new RowClickedEvent(tableView.getSelectionModel().getSelectedItem()))
+                          .subscribe(p -> System.out.println(p.getSelectedPerson().getName()));
+
+                ContextMenu contextMenu = new ContextMenu(transfer);
+                contextMenu.setOnShowing(windowEvent -> {
+
+                    boolean onePersonSelected = tableView.getSelectionModel().getSelectedCells().size() == 1;
+                    transfer.setVisible(onePersonSelected);
+                });
+                row.setContextMenu(contextMenu);
+
+                return row;
+            });
+
             table.setEditable(false);
             return table;
         }
