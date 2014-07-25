@@ -1,10 +1,10 @@
 package com.dv.ssss.ui.personnel;
 
-public class TransferClickedEvent {
+public class ChoosePlayerCommand {
 
     private PersonDto selectedPerson;
 
-    public TransferClickedEvent(PersonDto selectedPerson) {
+    public ChoosePlayerCommand(PersonDto selectedPerson) {
 
         this.selectedPerson = selectedPerson;
     }

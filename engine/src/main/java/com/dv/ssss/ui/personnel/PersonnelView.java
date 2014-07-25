@@ -20,7 +20,9 @@ import rx.Observable;
 import com.dv.ssss.ui.View;
 import com.dv.ssss.ui.other.AnnotatedTable;
 import com.dv.ssss.ui.other.ObservableEvent;
+import com.google.common.eventbus.EventBus;
 
+import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(PersonnelView.PersonnelViewMixin.class)
@@ -39,6 +41,9 @@ public interface PersonnelView extends View {
                 title(),
                 personnel()
         );
+
+        @Uses
+        EventBus eventBus;
 
         @Override
         public Parent getView() {
@@ -64,11 +69,11 @@ public interface PersonnelView extends View {
 
                 TableRow<PersonDto> row = new TableRow<>();
 
-                MenuItem transfer = new MenuItem("Transfer");
+                MenuItem transfer = new MenuItem("Choose Player");
 
                 Observable.create(new ObservableEvent<ActionEvent>(transfer::setOnAction))
-                          .map(event -> new TransferClickedEvent(tableView.getSelectionModel().getSelectedItem()))
-                          .subscribe(p -> System.out.println(p.getSelectedPerson().getName() + " : " + p.getSelectedPerson().getIdentity()));
+                          .map(event -> new ChoosePlayerCommand(tableView.getSelectionModel().getSelectedItem()))
+                          .subscribe(e -> eventBus.post(e));
 
                 ContextMenu contextMenu = new ContextMenu(transfer);
                 contextMenu.setOnShowing(windowEvent -> {
