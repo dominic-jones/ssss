@@ -2,9 +2,11 @@ ssss
 ====
 
 TODO Priority list
+* Better Entity vs Role distinction
 * Ensure Presenters subscribe to events
 * Use more events for domain results
 * More queries
+* Tidy context menu
 
 Next
 * Tidy up player stuff
@@ -26,3 +28,11 @@ Thoughts
 Visibility?
 * Want to know when Service A in module B gets an entity by calling Service F in module G, but UoW has completed?
 * How to do cross-module associations? Is this ill advised?
+
+Associations
+* Are these to build an AR, or for relationships between ARs?
+  * i.e. Do deletes cascade through associations?
+* If ARs are in different modules, then can you look them up?
+  * i.e. should you have layer visibility for entities?
+* Can/should the same entity exist in multiple modules (at module visibility).
+  * If so, is a get by id in two modules going to find the same entity?
