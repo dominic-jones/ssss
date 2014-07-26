@@ -1,7 +1,8 @@
 package com.dv.ssss.domain.game;
 
+import com.dv.ssss.domain.people.Person;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
-
+import com.dv.ssss.personnel.PersonnelService;
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
@@ -20,6 +21,8 @@ public interface GameService {
 
     String startNewGame();
 
+    void transferPlayerTo(String gameIdentity, String personIdentity);
+
     class GameServiceMixin implements GameService {
 
         @Service
@@ -28,6 +31,9 @@ public interface GameService {
         @Service
         GameFactory gameFactory;
 
+        @Service
+        PersonnelService personnelService;
+
         @Override
         public String startNewGame() {
 
@@ -35,6 +41,14 @@ public interface GameService {
             progenate(gameIdentity);
 
             return gameIdentity;
+        }
+
+        @Override
+        public void transferPlayerTo(String gameIdentity, String personIdentity) {
+
+            Game game = gameRepository.get(gameIdentity);
+            Person person = personnelService.get(personIdentity);
+            game.transferPlayerTo(person);
         }
 
         @Override

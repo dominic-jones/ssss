@@ -2,15 +2,15 @@ package com.dv.ssss.ui.personnel;
 
 public class ChoosePlayerCommand {
 
-    private PersonDto selectedPerson;
+    private String chosenPlayer;
 
-    public ChoosePlayerCommand(PersonDto selectedPerson) {
+    public ChoosePlayerCommand(PersonDto chosenPlayer) {
 
-        this.selectedPerson = selectedPerson;
+        this.chosenPlayer = chosenPlayer.getIdentity();
     }
 
-    public PersonDto getSelectedPerson() {
+    public String getChosenPlayer() {
 
-        return selectedPerson;
+        return chosenPlayer;
     }
 }
