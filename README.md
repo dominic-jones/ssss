@@ -38,3 +38,7 @@ Associations
   * i.e. should you have layer visibility for entities?
 * Can/should the same entity exist in multiple modules (at module visibility).
   * If so, is a get by id in two modules going to find the same entity?
+
+Thoughts
+Inter-module dependencies would be inverted if firing events?
+e.g. instead of Game calling People, Game fires event, People subscribes.
