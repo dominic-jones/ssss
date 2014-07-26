@@ -1,7 +1,6 @@
 package com.dv.ssss.ui;
 
 import com.dv.ssss.inf.LayerAssembler;
-import com.dv.ssss.inf.event.EventAssembler;
 import com.dv.ssss.ui.main.MainPresenter;
 import com.dv.ssss.ui.main.MainView;
 import com.dv.ssss.ui.personnel.PersonnelPresenter;
@@ -37,7 +36,6 @@ public class UserInterfaceAssembler implements LayerAssembler {
                 TurnView.class
         );
 
-        new EventAssembler().assemble(module);
         return userInterface;
     }
 }

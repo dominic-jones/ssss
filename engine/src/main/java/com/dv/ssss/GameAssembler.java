@@ -1,9 +1,9 @@
 package com.dv.ssss;
 
 import com.dv.ssss.domain.DomainAssembler;
+import com.dv.ssss.inf.InfrastructureAssembler;
 import com.dv.ssss.inf.PersistenceAssembler;
 import com.dv.ssss.ui.UserInterfaceAssembler;
-
 import org.qi4j.bootstrap.ApplicationAssembler;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.ApplicationAssemblyFactory;
@@ -20,9 +20,12 @@ public class GameAssembler implements ApplicationAssembler {
         LayerAssembly userInterface = new UserInterfaceAssembler().assemble(assembly);
         LayerAssembly domain = new DomainAssembler().assemble(assembly);
         LayerAssembly persistence = new PersistenceAssembler().assemble(assembly);
+        LayerAssembly infrastructure = new InfrastructureAssembler().assemble(assembly);
 
         userInterface.uses(domain);
+        userInterface.uses(infrastructure);
         domain.uses(persistence);
+        domain.uses(infrastructure);
 
         return assembly;
     }
