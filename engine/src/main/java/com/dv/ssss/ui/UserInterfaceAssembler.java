@@ -6,6 +6,8 @@ import com.dv.ssss.ui.main.MainPresenter;
 import com.dv.ssss.ui.main.MainView;
 import com.dv.ssss.ui.personnel.PersonnelPresenter;
 import com.dv.ssss.ui.personnel.PersonnelView;
+import com.dv.ssss.ui.player.PlayerPresenter;
+import com.dv.ssss.ui.player.PlayerView;
 import com.dv.ssss.ui.turn.TurnPresenter;
 import com.dv.ssss.ui.turn.TurnView;
 import org.qi4j.bootstrap.ApplicationAssembly;
@@ -29,6 +31,8 @@ public class UserInterfaceAssembler implements LayerAssembler {
                 MainView.class,
                 PersonnelPresenter.class,
                 PersonnelView.class,
+                PlayerPresenter.class,
+                PlayerView.class,
                 TurnPresenter.class,
                 TurnView.class
         );

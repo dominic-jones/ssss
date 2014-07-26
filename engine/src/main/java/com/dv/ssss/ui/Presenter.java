@@ -4,4 +4,5 @@ public interface Presenter {
 
     void init();
 
+    View getView();
 }

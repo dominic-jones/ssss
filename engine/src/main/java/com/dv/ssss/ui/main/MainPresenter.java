@@ -3,6 +3,7 @@ package com.dv.ssss.ui.main;
 import com.dv.ssss.ui.Presenter;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.personnel.PersonnelPresenter;
+import com.dv.ssss.ui.player.PlayerPresenter;
 import com.dv.ssss.ui.test.TestView;
 import com.dv.ssss.ui.turn.TurnPresenter;
 import org.qi4j.api.composite.TransientBuilderFactory;
@@ -43,7 +44,10 @@ public interface MainPresenter extends Presenter {
             view.addNavigation("Personnel", personnelPresenter.getView());
 
             TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, gameIdentity);
-            view.setTop(turnPresenter.getView());
+            view.addToTop(turnPresenter.getView());
+
+            PlayerPresenter playerPresenter = presenterFactory.create(PlayerPresenter.class, gameIdentity);
+            view.addToTop(playerPresenter.getView());
         }
 
         @Override

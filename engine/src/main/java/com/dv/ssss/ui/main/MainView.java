@@ -1,5 +1,7 @@
 package com.dv.ssss.ui.main;
 
+import com.dv.ssss.ui.View;
+import com.dv.ssss.ui.other.ObservableEvent;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -7,20 +9,16 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import rx.Observable;
-
-import com.dv.ssss.ui.View;
-import com.dv.ssss.ui.other.ObservableEvent;
-
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
+import rx.Observable;
 
 @Mixins(MainView.MainViewMixin.class)
 public interface MainView extends View {
 
     void setCenter(View view);
 
-    void setTop(View view);
+    void addToTop(View view);
 
     void addNavigation(String name,
                        View view);
@@ -33,6 +31,7 @@ public interface MainView extends View {
         MainPresenter mainPresenter;
 
         Pane controls = controls();
+        VBox top = new VBox();
         BorderPane layout = layout(controls);
 
         @Override
@@ -65,6 +64,7 @@ public interface MainView extends View {
 
             BorderPane layout = new BorderPane();
             layout.setRight(controls);
+            layout.setTop(top);
             return layout;
         }
 
@@ -75,9 +75,9 @@ public interface MainView extends View {
         }
 
         @Override
-        public void setTop(View view) {
+        public void addToTop(View view) {
 
-            layout.setTop(view.getView());
+            top.getChildren().add(view.getView());
         }
     }
 }
