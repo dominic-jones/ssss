@@ -1,6 +1,7 @@
 package com.dv.ssss.ui.player;
 
 import com.dv.ssss.ui.View;
+import com.dv.ssss.ui.personnel.PersonDto;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
@@ -10,6 +11,8 @@ import org.qi4j.api.mixin.Mixins;
 
 @Mixins(PlayerView.PlayerViewMixin.class)
 public interface PlayerView extends View {
+
+    void setPlayer(PersonDto person);
 
     class PlayerViewMixin implements PlayerView {
 
@@ -33,6 +36,12 @@ public interface PlayerView extends View {
             layout.getChildren().add(playerNameField);
 
             return layout;
+        }
+
+        @Override
+        public void setPlayer(PersonDto person) {
+
+            playerName.setValue(person.getName());
         }
     }
 }

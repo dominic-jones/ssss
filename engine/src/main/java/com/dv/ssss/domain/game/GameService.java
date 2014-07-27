@@ -1,6 +1,7 @@
 package com.dv.ssss.domain.game;
 
-import com.dv.ssss.domain.people.Person;
+import com.dv.ssss.domain.people.PersonEntity;
+import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
 import com.dv.ssss.personnel.PersonnelService;
 import org.qi4j.api.concern.Concerns;
@@ -26,6 +27,9 @@ public interface GameService {
     class GameServiceMixin implements GameService {
 
         @Service
+        EventPoster eventPoster;
+
+        @Service
         GameRepository gameRepository;
 
         @Service
@@ -47,8 +51,10 @@ public interface GameService {
         public void transferPlayerTo(String gameIdentity, String personIdentity) {
 
             Game game = gameRepository.get(gameIdentity);
-            Person person = personnelService.get(personIdentity);
+            PersonEntity person = personnelService.get(personIdentity);
             game.transferPlayerTo(person);
+
+            eventPoster.post(new PlayerTransferredEvent(personIdentity));
         }
 
         @Override

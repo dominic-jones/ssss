@@ -2,7 +2,6 @@ package com.dv.ssss.personnel;
 
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.game.TurnDto;
-import com.dv.ssss.domain.people.Person;
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
@@ -20,10 +19,9 @@ public interface PersonnelService {
 
     Iterable<PersonDto> all(String gameIdentity);
 
-    Person get(String personIdentity);
+    PersonEntity get(String personIdentity);
 
-    // TODO 2014-07-21 dom: This is temporary.
-    Person getByName(String name);
+    PersonDto getPerson(String gameIdentity, String personIdentity);
 
     class PersonnelServiceMixin implements PersonnelService {
 
@@ -43,15 +41,16 @@ public interface PersonnelService {
         }
 
         @Override
-        public Person get(String personIdentity) {
+        public PersonEntity get(String personIdentity) {
 
             return personnelRepository.get(personIdentity);
         }
 
         @Override
-        public Person getByName(String name) {
+        public PersonDto getPerson(String gameIdentity, String personIdentity) {
 
-            return personnelRepository.getByName(name);
+            TurnDto currentTurn = gameService.currentTurn(gameIdentity);
+            return new PersonDto(personnelRepository.get(personIdentity), currentTurn.getDate());
         }
     }
 }
