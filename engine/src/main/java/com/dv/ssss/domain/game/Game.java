@@ -5,7 +5,9 @@ import org.qi4j.api.association.Association;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.sideeffect.SideEffects;
 
+@SideEffects(PlayerTransferredSideEffect.class)
 @Mixins({Game.GameMixin.class})
 public interface Game extends Turn, NewGame {
 

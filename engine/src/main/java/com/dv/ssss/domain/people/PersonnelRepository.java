@@ -1,5 +1,7 @@
 package com.dv.ssss.domain.people;
 
+import static com.google.common.collect.Lists.newArrayList;
+
 import org.qi4j.api.composite.Composite;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
@@ -8,8 +10,6 @@ import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.structure.Module;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-
-import static com.google.common.collect.Lists.newArrayList;
 
 @Mixins(PersonnelRepository.PersonnelRepositoryMixin.class)
 public interface PersonnelRepository extends Composite {
@@ -41,7 +41,12 @@ public interface PersonnelRepository extends Composite {
         @Override
         public PersonEntity get(String personIdentity) {
 
-            return unitOfWorkFactory.currentUnitOfWork().get(PersonEntity.class, personIdentity);
+            // TODO 2014-07-28 dom: is this the correct approach?
+            UnitOfWork unitOfWork = unitOfWorkFactory.newUnitOfWork();
+            PersonEntity personEntity = unitOfWork.get(PersonEntity.class, personIdentity);
+            unitOfWork.pause();
+
+            return personEntity;
         }
     }
 }

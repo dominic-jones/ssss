@@ -1,23 +1,22 @@
 package com.dv.ssss.domain;
 
+import static org.qi4j.api.common.Visibility.application;
+import static org.qi4j.api.common.Visibility.layer;
+
 import com.dv.ssss.domain.faction.FactionEntity;
 import com.dv.ssss.domain.faction.FactionFactory;
 import com.dv.ssss.domain.faction.FactionRepository;
 import com.dv.ssss.domain.game.GameEntity;
 import com.dv.ssss.domain.game.GameFactory;
 import com.dv.ssss.domain.game.GameRepository;
-import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonFactory;
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.LayerAssembler;
-import com.dv.ssss.personnel.PersonnelService;
-import org.qi4j.api.common.Visibility;
+
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
-
-import static org.qi4j.api.common.Visibility.application;
 
 public class DomainAssembler implements LayerAssembler {
 
@@ -32,42 +31,38 @@ public class DomainAssembler implements LayerAssembler {
         return domain;
     }
 
-    private void game(LayerAssembly assembly) {
+    private void game(LayerAssembly layerAssembly) {
 
-        ModuleAssembly module = assembly.module("game");
-        module.services(
-                GameService.class
+        ModuleAssembly moduleAssembly = layerAssembly.module("game");
+
+        moduleAssembly.services(
+                GameFactory.class
         ).visibleIn(application);
 
-        module.services(
-                GameFactory.class,
+        moduleAssembly.services(
                 GameRepository.class
-        );
+        ).visibleIn(application);
 
-        module.entities(
+        moduleAssembly.entities(
                 GameEntity.class
         );
     }
 
-    private void person(LayerAssembly layer) {
+    private void person(LayerAssembly layerAssembly) {
 
-        ModuleAssembly module = layer.module("person");
+        ModuleAssembly moduleAssembly = layerAssembly.module("person");
 
-        module.services(
-                PersonnelService.class
-        ).visibleIn(application);
-
-        module.services(
+        moduleAssembly.services(
                 FactionFactory.class,
                 PersonFactory.class
-        ).visibleIn(Visibility.layer);
+        ).visibleIn(layer);
 
-        module.services(
+        moduleAssembly.services(
                 FactionRepository.class,
                 PersonnelRepository.class
-        );
+        ).visibleIn(application);
 
-        module.entities(
+        moduleAssembly.entities(
                 FactionEntity.class,
                 PersonEntity.class
         );

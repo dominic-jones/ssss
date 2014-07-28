@@ -1,14 +1,16 @@
 package com.dv.ssss.domain.game;
 
 import com.dv.ssss.domain.people.PersonEntity;
-import com.dv.ssss.inf.event.EventPoster;
+import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
-import com.dv.ssss.personnel.PersonnelService;
+
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.sideeffect.SideEffects;
 
 @Concerns(UnitOfWorkConcern.class)
+@SideEffects(PlayerTransferredSideEffect.class)
 @Mixins(GameService.GameServiceMixin.class)
 public interface GameService {
 
@@ -27,16 +29,13 @@ public interface GameService {
     class GameServiceMixin implements GameService {
 
         @Service
-        EventPoster eventPoster;
-
-        @Service
         GameRepository gameRepository;
 
         @Service
         GameFactory gameFactory;
 
         @Service
-        PersonnelService personnelService;
+        PersonnelRepository personnelRepository;
 
         @Override
         public String startNewGame() {
@@ -51,10 +50,9 @@ public interface GameService {
         public void transferPlayerTo(String gameIdentity, String personIdentity) {
 
             Game game = gameRepository.get(gameIdentity);
-            PersonEntity person = personnelService.get(personIdentity);
-            game.transferPlayerTo(person);
 
-            eventPoster.post(new PlayerTransferredEvent(personIdentity));
+            PersonEntity person = personnelRepository.get(personIdentity);
+            game.transferPlayerTo(person);
         }
 
         @Override

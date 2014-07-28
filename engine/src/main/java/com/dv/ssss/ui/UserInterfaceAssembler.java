@@ -1,5 +1,7 @@
 package com.dv.ssss.ui;
 
+import static org.qi4j.api.common.Visibility.application;
+
 import com.dv.ssss.inf.LayerAssembler;
 import com.dv.ssss.ui.main.MainPresenter;
 import com.dv.ssss.ui.main.MainView;
@@ -9,6 +11,7 @@ import com.dv.ssss.ui.player.PlayerPresenter;
 import com.dv.ssss.ui.player.PlayerView;
 import com.dv.ssss.ui.turn.TurnPresenter;
 import com.dv.ssss.ui.turn.TurnView;
+
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
@@ -22,15 +25,19 @@ public class UserInterfaceAssembler implements LayerAssembler {
         ModuleAssembly module = userInterface.module("all");
 
         module.services(
+                PlayerView.class,
                 PresenterFactory.class
         );
+
+        module.services(
+                PlayerPresenter.class
+        ).visibleIn(application);
 
         module.transients(
                 MainPresenter.class,
                 MainView.class,
                 PersonnelPresenter.class,
                 PersonnelView.class,
-                PlayerPresenter.class,
                 PlayerView.class,
                 TurnPresenter.class,
                 TurnView.class

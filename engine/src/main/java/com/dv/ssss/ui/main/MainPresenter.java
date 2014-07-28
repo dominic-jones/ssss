@@ -6,6 +6,7 @@ import com.dv.ssss.ui.personnel.PersonnelPresenter;
 import com.dv.ssss.ui.player.PlayerPresenter;
 import com.dv.ssss.ui.test.TestView;
 import com.dv.ssss.ui.turn.TurnPresenter;
+
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -23,6 +24,9 @@ public interface MainPresenter extends Presenter {
 
         @Service
         PresenterFactory presenterFactory;
+
+        @Service
+        PlayerPresenter playerPresenter;
 
         @Structure
         TransientBuilderFactory transientBuilderFactory;
@@ -46,7 +50,6 @@ public interface MainPresenter extends Presenter {
             TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, gameIdentity);
             view.addToTop(turnPresenter.getView());
 
-            PlayerPresenter playerPresenter = presenterFactory.create(PlayerPresenter.class, gameIdentity);
             view.addToTop(playerPresenter.getView());
         }
 

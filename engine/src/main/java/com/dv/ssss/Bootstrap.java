@@ -1,11 +1,14 @@
 package com.dv.ssss;
 
-import com.dv.ssss.domain.game.GameService;
-import com.dv.ssss.inf.BootstrapException;
-import com.dv.ssss.ui.PresenterFactory;
-import com.dv.ssss.ui.main.MainPresenter;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import com.dv.ssss.domain.game.GameService;
+import com.dv.ssss.inf.BootstrapException;
+import com.dv.ssss.inf.event.EventRegistrationService;
+import com.dv.ssss.ui.PresenterFactory;
+import com.dv.ssss.ui.main.MainPresenter;
+
 import org.qi4j.api.activation.ActivationException;
 import org.qi4j.api.structure.Application;
 import org.qi4j.bootstrap.AssemblyException;
@@ -23,8 +26,13 @@ public class Bootstrap extends javafx.application.Application {
 
         Application application = application();
 
+        application.findModule("application", "event")
+                .findService(EventRegistrationService.class)
+                .get()
+                .register();
+
         // TODO 2014-07-07 dom: Should eventually be instantiated from a new-game button.
-        String gameIdentity = application.findModule("domain", "game")
+        String gameIdentity = application.findModule("application", "module")
                                          .findService(GameService.class)
                                          .get()
                                          .startNewGame();
