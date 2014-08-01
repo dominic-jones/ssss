@@ -7,7 +7,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 @Mixins(GameRepository.GameRepositoryMixin.class)
 public interface GameRepository {
 
-    Game get(String gameIdentity);
+    GameEntity get(String gameIdentity);
 
     class GameRepositoryMixin implements GameRepository {
 
@@ -15,9 +15,9 @@ public interface GameRepository {
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public Game get(String gameIdentity) {
+        public GameEntity get(String gameIdentity) {
 
-            return unitOfWorkFactory.currentUnitOfWork().get(Game.class, gameIdentity);
+            return unitOfWorkFactory.currentUnitOfWork().get(GameEntity.class, gameIdentity);
         }
     }
 

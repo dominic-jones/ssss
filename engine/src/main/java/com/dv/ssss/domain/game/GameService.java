@@ -49,7 +49,7 @@ public interface GameService {
         @Override
         public void transferPlayerTo(String gameIdentity, String personIdentity) {
 
-            Game game = gameRepository.get(gameIdentity);
+            GameEntity game = gameRepository.get(gameIdentity);
 
             PersonEntity person = personnelRepository.get(personIdentity);
             game.transferPlayerTo(person);
@@ -64,7 +64,7 @@ public interface GameService {
         @Override
         public void progenate(String gameIdentity) {
 
-            Game game = gameRepository.get(gameIdentity);
+            GameEntity game = gameRepository.get(gameIdentity);
             game.progenate(currentTurn(gameIdentity).getDate());
         }
 
@@ -77,7 +77,7 @@ public interface GameService {
         @Override
         public void endTurn(String gameIdentity) {
 
-            Game game = gameRepository.get(gameIdentity);
+            GameEntity game = gameRepository.get(gameIdentity);
             game.endTurn();
         }
     }
