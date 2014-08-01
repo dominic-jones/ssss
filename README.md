@@ -2,7 +2,6 @@ ssss
 ====
 
 TODO Priority list
-* Better Entity vs Role distinction
 * Ensure Presenters subscribe to events
 * Use more events for domain results
 * More queries
