@@ -10,7 +10,7 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.sideeffect.SideEffects;
 
 @Concerns(UnitOfWorkConcern.class)
-@SideEffects(PlayerTransferredSideEffect.class)
+@SideEffects({PlayerTransferredSideEffect.class, TurnEndedSideEffect.class})
 @Mixins(GameService.GameServiceMixin.class)
 public interface GameService {
 

@@ -1,11 +1,12 @@
 package com.dv.ssss.ui.personnel;
 
 import com.dv.ssss.domain.game.GameService;
+import com.dv.ssss.domain.game.TurnEndedEvent;
 import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.ui.Presenter;
-import com.dv.ssss.ui.turn.TurnEndedEvent;
 import com.google.common.eventbus.Subscribe;
+
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;

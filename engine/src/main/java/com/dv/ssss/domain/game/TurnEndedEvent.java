@@ -1,4 +1,4 @@
-package com.dv.ssss.ui.turn;
+package com.dv.ssss.domain.game;
 
 public class TurnEndedEvent {
 

@@ -3,9 +3,10 @@ ssss
 
 TODO Priority list
 * Ensure Presenters subscribe to events
-* Use more events for domain results
 * More queries
 * Tidy context menu
+* Convert UI to services
+* State model for UI?
 
 Next
 * Tidy up player stuff

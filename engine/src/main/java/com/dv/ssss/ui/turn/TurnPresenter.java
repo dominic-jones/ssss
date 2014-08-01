@@ -1,8 +1,10 @@
 package com.dv.ssss.ui.turn;
 
 import com.dv.ssss.domain.game.GameService;
-import com.dv.ssss.inf.event.EventPoster;
+import com.dv.ssss.domain.game.TurnEndedEvent;
 import com.dv.ssss.ui.Presenter;
+import com.google.common.eventbus.Subscribe;
+
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -16,10 +18,10 @@ public interface TurnPresenter extends Presenter {
 
     void endTurn(EndTurnCommand endTurnCommand);
 
-    class TurnPresenterMixin implements TurnPresenter {
+    @Subscribe
+    void updateTurn(TurnEndedEvent event);
 
-        @Service
-        EventPoster eventPoster;
+    class TurnPresenterMixin implements TurnPresenter {
 
         @Service
         GameService gameService;
@@ -43,7 +45,7 @@ public interface TurnPresenter extends Presenter {
 
             view.bindEndTurn(this::endTurn);
 
-            updateTurn();
+            updateTurnDisplay();
         }
 
         @Override
@@ -56,12 +58,15 @@ public interface TurnPresenter extends Presenter {
         public void endTurn(EndTurnCommand endTurnCommand) {
 
             gameService.endTurn(gameIdentity);
-            eventPoster.post(new TurnEndedEvent());
-            //TODO Fire through event
-            updateTurn();
         }
 
-        private void updateTurn() {
+        @Override
+        public void updateTurn(TurnEndedEvent event) {
+
+            updateTurnDisplay();
+        }
+
+        private void updateTurnDisplay() {
 
             view.setTurn(gameService.currentTurn(gameIdentity));
         }
