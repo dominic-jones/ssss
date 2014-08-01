@@ -47,8 +47,7 @@ public interface PersonnelPresenter extends Presenter {
 
             view = transientBuilderFactory.newTransient(
                     PersonnelView.class,
-                    this,
-                    eventPoster.eventBus()
+                    this
             );
             setPeople(personnelService.all(gameIdentity));
         }

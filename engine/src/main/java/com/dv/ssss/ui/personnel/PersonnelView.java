@@ -17,11 +17,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import rx.Observable;
 
+import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.ui.View;
 import com.dv.ssss.ui.other.AnnotatedTable;
 import com.dv.ssss.ui.other.ObservableEvent;
 import com.google.common.eventbus.EventBus;
 
+import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 
@@ -42,8 +44,8 @@ public interface PersonnelView extends View {
                 personnel()
         );
 
-        @Uses
-        EventBus eventBus;
+        @Service
+        EventPoster eventPoster;
 
         @Override
         public Parent getView() {
@@ -73,7 +75,7 @@ public interface PersonnelView extends View {
 
                 Observable.create(new ObservableEvent<ActionEvent>(transfer::setOnAction))
                           .map(event -> new ChoosePlayerCommand(tableView.getSelectionModel().getSelectedItem()))
-                          .subscribe(e -> eventBus.post(e));
+                          .subscribe(e -> eventPoster.post(e));
 
                 ContextMenu contextMenu = new ContextMenu(transfer);
                 contextMenu.setOnShowing(windowEvent -> {

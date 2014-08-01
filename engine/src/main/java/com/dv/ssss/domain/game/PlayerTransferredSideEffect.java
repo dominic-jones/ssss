@@ -15,6 +15,6 @@ public abstract class PlayerTransferredSideEffect extends SideEffectOf<GameServi
     public void transferPlayerTo(String gameIdentity,
                                  String personIdentity) {
 
-        eventPoster.eventBus().post(new PlayerTransferredEvent(personIdentity));
+        eventPoster.post(new PlayerTransferredEvent(personIdentity));
     }
 }

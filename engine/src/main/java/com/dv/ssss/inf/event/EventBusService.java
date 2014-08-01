@@ -7,8 +7,6 @@ import org.qi4j.api.mixin.Mixins;
 @Mixins(EventBusService.EventBusServiceMixin.class)
 public interface EventBusService {
 
-    EventBus eventBus();
-
     void register(Object object);
 
     void post(Object object);
@@ -16,11 +14,6 @@ public interface EventBusService {
     class EventBusServiceMixin implements EventBusService {
 
         EventBus eventBus = new EventBus();
-
-        @Override
-        public EventBus eventBus() {
-            return eventBus;
-        }
 
         @Override
         public void register(Object object) {
