@@ -1,6 +1,6 @@
 package com.dv.ssss.domain.game;
 
-import com.dv.ssss.domain.people.Person;
+import com.dv.ssss.domain.people.FactionFounder;
 import com.dv.ssss.domain.people.PersonFactory;
 
 import org.joda.time.LocalDate;
@@ -22,7 +22,7 @@ public interface NewGame {
 
             personFactory.create("Riesz", "Warrior", startingDate.minusYears(27).plusWeeks(3));
 
-            Person aegis = personFactory.create("Aegis", "Overlord", startingDate.minusYears(23).plusWeeks(1));
+            FactionFounder aegis = personFactory.create("Aegis", "Overlord", startingDate.minusYears(23).plusWeeks(1));
             aegis.foundFaction("Vandals");
         }
     }

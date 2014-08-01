@@ -1,6 +1,7 @@
 package com.dv.ssss.domain.faction;
 
-import com.dv.ssss.domain.people.Person;
+import com.dv.ssss.domain.people.FactionFounder;
+
 import org.qi4j.api.association.Association;
 import org.qi4j.api.association.ManyAssociation;
 import org.qi4j.api.mixin.Mixins;
@@ -15,9 +16,9 @@ public interface Faction {
 
     interface FactionState {
 
-        Association<Person> founder();
+        Association<FactionFounder> founder();
 
-        ManyAssociation<Person> members();
+        ManyAssociation<FactionFounder> members();
 
         Property<String> name();
     }

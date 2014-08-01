@@ -10,7 +10,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 @Mixins(PersonFactory.PersonFactoryMixin.class)
 public interface PersonFactory {
 
-    Person create(String name, String rank, LocalDate birthDate);
+    PersonEntity create(String name, String rank, LocalDate birthDate);
 
     class PersonFactoryMixin implements PersonFactory {
 
@@ -18,13 +18,13 @@ public interface PersonFactory {
         UnitOfWorkFactory unitOfWorkFactory;
 
         @Override
-        public Person create(String name, String rank, LocalDate birthDate) {
+        public PersonEntity create(String name, String rank, LocalDate birthDate) {
 
             UnitOfWork unitOfWork = unitOfWorkFactory.currentUnitOfWork();
 
             EntityBuilder<PersonEntity> builder = unitOfWork.newEntityBuilder(PersonEntity.class);
 
-            Person.PersonState state = builder.instanceFor(Person.PersonState.class);
+            PersonState state = builder.instanceFor(PersonState.class);
             state.name().set(name);
             state.rank().set(rank);
             state.birthDate().set(birthDate);
