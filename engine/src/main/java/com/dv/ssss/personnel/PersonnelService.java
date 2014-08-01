@@ -31,6 +31,7 @@ public interface PersonnelService {
         @Override
         public Iterable<PersonDto> all(String gameIdentity) {
 
+            // TODO 2014-08-01 dom: Work out current turn unit of work with respect to this module
             TurnDto currentTurn = gameService.currentTurn(gameIdentity);
 
             Iterable<PersonEntity> people = personnelRepository.all("Aegis");

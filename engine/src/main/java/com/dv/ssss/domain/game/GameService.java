@@ -65,7 +65,7 @@ public interface GameService {
         public void progenate(String gameIdentity) {
 
             GameEntity game = gameRepository.get(gameIdentity);
-            game.progenate(currentTurn(gameIdentity).getDate());
+            game.progenate(game.currentDate());
         }
 
         @Override

@@ -2,6 +2,7 @@ package com.dv.ssss.ui.turn;
 
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.game.TurnEndedEvent;
+import com.dv.ssss.query.TurnQuery;
 import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
 
@@ -25,6 +26,9 @@ public interface TurnPresenter extends Presenter {
 
         @Service
         GameService gameService;
+
+        @Service
+        TurnQuery turnQuery;
 
         @Structure
         TransientBuilderFactory transientBuilderFactory;
@@ -68,7 +72,7 @@ public interface TurnPresenter extends Presenter {
 
         private void updateTurnDisplay() {
 
-            view.setTurn(gameService.currentTurn(gameIdentity));
+            view.setTurn(turnQuery.execute(gameIdentity));
         }
     }
 }

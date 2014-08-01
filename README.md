@@ -7,6 +7,8 @@ TODO Priority list
 * Tidy context menu
 * Convert UI to services
 * State model for UI?
+* Important worry... UnitOfWork open during Player update?
+  * When does the stack end?
 
 Next
 * Tidy up player stuff
