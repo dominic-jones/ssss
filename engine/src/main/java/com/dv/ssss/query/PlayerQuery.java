@@ -1,4 +1,4 @@
-package com.dv.ssss;
+package com.dv.ssss.query;
 
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.ui.player.PlayerDto;

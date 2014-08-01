@@ -1,8 +1,8 @@
 package com.dv.ssss.ui.player;
 
-import com.dv.ssss.PlayerQuery;
 import com.dv.ssss.domain.game.PlayerTransferredEvent;
 import com.dv.ssss.inf.event.EventHandler;
+import com.dv.ssss.query.PlayerQuery;
 import com.dv.ssss.ui.Presenter;
 import com.dv.ssss.ui.View;
 import com.google.common.eventbus.Subscribe;
