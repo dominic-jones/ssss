@@ -3,7 +3,6 @@ package com.dv.ssss.domain.game;
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
-
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
@@ -15,8 +14,6 @@ import org.qi4j.api.sideeffect.SideEffects;
 public interface GameService {
 
     String createNewGame();
-
-    TurnDto currentTurn(String gameIdentity);
 
     void endTurn(String gameIdentity);
 
@@ -66,12 +63,6 @@ public interface GameService {
 
             GameEntity game = gameRepository.get(gameIdentity);
             game.progenate(game.currentDate());
-        }
-
-        @Override
-        public TurnDto currentTurn(String gameIdentity) {
-
-            return new TurnDto(gameRepository.get(gameIdentity));
         }
 
         @Override

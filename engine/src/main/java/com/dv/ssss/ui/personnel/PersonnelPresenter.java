@@ -6,7 +6,6 @@ import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.personnel.PersonnelService;
 import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
-
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -33,6 +32,9 @@ public interface PersonnelPresenter extends Presenter {
         GameService gameService;
 
         @Service
+        AllPersonnelQuery allPersonnelQuery;
+
+        @Service
         PersonnelService personnelService;
 
         @Structure
@@ -50,7 +52,7 @@ public interface PersonnelPresenter extends Presenter {
                     PersonnelView.class,
                     this
             );
-            setPeople(personnelService.all(gameIdentity));
+            setPeople(allPersonnelQuery.execute(gameIdentity));
         }
 
         @Override
@@ -73,7 +75,7 @@ public interface PersonnelPresenter extends Presenter {
         @Override
         public void turnEnded(TurnEndedEvent event) {
 
-            setPeople(personnelService.all(gameIdentity));
+            setPeople(allPersonnelQuery.execute(gameIdentity));
         }
     }
 }
