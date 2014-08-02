@@ -2,8 +2,8 @@ ssss
 ====
 
 TODO Priority list
-* Ensure Presenters subscribe to events
 * More queries
+* Ensure Presenters subscribe to events
 * Tidy context menu
 * Convert UI to services
 * State model for UI?
@@ -42,3 +42,8 @@ Associations
 Thoughts
 Inter-module dependencies would be inverted if firing events?
 e.g. instead of Game calling People, Game fires event, People subscribes.
+
+Queries
+* Queries can be returned from a repository, paused, to provide custom paging etc
+* When needing to retrieve on business logic, use an Entity get() followed by a traversal
+* Finally, consider long-term how third party plugins may wish to do custom queries in existing modules
