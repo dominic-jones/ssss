@@ -2,12 +2,13 @@ ssss
 ====
 
 TODO Priority list
-* More queries
 * Ensure Presenters subscribe to events
 * Tidy context menu
 * Convert UI to services
 * State model for UI?
 * Important worry... UnitOfWork open during Player update?
+  * This is due to domain calling into ui layer with uow still open
+    * Does this mean the SideEffect fires before the concern wraps up?
   * When does the stack end?
 
 Next
