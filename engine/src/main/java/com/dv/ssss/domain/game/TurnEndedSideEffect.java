@@ -14,6 +14,6 @@ public abstract class TurnEndedSideEffect extends SideEffectOf<GameService> impl
     @Override
     public void endTurn(String gameIdentity) {
 
-        eventPoster.post(new TurnEndedEvent());
+        eventPoster.post(new TurnEndedEvent(gameIdentity));
     }
 }
