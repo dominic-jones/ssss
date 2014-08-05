@@ -3,13 +3,18 @@ package com.dv.ssss.domain.game;
 import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
+
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.sideeffect.SideEffects;
 
 @Concerns(UnitOfWorkConcern.class)
-@SideEffects({PlayerTransferredSideEffect.class, TurnEndedSideEffect.class})
+@SideEffects({
+        NewGameStartedSideEffect.class,
+        PlayerTransferredSideEffect.class,
+        TurnEndedSideEffect.class
+})
 @Mixins(GameService.GameServiceMixin.class)
 public interface GameService {
 
