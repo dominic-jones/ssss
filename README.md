@@ -21,7 +21,7 @@ Notes
 * Domain objects have no setters or getters. Just their domain concepts.
 * Domain objects should not leak outside of their layer. Use Dtos.
 
-Thoughtsi
+Thoughts
 * ill inclined to have Game's player() be optional, considering it should always be present.
 * => this means People need to exist before Game.
 * Perhaps Game.create() needs People passed in?
