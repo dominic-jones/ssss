@@ -4,7 +4,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.dv.ssss.domain.game.GameService;
+import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.inf.BootstrapException;
+import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.inf.event.EventRegistrationService;
 import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.main.MainPresenter;
@@ -41,6 +43,12 @@ public class Bootstrap extends javafx.application.Application {
                                                  .findService(PresenterFactory.class)
                                                  .get()
                                                  .create(MainPresenter.class, gameIdentity);
+
+        // TODO 2014-08-05 dom: Temporary, do not keep after new game event handler consumed
+        application.findModule("infrastructure", "event")
+                   .findService(EventPoster.class)
+                   .get()
+                   .post(new NewGameStartedEvent(gameIdentity));
 
         run(stage, mainPresenter);
     }
