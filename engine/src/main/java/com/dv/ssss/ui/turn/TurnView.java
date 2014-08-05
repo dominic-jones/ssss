@@ -30,9 +30,6 @@ public interface TurnView extends View {
         private static final int SPACING = 5;
         private static final Insets INSETS = new Insets(10, 0, 0, 10);
 
-        @Uses
-        String gameIdentity;
-
         Text turnCount = new Text();
         Text date = new Text();
         Pane pane = view(
@@ -57,7 +54,7 @@ public interface TurnView extends View {
 
             Button button = new Button("End Turn");
             Observable.create(new ObservableEvent<ActionEvent>(button::setOnAction))
-                      .map(event -> new EndTurnCommand(gameIdentity))
+                      .map(event -> new EndTurnCommand())
                       .subscribe(binding);
             pane.getChildren()
                 .add(button);

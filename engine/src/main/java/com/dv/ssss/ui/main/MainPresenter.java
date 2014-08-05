@@ -28,6 +28,9 @@ public interface MainPresenter extends Presenter {
         @Service
         PlayerPresenter playerPresenter;
 
+        @Service
+        TurnPresenter turnPresenter;
+
         @Structure
         TransientBuilderFactory transientBuilderFactory;
 
@@ -47,7 +50,6 @@ public interface MainPresenter extends Presenter {
             view.addNavigation("Main", new TestView());
             view.addNavigation("Personnel", personnelPresenter.getView());
 
-            TurnPresenter turnPresenter = presenterFactory.create(TurnPresenter.class, gameIdentity);
             view.addToTop(turnPresenter.getView());
 
             view.addToTop(playerPresenter.getView());

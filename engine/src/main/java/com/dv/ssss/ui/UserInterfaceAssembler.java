@@ -30,6 +30,7 @@ public class UserInterfaceAssembler implements LayerAssembler {
         );
 
         module.services(
+                TurnPresenter.class,
                 PlayerPresenter.class
         ).visibleIn(application);
 
@@ -39,7 +40,6 @@ public class UserInterfaceAssembler implements LayerAssembler {
                 PersonnelPresenter.class,
                 PersonnelView.class,
                 PlayerView.class,
-                TurnPresenter.class,
                 TurnView.class
         );
 
