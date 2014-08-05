@@ -1,7 +1,6 @@
 package com.dv.ssss.domain;
 
 import static org.qi4j.api.common.Visibility.application;
-import static org.qi4j.api.common.Visibility.layer;
 
 import com.dv.ssss.domain.faction.FactionEntity;
 import com.dv.ssss.domain.faction.FactionFactory;
@@ -25,45 +24,30 @@ public class DomainAssembler implements LayerAssembler {
 
         LayerAssembly domain = assembly.layer("domain");
 
-        game(domain);
-        person(domain);
+        module(domain);
 
         return domain;
     }
 
-    private void game(LayerAssembly layerAssembly) {
+    private void module(LayerAssembly layerAssembly) {
 
-        ModuleAssembly moduleAssembly = layerAssembly.module("game");
-
-        moduleAssembly.services(
-                GameFactory.class
-        ).visibleIn(application);
-
-        moduleAssembly.services(
-                GameRepository.class
-        ).visibleIn(application);
-
-        moduleAssembly.entities(
-                GameEntity.class
-        );
-    }
-
-    private void person(LayerAssembly layerAssembly) {
-
-        ModuleAssembly moduleAssembly = layerAssembly.module("person");
+        ModuleAssembly moduleAssembly = layerAssembly.module("domain");
 
         moduleAssembly.services(
                 FactionFactory.class,
+                GameFactory.class,
                 PersonFactory.class
-        ).visibleIn(layer);
+        ).visibleIn(application);
 
         moduleAssembly.services(
                 FactionRepository.class,
+                GameRepository.class,
                 PersonnelRepository.class
         ).visibleIn(application);
 
         moduleAssembly.entities(
                 FactionEntity.class,
+                GameEntity.class,
                 PersonEntity.class
         );
     }
