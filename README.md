@@ -2,11 +2,11 @@ ssss
 ====
 
 TODO Priority list
-* Tidy context menu
 * Reduce to one domain module until such time as more complexity is desired
 * Ensure Presenters subscribe to events
 * Convert UI to services
 * State model for UI?
+  * Consider this for splitting view creation from view behaviour
 * Important worry... UnitOfWork open during Player update?
   * This is due to domain calling into ui layer with uow still open
     * Does this mean the SideEffect fires before the concern wraps up?
