@@ -25,8 +25,7 @@ public class UserInterfaceAssembler implements LayerAssembler {
         ModuleAssembly module = userInterface.module("all");
 
         module.services(
-                PlayerView.class,
-                PresenterFactory.class
+                PlayerView.class
         );
 
         module.services(
