@@ -8,7 +8,6 @@ import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.inf.BootstrapException;
 import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.inf.event.EventRegistrationService;
-import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.main.MainPresenter;
 
 import org.qi4j.api.activation.ActivationException;
@@ -40,9 +39,8 @@ public class Bootstrap extends javafx.application.Application {
                                          .startNewGame();
 
         MainPresenter mainPresenter = application.findModule("user-interface", "all")
-                                                 .findService(PresenterFactory.class)
-                                                 .get()
-                                                 .create(MainPresenter.class, gameIdentity);
+                                                 .findService(MainPresenter.class)
+                                                 .get();
 
         // TODO 2014-08-05 dom: Temporary, do not keep after new game event handler consumed
         application.findModule("infrastructure", "event")
