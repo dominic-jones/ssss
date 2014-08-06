@@ -2,7 +2,6 @@ ssss
 ====
 
 TODO Priority list
-* Application start event
 * Remove gameIdentity? Use through app start event
 * Ensure Presenters subscribe to events
 * State model for UI? Consider removing state from services?

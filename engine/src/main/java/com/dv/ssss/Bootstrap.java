@@ -4,9 +4,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import com.dv.ssss.domain.game.GameService;
-import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.inf.BootstrapException;
-import com.dv.ssss.inf.event.EventPoster;
 import com.dv.ssss.inf.event.EventRegistrationService;
 import com.dv.ssss.ui.main.MainPresenter;
 
@@ -28,25 +26,19 @@ public class Bootstrap extends javafx.application.Application {
         Application application = application();
 
         application.findModule("application", "event")
-                .findService(EventRegistrationService.class)
-                .get()
-                .register();
+                   .findService(EventRegistrationService.class)
+                   .get()
+                   .register();
 
         // TODO 2014-07-07 dom: Should eventually be instantiated from a new-game button.
-        String gameIdentity = application.findModule("application", "module")
-                                         .findService(GameService.class)
-                                         .get()
-                                         .startNewGame();
+        application.findModule("application", "module")
+                   .findService(GameService.class)
+                   .get()
+                   .startNewGame();
 
         MainPresenter mainPresenter = application.findModule("user-interface", "all")
                                                  .findService(MainPresenter.class)
                                                  .get();
-
-        // TODO 2014-08-05 dom: Temporary, do not keep after new game event handler consumed
-        application.findModule("infrastructure", "event")
-                   .findService(EventPoster.class)
-                   .get()
-                   .post(new NewGameStartedEvent(gameIdentity));
 
         run(stage, mainPresenter);
     }
@@ -65,7 +57,8 @@ public class Bootstrap extends javafx.application.Application {
         return application;
     }
 
-    private void run(Stage stage, MainPresenter mainPresenter) {
+    private void run(Stage stage,
+                     MainPresenter mainPresenter) {
 
         Scene scene = new Scene(mainPresenter.getView().getView());
         stage.setTitle("SSSS");
