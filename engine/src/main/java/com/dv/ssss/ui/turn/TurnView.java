@@ -15,15 +15,16 @@ import com.dv.ssss.domain.game.TurnDto;
 import com.dv.ssss.ui.View;
 import com.dv.ssss.ui.other.ObservableEvent;
 
-import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(TurnView.TurnViewMixin.class)
 public interface TurnView extends View {
 
-    void setTurn(TurnDto turn);
-
     void bindEndTurn(Action1<? super EndTurnCommand> endTurn);
+
+    void setGame(String gameIdentity);
+
+    void setTurn(TurnDto turn);
 
     class TurnViewMixin implements TurnView {
 
@@ -35,6 +36,7 @@ public interface TurnView extends View {
         Pane pane = view(
                 name()
         );
+        private String gameIdentity;
 
         @Override
         public Parent getView() {
@@ -54,10 +56,16 @@ public interface TurnView extends View {
 
             Button button = new Button("End Turn");
             Observable.create(new ObservableEvent<ActionEvent>(button::setOnAction))
-                      .map(event -> new EndTurnCommand())
+                      .map(event -> new EndTurnCommand(gameIdentity))
                       .subscribe(binding);
             pane.getChildren()
                 .add(button);
+        }
+
+        @Override
+        public void setGame(String gameIdentity) {
+
+            this.gameIdentity = gameIdentity;
         }
 
         HBox view(Label label) {

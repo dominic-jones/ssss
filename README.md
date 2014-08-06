@@ -2,7 +2,6 @@ ssss
 ====
 
 TODO Priority list
-* Remove gameIdentity? Use through new game event
 * Simplify / standardize event creation
 * Ensure Presenters subscribe to events
 * State model for UI? Consider removing state from services?

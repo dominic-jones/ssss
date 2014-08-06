@@ -33,8 +33,6 @@ public interface TurnPresenter extends Presenter {
         @Service
         TurnQuery turnQuery;
 
-        String gameIdentity;
-
         TurnView view;
 
         public TurnPresenterMixin(@Structure TransientBuilderFactory transientBuilderFactory) {
@@ -54,16 +52,18 @@ public interface TurnPresenter extends Presenter {
         }
 
         @Override
-        public void endTurn(EndTurnCommand endTurnCommand) {
+        public void endTurn(EndTurnCommand command) {
 
-            gameService.endTurn(gameIdentity);
+            gameService.endTurn(command.getGameIdentity());
         }
 
         @Override
         public void newGameStarted(NewGameStartedEvent newGameStartedEvent) {
 
-            updateTurnDisplay(newGameStartedEvent.getGameIdentity());
-            this.gameIdentity = newGameStartedEvent.getGameIdentity();
+            String gameIdentity = newGameStartedEvent.getGameIdentity();
+
+            view.setGame(gameIdentity);
+            updateTurnDisplay(gameIdentity);
         }
 
         @Override
@@ -74,7 +74,9 @@ public interface TurnPresenter extends Presenter {
 
         private void updateTurnDisplay(String gameIdentity) {
 
-            view.setTurn(turnQuery.execute(gameIdentity));
+            view.setTurn(
+                    turnQuery.execute(gameIdentity)
+            );
         }
     }
 }

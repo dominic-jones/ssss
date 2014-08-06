@@ -34,8 +34,6 @@ public interface PersonnelPresenter extends Presenter {
         @Service
         AllPersonnelQuery allPersonnelQuery;
 
-        String gameIdentity;
-
         PersonnelView view;
 
         public PersonnelPresenterMixin(@Structure TransientBuilderFactory transientBuilderFactory) {
@@ -53,27 +51,31 @@ public interface PersonnelPresenter extends Presenter {
         }
 
         @Override
-        public void choosePlayer(ChoosePlayerCommand choosePlayerCommand) {
+        public void choosePlayer(ChoosePlayerCommand command) {
 
-            gameService.transferPlayerTo(gameIdentity, choosePlayerCommand.getChosenPlayer());
+            gameService.transferPlayerTo(command.getGameIdentity(), command.getChosenPlayer());
         }
 
         @Override
         public void newGameStarted(NewGameStartedEvent event) {
 
-            gameIdentity = event.getGameIdentity();
-            setPeople(allPersonnelQuery.execute(gameIdentity));
+            String gameIdentity = event.getGameIdentity();
+
+            view.setGame(gameIdentity);
+            setPeople(gameIdentity);
         }
 
-        public void setPeople(Iterable<PersonDto> people) {
+        public void setPeople(String gameIdentity) {
 
-            view.setPeople(people);
+            view.setPeople(
+                    allPersonnelQuery.execute(gameIdentity)
+            );
         }
 
         @Override
         public void turnEnded(TurnEndedEvent event) {
 
-            setPeople(allPersonnelQuery.execute(gameIdentity));
+            setPeople(event.getGameIdentity());
         }
     }
 }

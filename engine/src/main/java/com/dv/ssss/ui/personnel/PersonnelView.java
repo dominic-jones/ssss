@@ -29,6 +29,8 @@ import org.qi4j.api.mixin.Mixins;
 @Mixins(PersonnelView.PersonnelViewMixin.class)
 public interface PersonnelView extends View {
 
+    void setGame(String gameIdentity);
+
     void setPeople(Iterable<PersonDto> people);
 
     class PersonnelViewMixin implements PersonnelView {
@@ -45,6 +47,8 @@ public interface PersonnelView extends View {
 
         @Service
         EventPoster eventPoster;
+
+        String gameIdentity;
 
         @Override
         public Parent getView() {
@@ -99,7 +103,7 @@ public interface PersonnelView extends View {
 
             MenuItem transfer = new MenuItem("Choose Player");
             Observable.create(new ObservableEvent<ActionEvent>(transfer::setOnAction))
-                      .map(event -> new ChoosePlayerCommand(selectionModel.getSelectedItem()))
+                      .map(event -> new ChoosePlayerCommand(gameIdentity, selectionModel.getSelectedItem()))
                       .subscribe(e -> eventPoster.post(e));
             return transfer;
         }
@@ -114,6 +118,12 @@ public interface PersonnelView extends View {
             pane.getChildren()
                 .addAll(label, table);
             return pane;
+        }
+
+        @Override
+        public void setGame(String gameIdentity) {
+
+            this.gameIdentity = gameIdentity;
         }
 
         @Override
