@@ -3,7 +3,6 @@ package com.dv.ssss.ui.personnel;
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.domain.game.TurnEndedEvent;
-import com.dv.ssss.inf.event.EventHandler;
 import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
 
@@ -13,7 +12,7 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(PersonnelPresenter.PersonnelPresenterMixin.class)
-public interface PersonnelPresenter extends Presenter, EventHandler {
+public interface PersonnelPresenter extends Presenter {
 
     PersonnelView getView();
 
@@ -37,11 +36,6 @@ public interface PersonnelPresenter extends Presenter, EventHandler {
         String gameIdentity;
 
         PersonnelView view;
-
-        @Override
-        public void init() {
-
-        }
 
         public PersonnelPresenterMixin(@Structure TransientBuilderFactory transientBuilderFactory) {
 

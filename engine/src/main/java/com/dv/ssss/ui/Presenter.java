@@ -1,8 +1,8 @@
 package com.dv.ssss.ui;
 
-public interface Presenter {
+import com.dv.ssss.inf.event.EventHandler;
 
-    void init();
+public interface Presenter extends EventHandler {
 
     View getView();
 }

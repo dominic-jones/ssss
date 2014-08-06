@@ -1,7 +1,6 @@
 package com.dv.ssss.ui.player;
 
 import com.dv.ssss.domain.game.PlayerTransferredEvent;
-import com.dv.ssss.inf.event.EventHandler;
 import com.dv.ssss.query.PlayerQuery;
 import com.dv.ssss.ui.Presenter;
 import com.dv.ssss.ui.View;
@@ -11,7 +10,7 @@ import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(PlayerPresenter.PlayerPresenterMixin.class)
-public interface PlayerPresenter extends Presenter, EventHandler {
+public interface PlayerPresenter extends Presenter {
 
     @Subscribe
     void playerTransferred(PlayerTransferredEvent event);
@@ -23,11 +22,6 @@ public interface PlayerPresenter extends Presenter, EventHandler {
 
         @Service
         PlayerQuery playerQuery;
-
-        @Override
-        public void init() {
-
-        }
 
         @Override
         public View getView() {

@@ -6,8 +6,7 @@ TODO Priority list
 * Remove gameIdentity? Use through app start event
 * Sort personnel
 * Ensure Presenters subscribe to events
-* Convert UI to services
-* State model for UI?
+* State model for UI? Consider removing state from services?
   * Consider this for splitting view creation from view behaviour
 * Important worry... UnitOfWork open during Player update?
   * This is due to domain calling into ui layer with uow still open

@@ -1,6 +1,5 @@
 package com.dv.ssss.ui.main;
 
-import com.dv.ssss.inf.event.EventHandler;
 import com.dv.ssss.ui.Presenter;
 import com.dv.ssss.ui.personnel.PersonnelPresenter;
 import com.dv.ssss.ui.player.PlayerPresenter;
@@ -13,7 +12,7 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(MainPresenter.MainPresenterMixin.class)
-public interface MainPresenter extends Presenter, EventHandler {
+public interface MainPresenter extends Presenter {
 
     MainView getView();
 
@@ -22,11 +21,6 @@ public interface MainPresenter extends Presenter, EventHandler {
     class MainPresenterMixin implements MainPresenter {
 
         MainView view;
-
-        @Override
-        public void init() {
-
-        }
 
         public MainPresenterMixin(
                 @Structure TransientBuilderFactory transientBuilderFactory,

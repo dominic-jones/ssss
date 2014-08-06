@@ -3,7 +3,6 @@ package com.dv.ssss.ui.turn;
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.domain.game.TurnEndedEvent;
-import com.dv.ssss.inf.event.EventHandler;
 import com.dv.ssss.query.TurnQuery;
 import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
@@ -14,7 +13,7 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(TurnPresenter.TurnPresenterMixin.class)
-public interface TurnPresenter extends Presenter, EventHandler {
+public interface TurnPresenter extends Presenter {
 
     TurnView getView();
 
@@ -37,11 +36,6 @@ public interface TurnPresenter extends Presenter, EventHandler {
         String gameIdentity;
 
         TurnView view;
-
-        @Override
-        public void init() {
-
-        }
 
         public TurnPresenterMixin(@Structure TransientBuilderFactory transientBuilderFactory) {
 
