@@ -31,13 +31,13 @@ public class UserInterfaceAssembler implements LayerAssembler {
 
         module.services(
                 TurnPresenter.class,
+                PersonnelPresenter.class,
                 PlayerPresenter.class
         ).visibleIn(application);
 
         module.transients(
                 MainPresenter.class,
                 MainView.class,
-                PersonnelPresenter.class,
                 PersonnelView.class,
                 PlayerView.class,
                 TurnView.class

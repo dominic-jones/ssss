@@ -1,7 +1,6 @@
 package com.dv.ssss.ui.main;
 
 import com.dv.ssss.ui.Presenter;
-import com.dv.ssss.ui.PresenterFactory;
 import com.dv.ssss.ui.personnel.PersonnelPresenter;
 import com.dv.ssss.ui.player.PlayerPresenter;
 import com.dv.ssss.ui.test.TestView;
@@ -10,7 +9,6 @@ import com.dv.ssss.ui.turn.TurnPresenter;
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(MainPresenter.MainPresenterMixin.class)
@@ -23,7 +21,7 @@ public interface MainPresenter extends Presenter {
     class MainPresenterMixin implements MainPresenter {
 
         @Service
-        PresenterFactory presenterFactory;
+        PersonnelPresenter personnelPresenter;
 
         @Service
         PlayerPresenter playerPresenter;
@@ -34,9 +32,6 @@ public interface MainPresenter extends Presenter {
         @Structure
         TransientBuilderFactory transientBuilderFactory;
 
-        @Uses
-        String gameIdentity;
-
         MainView view;
 
         @Override
@@ -44,10 +39,9 @@ public interface MainPresenter extends Presenter {
 
             view = transientBuilderFactory.newTransient(MainView.class, this);
 
-            PersonnelPresenter personnelPresenter = presenterFactory.create(PersonnelPresenter.class, gameIdentity);
             view.setCenter(personnelPresenter.getView());
 
-            view.addNavigation("Main", new TestView());
+            view.addNavigation("Test", new TestView());
             view.addNavigation("Personnel", personnelPresenter.getView());
 
             view.addToTop(turnPresenter.getView());

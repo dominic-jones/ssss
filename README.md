@@ -2,6 +2,9 @@ ssss
 ====
 
 TODO Priority list
+* Application start event
+* Remove gameIdentity? Use through app start event
+* Sort personnel
 * Ensure Presenters subscribe to events
 * Convert UI to services
 * State model for UI?
@@ -10,8 +13,7 @@ TODO Priority list
   * This is due to domain calling into ui layer with uow still open
     * Does this mean the SideEffect fires before the concern wraps up?
   * When does the stack end?
-* Remove gameIdentity. There can be only one, query for it.
-* Sort personnel
+* Events need to become Qi4j Values.
 
 Next
 * Tidy up player stuff
