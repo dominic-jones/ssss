@@ -4,7 +4,6 @@ ssss
 TODO Priority list
 * Application start event
 * Remove gameIdentity? Use through app start event
-* Sort personnel
 * Ensure Presenters subscribe to events
 * State model for UI? Consider removing state from services?
   * Consider this for splitting view creation from view behaviour

@@ -1,4 +1,7 @@
-package com.dv.ssss.ui.personnel;
+package com.dv.ssss.query;
+
+import static com.google.common.collect.Iterables.transform;
+import static com.google.common.collect.Lists.newArrayList;
 
 import com.dv.ssss.domain.game.GameEntity;
 import com.dv.ssss.domain.game.GameRepository;
@@ -6,6 +9,8 @@ import com.dv.ssss.domain.people.PersonEntity;
 import com.dv.ssss.domain.people.PersonnelRepository;
 import com.dv.ssss.inf.DataException;
 import com.dv.ssss.inf.uow.UnitOfWorkConcern;
+import com.dv.ssss.ui.personnel.PersonDto;
+
 import org.qi4j.api.concern.Concerns;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
@@ -13,9 +18,6 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-
-import static com.google.common.collect.Iterables.transform;
-import static com.google.common.collect.Lists.newArrayList;
 
 @Concerns(UnitOfWorkConcern.class)
 @Mixins(AllPersonnelQuery.AllPersonnelQueryMixin.class)

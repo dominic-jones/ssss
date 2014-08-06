@@ -3,6 +3,7 @@ package com.dv.ssss.ui.personnel;
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.domain.game.TurnEndedEvent;
+import com.dv.ssss.query.AllPersonnelQuery;
 import com.dv.ssss.ui.Presenter;
 import com.google.common.eventbus.Subscribe;
 
