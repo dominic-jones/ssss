@@ -51,10 +51,10 @@ public interface GameService {
         @Override
         public void transferPlayerTo(String gameIdentity, String personIdentity) {
 
-            GameEntity game = gameRepository.get(gameIdentity);
+            Player player = gameRepository.get(gameIdentity);
 
             PersonEntity person = personnelRepository.get(personIdentity);
-            game.transferPlayerTo(person);
+            player.transferPlayerTo(person);
         }
 
         @Override
