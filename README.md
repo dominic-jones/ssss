@@ -10,7 +10,7 @@ TODO Priority list
   * This is due to domain calling into ui layer with uow still open
     * Does this mean the SideEffect fires before the concern wraps up?
   * When does the stack end?
-* Events need to become Qi4j Values
+* Events need to become Qi4j Values for visibility reasons
 * Consider bootstrap through an AppStart event
 
 Thoughts
