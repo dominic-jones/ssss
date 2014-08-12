@@ -38,10 +38,7 @@ public interface TurnPresenter extends Presenter {
 
         public TurnPresenterMixin(@Structure TransientBuilderFactory transientBuilderFactory) {
 
-            view = transientBuilderFactory.newTransient(
-                    TurnView.class,
-                    this
-            );
+            view = transientBuilderFactory.newTransient(TurnView.class);
         }
 
         @Override

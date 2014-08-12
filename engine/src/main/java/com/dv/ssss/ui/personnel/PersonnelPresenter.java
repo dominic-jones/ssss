@@ -38,10 +38,7 @@ public interface PersonnelPresenter extends Presenter {
 
         public PersonnelPresenterMixin(@Structure TransientBuilderFactory transientBuilderFactory) {
 
-            view = transientBuilderFactory.newTransient(
-                    PersonnelView.class,
-                    this
-            );
+            view = transientBuilderFactory.newTransient(PersonnelView.class);
         }
 
         @Override
