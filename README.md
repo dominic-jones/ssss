@@ -2,16 +2,16 @@ ssss
 ====
 
 TODO Priority list
-* Simplify / standardize event creation
-* Ensure Presenters subscribe to events
 * State model for UI? Consider removing state from services?
   * Consider this for splitting view creation from view behaviour
+  * Perhaps GUI rework like this? : http://www.gwtproject.org/articles/mvp-architecture.html
 * Important worry... UnitOfWork open during Player update?
   * This is due to domain calling into ui layer with uow still open
     * Does this mean the SideEffect fires before the concern wraps up?
   * When does the stack end?
 * Events need to become Qi4j Values for visibility reasons
 * Consider bootstrap through an AppStart event
+* Simplify / standardize event creation - is a generic event possible? Not looking promising
 
 Thoughts
 * Ill inclined to have Game's player() be optional, considering it should always be present.
