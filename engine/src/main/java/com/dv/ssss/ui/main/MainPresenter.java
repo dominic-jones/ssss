@@ -1,6 +1,9 @@
 package com.dv.ssss.ui.main;
 
+import rx.Observable;
+
 import com.dv.ssss.ui.Presenter;
+import com.dv.ssss.ui.other.ObservableEvent;
 import com.dv.ssss.ui.personnel.PersonnelPresenter;
 import com.dv.ssss.ui.player.PlayerPresenter;
 import com.dv.ssss.ui.test.TestView;
@@ -28,12 +31,17 @@ public interface MainPresenter extends Presenter {
                 @Service PlayerPresenter playerPresenter,
                 @Service TurnPresenter turnPresenter) {
 
-            view = transientBuilderFactory.newTransient(MainView.class, this);
+            view = transientBuilderFactory.newTransient(MainView.class);
 
             view.setCenter(personnelPresenter.getView());
 
-            view.addNavigation("Test", new TestView());
-            view.addNavigation("Personnel", personnelPresenter.getView());
+            Observable.create(new ObservableEvent<>(view.getTestButtonHandler()))
+                      .map(event -> new SelectScreenCommand(new TestView()))
+                      .subscribe(this::selectOtherScreen);
+
+            Observable.create(new ObservableEvent<>(view.getPersonnelButtonHandler()))
+                      .map(event -> new SelectScreenCommand(personnelPresenter.getView()))
+                      .subscribe(this::selectOtherScreen);
 
             view.addToTop(turnPresenter.getView());
             view.addToTop(playerPresenter.getView());
