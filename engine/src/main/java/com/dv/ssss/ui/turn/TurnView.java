@@ -1,6 +1,7 @@
 package com.dv.ssss.ui.turn;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -8,21 +9,17 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-import rx.Observable;
 import rx.functions.Action1;
 
 import com.dv.ssss.domain.game.TurnDto;
 import com.dv.ssss.ui.View;
-import com.dv.ssss.ui.other.ObservableEvent;
 
 import org.qi4j.api.mixin.Mixins;
 
 @Mixins(TurnView.TurnViewMixin.class)
 public interface TurnView extends View {
 
-    void bindEndTurn(Action1<? super EndTurnCommand> endTurn);
-
-    void setGame(String gameIdentity);
+    Action1<EventHandler<ActionEvent>> getEndTurnButtonHandler();
 
     void setTurn(TurnDto turn);
 
@@ -33,10 +30,17 @@ public interface TurnView extends View {
 
         Text turnCount = new Text();
         Text date = new Text();
+        Button endTurnButton = new Button("End Turn");
+
         Pane pane = view(
                 name()
         );
-        private String gameIdentity;
+
+        @Override
+        public Action1<EventHandler<ActionEvent>> getEndTurnButtonHandler() {
+
+            return endTurnButton::setOnAction;
+        }
 
         @Override
         public Parent getView() {
@@ -44,28 +48,15 @@ public interface TurnView extends View {
             return pane;
         }
 
+        @Override
+        public void setTurn(TurnDto turn) {
+            turnCount.setText(String.valueOf(turn.getTurnCount()));
+            date.setText(turn.getDate().toString());
+        }
+
         Label name() {
 
-            Label turn = new Label("Turn");
-            return turn;
-        }
-
-        // TODO 2014-07-04 dom: Looks similar to MainView::addButton. Simplify?
-        @Override
-        public void bindEndTurn(Action1<? super EndTurnCommand> binding) {
-
-            Button button = new Button("End Turn");
-            Observable.create(new ObservableEvent<ActionEvent>(button::setOnAction))
-                      .map(event -> new EndTurnCommand(gameIdentity))
-                      .subscribe(binding);
-            pane.getChildren()
-                .add(button);
-        }
-
-        @Override
-        public void setGame(String gameIdentity) {
-
-            this.gameIdentity = gameIdentity;
+            return new Label("Turn");
         }
 
         HBox view(Label label) {
@@ -74,16 +65,8 @@ public interface TurnView extends View {
             pane.setSpacing(SPACING);
             pane.setPadding(INSETS);
             pane.getChildren()
-                .addAll(label, turnCount, date);
+                .addAll(label, turnCount, date, endTurnButton);
             return pane;
-        }
-
-        @Override
-        public void setTurn(TurnDto turn) {
-
-            turnCount.textProperty()
-                     .set(String.valueOf(turn.getTurnCount()));
-            date.textProperty().set(turn.getDate().toString());
         }
     }
 

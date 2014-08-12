@@ -1,10 +1,13 @@
 package com.dv.ssss.ui.turn;
 
+import rx.Observable;
+
 import com.dv.ssss.domain.game.GameService;
 import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.domain.game.TurnEndedEvent;
 import com.dv.ssss.query.TurnQuery;
 import com.dv.ssss.ui.Presenter;
+import com.dv.ssss.ui.other.ObservableEvent;
 import com.google.common.eventbus.Subscribe;
 
 import org.qi4j.api.composite.TransientBuilderFactory;
@@ -16,8 +19,6 @@ import org.qi4j.api.mixin.Mixins;
 public interface TurnPresenter extends Presenter {
 
     TurnView getView();
-
-    void endTurn(EndTurnCommand endTurnCommand);
 
     @Subscribe
     void newGameStarted(NewGameStartedEvent newGameStartedEvent);
@@ -41,8 +42,6 @@ public interface TurnPresenter extends Presenter {
                     TurnView.class,
                     this
             );
-
-            view.bindEndTurn(this::endTurn);
         }
 
         @Override
@@ -52,17 +51,14 @@ public interface TurnPresenter extends Presenter {
         }
 
         @Override
-        public void endTurn(EndTurnCommand command) {
-
-            gameService.endTurn(command.getGameIdentity());
-        }
-
-        @Override
         public void newGameStarted(NewGameStartedEvent newGameStartedEvent) {
 
             String gameIdentity = newGameStartedEvent.getGameIdentity();
 
-            view.setGame(gameIdentity);
+            Observable.create(new ObservableEvent<>(view.getEndTurnButtonHandler()))
+                      .map(event -> new EndTurnCommand(gameIdentity))
+                      .subscribe(this::endTurn);
+
             updateTurnDisplay(gameIdentity);
         }
 
@@ -72,7 +68,12 @@ public interface TurnPresenter extends Presenter {
             updateTurnDisplay(event.getGameIdentity());
         }
 
-        private void updateTurnDisplay(String gameIdentity) {
+        void endTurn(EndTurnCommand command) {
+
+            gameService.endTurn(command.getGameIdentity());
+        }
+
+        void updateTurnDisplay(String gameIdentity) {
 
             view.setTurn(
                     turnQuery.execute(gameIdentity)
