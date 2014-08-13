@@ -17,9 +17,9 @@ import org.qi4j.api.mixin.Mixins;
 @Mixins(MainView.MainViewMixin.class)
 public interface MainView extends View {
 
-    Action1<EventHandler<ActionEvent>> getTestButtonHandler();
+    Action1<EventHandler<ActionEvent>> bindTestButtonHandler();
 
-    Action1<EventHandler<ActionEvent>> getPersonnelButtonHandler();
+    Action1<EventHandler<ActionEvent>> bindPersonnelButtonHandler();
 
     void setCenter(View view);
 
@@ -59,13 +59,13 @@ public interface MainView extends View {
         }
 
         @Override
-        public Action1<EventHandler<ActionEvent>> getTestButtonHandler() {
+        public Action1<EventHandler<ActionEvent>> bindTestButtonHandler() {
 
             return testButton::setOnAction;
         }
 
         @Override
-        public Action1<EventHandler<ActionEvent>> getPersonnelButtonHandler() {
+        public Action1<EventHandler<ActionEvent>> bindPersonnelButtonHandler() {
 
             return personnelButton::setOnAction;
         }

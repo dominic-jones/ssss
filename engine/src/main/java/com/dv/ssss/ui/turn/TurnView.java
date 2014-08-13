@@ -19,7 +19,7 @@ import org.qi4j.api.mixin.Mixins;
 @Mixins(TurnView.TurnViewMixin.class)
 public interface TurnView extends View {
 
-    Action1<EventHandler<ActionEvent>> getEndTurnButtonHandler();
+    Action1<EventHandler<ActionEvent>> bindEndTurnButtonHandler();
 
     void setTurn(TurnDto turn);
 
@@ -37,7 +37,7 @@ public interface TurnView extends View {
         );
 
         @Override
-        public Action1<EventHandler<ActionEvent>> getEndTurnButtonHandler() {
+        public Action1<EventHandler<ActionEvent>> bindEndTurnButtonHandler() {
 
             return endTurnButton::setOnAction;
         }

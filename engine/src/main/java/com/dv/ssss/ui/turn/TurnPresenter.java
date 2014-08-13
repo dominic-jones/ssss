@@ -52,7 +52,7 @@ public interface TurnPresenter extends Presenter {
 
             String gameIdentity = newGameStartedEvent.getGameIdentity();
 
-            Observable.create(new ObservableEvent<>(view.getEndTurnButtonHandler()))
+            Observable.create(new ObservableEvent<>(view.bindEndTurnButtonHandler()))
                       .map(event -> new EndTurnCommand(gameIdentity))
                       .subscribe(this::endTurn);
 
