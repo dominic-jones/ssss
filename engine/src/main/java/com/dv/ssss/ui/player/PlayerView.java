@@ -3,6 +3,7 @@ package com.dv.ssss.ui.player;
 import com.dv.ssss.ui.View;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import org.qi4j.api.mixin.Mixins;
@@ -28,8 +29,11 @@ public interface PlayerView extends View {
             layout = new HBox();
             layout.setPadding(new Insets(10, 10, 10, 10));
 
+            Label playerNameLabel = new Label("Player: ");
+            playerNameLabel.setLabelFor(playerNameField);
 
             layout.getChildren().addAll(
+                    playerNameLabel,
                     playerNameField
             );
 
