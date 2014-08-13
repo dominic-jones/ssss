@@ -3,8 +3,6 @@ ssss
 
 TODO Priority list
 * State model for UI? Consider removing state from services?
-  * Consider this for splitting view creation from view behaviour
-  * Perhaps GUI rework like this? : http://www.gwtproject.org/articles/mvp-architecture.html
 * Important worry... UnitOfWork open during Player update?
   * This is due to domain calling into ui layer with uow still open
     * Does this mean the SideEffect fires before the concern wraps up?
