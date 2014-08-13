@@ -5,19 +5,19 @@ import com.dv.ssss.domain.game.NewGameStartedEvent;
 import com.dv.ssss.domain.game.TurnEndedEvent;
 import com.dv.ssss.query.AllPersonnelQuery;
 import com.dv.ssss.ui.Presenter;
+import com.dv.ssss.ui.other.ObservableEvent;
 import com.google.common.eventbus.Subscribe;
-
 import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
+import rx.Observable;
 
 @Mixins(PersonnelPresenter.PersonnelPresenterMixin.class)
 public interface PersonnelPresenter extends Presenter {
 
     PersonnelView getView();
 
-    @Subscribe
     void choosePlayer(ChoosePlayerCommand choosePlayerCommand);
 
     @Subscribe
@@ -58,7 +58,10 @@ public interface PersonnelPresenter extends Presenter {
 
             String gameIdentity = event.getGameIdentity();
 
-            view.setGame(gameIdentity);
+            Observable.create(new ObservableEvent<>(view.bindTransferButtonHandler()))
+                      .map(e -> new ChoosePlayerCommand(gameIdentity, view.getSelectedPerson()))
+                      .subscribe(this::choosePlayer);
+
             setPeople(gameIdentity);
         }
 

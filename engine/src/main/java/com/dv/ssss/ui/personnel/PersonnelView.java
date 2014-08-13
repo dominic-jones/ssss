@@ -1,12 +1,10 @@
 package com.dv.ssss.ui.personnel;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static javafx.collections.FXCollections.observableArrayList;
-import static javafx.scene.control.SelectionMode.MULTIPLE;
-import static org.qi4j.functional.Iterables.toArray;
-
+import com.dv.ssss.ui.View;
+import com.dv.ssss.ui.other.AnnotatedTable;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.ContextMenu;
@@ -16,20 +14,20 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-import rx.Observable;
-
-import com.dv.ssss.inf.event.EventPoster;
-import com.dv.ssss.ui.View;
-import com.dv.ssss.ui.other.AnnotatedTable;
-import com.dv.ssss.ui.other.ObservableEvent;
-
-import org.qi4j.api.injection.scope.Service;
 import org.qi4j.api.mixin.Mixins;
+import rx.functions.Action1;
+
+import static com.google.common.collect.Lists.newArrayList;
+import static javafx.collections.FXCollections.observableArrayList;
+import static javafx.scene.control.SelectionMode.MULTIPLE;
+import static org.qi4j.functional.Iterables.toArray;
 
 @Mixins(PersonnelView.PersonnelViewMixin.class)
 public interface PersonnelView extends View {
 
-    void setGame(String gameIdentity);
+    PersonDto getSelectedPerson();
+
+    Action1<EventHandler<ActionEvent>> bindTransferButtonHandler();
 
     void setPeople(Iterable<PersonDto> people);
 
@@ -45,15 +43,26 @@ public interface PersonnelView extends View {
                 personnel()
         );
 
-        @Service
-        EventPoster eventPoster;
+        MenuItem transfer;
+        TableView.TableViewSelectionModel<PersonDto> selectionModel;
 
-        String gameIdentity;
 
         @Override
         public Parent getView() {
 
             return pane;
+        }
+
+        @Override
+        public PersonDto getSelectedPerson() {
+
+            return selectionModel.getSelectedItem();
+        }
+
+        @Override
+        public Action1<EventHandler<ActionEvent>> bindTransferButtonHandler() {
+
+            return transfer::setOnAction;
         }
 
         private Label title() {
@@ -63,17 +72,16 @@ public interface PersonnelView extends View {
             return label;
         }
 
-        // TODO 2014-08-05 dom: Revisit tidying when more context actions required.
         private TableView<PersonDto> personnel() {
 
             TableView<PersonDto> table = new AnnotatedTable()
                     .createTable(items, PersonDto.class);
 
             table.setEditable(false);
-            TableView.TableViewSelectionModel<PersonDto> selectionModel = table.getSelectionModel();
+            selectionModel = table.getSelectionModel();
             selectionModel.setSelectionMode(MULTIPLE);
             Iterable<MenuItem> singleSelectActions = newArrayList(
-                    transferPlayer(selectionModel)
+                    choosePlayer()
             );
 
             table.setRowFactory(tableView -> {
@@ -99,12 +107,9 @@ public interface PersonnelView extends View {
             return contextMenu;
         }
 
-        private MenuItem transferPlayer(TableView.TableViewSelectionModel<PersonDto> selectionModel) {
+        private MenuItem choosePlayer() {
 
-            MenuItem transfer = new MenuItem("Choose Player");
-            Observable.create(new ObservableEvent<ActionEvent>(transfer::setOnAction))
-                      .map(event -> new ChoosePlayerCommand(gameIdentity, selectionModel.getSelectedItem()))
-                      .subscribe(e -> eventPoster.post(e));
+            transfer = new MenuItem("Choose Player");
             return transfer;
         }
 
@@ -118,12 +123,6 @@ public interface PersonnelView extends View {
             pane.getChildren()
                 .addAll(label, table);
             return pane;
-        }
-
-        @Override
-        public void setGame(String gameIdentity) {
-
-            this.gameIdentity = gameIdentity;
         }
 
         @Override
